@@ -1,0 +1,118 @@
+.arch-page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.arch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(100,80,200,0.25);
+  background: rgba(6,7,13,0.95);
+  flex-shrink: 0;
+}
+.arch-title { display: flex; align-items: center; gap: 10px; }
+.arch-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--text-bright);
+}
+.arch-xp {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 14px;
+}
+.arch-xp-label { font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
+.arch-xp-val { font-size: 18px; font-weight: 700; }
+.arch-xp-next { font-size: 12px; color: var(--text-dim); }
+
+.arch-cards {
+  flex: 1;
+  display: flex;
+  gap: 14px;
+  padding: 24px;
+  overflow-x: auto;
+  align-items: stretch;
+}
+
+.arch-card {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 16px;
+  position: relative;
+  transition: all 0.2s;
+}
+.arch-card:hover:not(.locked) {
+  border-color: rgba(139,92,246,0.6);
+  box-shadow: 0 0 14px rgba(139,92,246,0.2);
+}
+.arch-card.current {
+  border-color: var(--glow-purple);
+  background: rgba(80,40,180,0.2);
+  box-shadow: 0 0 20px rgba(139,92,246,0.3);
+}
+.arch-card.locked { opacity: 0.4; }
+
+.arch-card-icon {
+  font-size: 28px;
+  color: var(--glow-purple);
+  text-shadow: 0 0 10px var(--glow-purple);
+}
+.arch-card-num { font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
+.arch-card-name { font-size: 18px; font-weight: 700; letter-spacing: 1px; color: var(--text-bright); }
+.arch-card-xp { font-size: 12px; color: var(--glow-cyan); font-weight: 600; }
+.arch-card-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+.arch-current-badge {
+  font-size: 9px;
+  color: var(--glow-purple);
+  letter-spacing: 1.5px;
+  margin-top: auto;
+  text-shadow: 0 0 6px var(--glow-purple);
+}
+.arch-lock {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 14px;
+}
+
+.arch-progress-area {
+  flex-shrink: 0;
+  margin: 0 24px 24px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.arch-progress-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.arch-dim { color: var(--text-dim); }
+.arch-progress-bar {
+  height: 6px;
+  background: rgba(100,80,200,0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.arch-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--glow-purple), var(--glow-cyan));
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(139,92,246,0.6);
+  transition: width 0.5s ease;
+}
