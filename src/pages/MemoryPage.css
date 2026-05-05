@@ -1,0 +1,228 @@
+.memory-page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(80,60,200,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80,60,200,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  overflow: hidden;
+}
+
+.mem-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(100,80,200,0.25);
+  background: rgba(6,7,13,0.95);
+  flex-shrink: 0;
+}
+.mem-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.mem-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--text-bright);
+}
+.mem-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.mem-count {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 14px;
+}
+.mem-count-val { font-size: 20px; font-weight: 700; }
+.mem-count-label { font-size: 11px; color: var(--text-dim); letter-spacing: 1px; }
+
+.mem-body {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* ─── Left panel ─── */
+.mem-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 8px 16px 16px;
+  overflow-y: auto;
+}
+.mem-input-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+.mem-panel-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.mem-textarea {
+  background: rgba(8,10,24,0.7);
+  border: 1px solid rgba(100,80,200,0.25);
+  border-radius: 3px;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 12px 14px;
+  outline: none;
+  resize: none;
+  min-height: 220px;
+  transition: border-color 0.2s;
+}
+.mem-textarea:focus { border-color: rgba(100,80,200,0.5); }
+.mem-textarea::placeholder { color: rgba(150,170,220,0.3); }
+.mem-input-actions { display: flex; gap: 8px; }
+
+/* ─── Preview panel ─── */
+.mem-preview-panel {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mem-preview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(100,80,200,0.15);
+}
+.mem-preview-item:last-child { border-bottom: none; }
+.mem-preview-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.3px;
+}
+.mem-preview-text {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.mem-preview-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.mem-type-badge {
+  font-size: 9px;
+  padding: 1px 6px;
+  border: 1px solid rgba(0,200,255,0.3);
+  border-radius: 2px;
+  color: var(--glow-cyan);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.mem-links-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.mem-links-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.mem-skill-badge {
+  font-size: 9px;
+  padding: 1px 7px;
+  border: 1px solid rgba(139,92,246,0.35);
+  border-radius: 10px;
+  color: var(--glow-purple);
+  letter-spacing: 0.3px;
+}
+.mem-quest-text {
+  font-size: 10px;
+  color: var(--glow-cyan);
+  letter-spacing: 0.3px;
+}
+
+/* ─── Right panel ─── */
+.mem-right {
+  width: 340px;
+  flex-shrink: 0;
+  padding: 16px 16px 16px 8px;
+  overflow-y: auto;
+  border-left: 1px solid rgba(100,80,200,0.15);
+}
+.mem-memories-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mem-empty {
+  color: var(--text-dim);
+  font-size: 12px;
+  text-align: center;
+  padding: 24px 0;
+}
+.mem-item {
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mem-item:hover { border-color: rgba(139,92,246,0.5); }
+.mem-item.sel {
+  border-color: var(--glow-purple);
+  background: rgba(60,30,140,0.2);
+}
+.mem-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.mem-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.2px;
+}
+.mem-item-date { font-size: 10px; color: var(--text-dim); flex-shrink: 0; }
+.mem-item-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(100,80,200,0.2);
+  margin-top: 4px;
+}
+.mem-item-source {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.mem-quests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mem-quest-item {
+  font-size: 11px;
+  color: var(--glow-cyan);
+  letter-spacing: 0.3px;
+}

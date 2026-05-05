@@ -1,289 +1,14 @@
 # Abel
 
-Abel is a gamified self-improvement dashboard built with React, TypeScript, and Vite. The app presents personal growth systems as a futuristic command interface: a central orbit menu opens modules for focus, habits, planning, skill progression, archetypes, trophies, journaling, sleep, fitness, and learning.
-
-The project is currently a client-only prototype. All state is either static fixture data in `src/data.ts` or browser `localStorage` state managed through `src/storage.ts`. There is no backend, authentication layer, database, or API integration.
-
-## What The App Does
-
-The main screen is a controller-style orbit menu branded as `ABEL`. Users can move through modules with the keyboard or mouse:
-
-- Left and right arrow keys rotate the selected menu module.
-- Enter opens the selected module.
-- A double click on a module node also opens it.
-- Escape returns from a module page to the main menu.
-
-The visual style is a neon sci-fi interface with glass panels, grid backgrounds, compact command hints, symbolic icons, and full-screen module layouts.
-
-## Main Features
-
-### Orbit Main Menu
-
-`src/components/MainMenu.tsx` renders the app's landing experience. It uses `NAV_TABS` from `src/data.ts` to place ten module buttons around an elliptical orbit. The selected tab drives the central info panel, and keyboard listeners handle selection and confirmation.
-
-Available modules:
-
-- Focus
-- Habit
-- Planner
-- Skill Tree
-- Archetypes
-- Trophies
-- Journal
-- Sleep
-- Fitness
-- Learning
-
-### Skill Tree
-
-`src/pages/SkillTreePage.tsx` renders a node-based skill matrix. The tree starts at `Self Mastery` and branches into Focus, Habit, Learning, and Fitness. Each branch has child skills with task lists, XP values, descriptions, icons, and a state:
-
-- `completed`
-- `unlocked`
-- `locked`
-
-Unlocked nodes can be marked complete. Completed node IDs are saved in `localStorage` under:
-
-```text
-abel_skills_completed
-```
-
-The skill tree data lives in `SKILL_NODES` inside `src/data.ts`.
-
-### Focus Module
-
-`FocusPage` in `src/pages/ModuleGrid.tsx` provides a focus-session interface with selectable session tiles, a timer, progress bar, start/pause/reset controls, and a small static list of today's sessions.
-
-Current focus tile options include:
-
-- 25 Min Session
-- 50 Min Session
-- No Phone Block
-- Flow State
-- Review Session
-
-Timer state is kept in React state only. It is not persisted.
-
-### Habit Module
-
-`HabitPage` in `src/pages/ModuleGrid.tsx` displays a daily ritual checklist and a static 12-day streak summary. Toggle state is persisted in `localStorage` under:
-
-```text
-abel_habits
-```
-
-Current habits include water, morning routine, note review, sleep before midnight, and cleanup.
-
-### Planner Module
-
-`PlannerPage` in `src/pages/ModuleGrid.tsx` manages today's quest list. Users can toggle tasks complete and add new tasks through an input field. Planner state is persisted in `localStorage` under:
-
-```text
-abel_planner
-```
-
-The default tasks are defined in the `DEFAULT_TASKS` constant.
-
-### Sleep Module
-
-`SleepPage` in `src/pages/ModuleGrid.tsx` presents a simple recovery log with bedtime, wake time, and quality controls. The form uses time inputs and a range slider. Saved sleep state is persisted under:
-
-```text
-abel_sleep
-```
-
-### Fitness Module
-
-`FitnessPage` in `src/pages/ModuleGrid.tsx` provides a small movement checklist for mobility, strength, walking, and stretching. Toggle state is persisted under:
-
-```text
-abel_fitness
-```
-
-### Learning Module
-
-`LearningPage` in `src/pages/ModuleGrid.tsx` provides a knowledge checklist for lessons, notes, active recall, practice problems, and mini projects. Toggle state is persisted under:
-
-```text
-abel_learning
-```
-
-### Archetypes
-
-`src/pages/ArchetypesPage.tsx` shows identity progression stages based on XP thresholds. The current hardcoded profile is `Apprentice` at `12,450 XP`, with progress toward `Adept`.
-
-Configured archetypes:
-
-- Novice
-- Apprentice
-- Adept
-- Master
-- Legend
-
-This page is currently static. XP and the current archetype are hardcoded in the component.
-
-### Trophies
-
-`src/pages/TrophyPage.tsx` renders an animated trophy inspection screen. Users can select from a list of trophies, including locked and unlocked achievements. The central trophy uses a CSS-styled cube with animated symbols driven by `requestAnimationFrame`.
-
-Trophy definitions live in `TROPHIES` inside `src/data.ts`.
-
-### Journal
-
-`src/pages/JournalPage.tsx` presents a file-browser-style journal UI. It includes a profile panel, a list of static journal folders/files, and an inline preview for file entries that include preview data.
-
-Journal definitions live in `JOURNAL_ENTRIES` inside `src/data.ts`. The current page is a static prototype and does not read from the filesystem.
-
-## Project Structure
-
-```text
-.
-├── public/
-│   ├── favicon.svg
-│   └── icons.svg
-├── reference-img/
-│   ├── journal.png
-│   ├── main.png
-│   ├── tree.png
-│   └── trophy.png
-├── src/
-│   ├── assets/
-│   │   ├── hero.png
-│   │   ├── react.svg
-│   │   └── vite.svg
-│   ├── components/
-│   │   ├── MainMenu.css
-│   │   ├── MainMenu.tsx
-│   │   ├── PageShell.css
-│   │   └── PageShell.tsx
-│   ├── pages/
-│   │   ├── ArchetypesPage.css
-│   │   ├── ArchetypesPage.tsx
-│   │   ├── JournalPage.css
-│   │   ├── JournalPage.tsx
-│   │   ├── ModuleGrid.css
-│   │   ├── ModuleGrid.tsx
-│   │   ├── SkillTreePage.css
-│   │   ├── SkillTreePage.tsx
-│   │   ├── TrophyPage.css
-│   │   └── TrophyPage.tsx
-│   ├── App.css
-│   ├── App.tsx
-│   ├── data.ts
-│   ├── index.css
-│   ├── main.tsx
-│   ├── storage.ts
-│   └── types.ts
-├── dist/
-├── eslint.config.js
-├── index.html
-├── package.json
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-└── vite.config.ts
-```
-
-## Key Files
-
-### `src/main.tsx`
-
-React entry point. It mounts `<App />` into the `#root` element from `index.html` and wraps the app in `StrictMode`.
-
-### `src/App.tsx`
-
-Top-level router-like component. It tracks the current `PageId`, opens selected pages, returns to the menu, and installs the global Escape-key back behavior.
-
-This project does not use `react-router`. Page selection is handled with local React state.
-
-### `src/data.ts`
-
-Static application data:
-
-- `NAV_TABS`: menu definitions and orbit positions
-- `SKILL_NODES`: skill tree node definitions
-- `TROPHIES`: trophy definitions
-- `JOURNAL_ENTRIES`: fake journal directory/file entries
-
-### `src/types.ts`
-
-Shared TypeScript types for page IDs, nav tabs, skill nodes, trophies, and journal entries.
-
-### `src/storage.ts`
-
-Tiny wrapper around browser `localStorage`:
-
-- `get<T>(key, fallback)` parses stored JSON and returns a fallback if the value is missing or invalid.
-- `set<T>(key, value)` stringifies and stores a value.
-
-### `src/index.css`
-
-Global styles, theme variables, utility classes, typography, scrollbar styling, glass panels, neon text helpers, shared button styles, controller-key hints, and animation keyframes.
-
-### `src/pages/ModuleGrid.tsx`
-
-Contains the smaller operational modules in one file:
-
-- `FocusPage`
-- `HabitPage`
-- `PlannerPage`
-- `SleepPage`
-- `FitnessPage`
-- `LearningPage`
-
-It also defines shared module layout helpers such as `ModuleShell` and `TileGrid`.
-
-## Data And State
-
-Most content is static. Persistent state uses `localStorage` so browser refreshes keep selected checklist/task progress.
-
-Current persistent keys:
-
-```text
-abel_skills_completed
-abel_habits
-abel_planner
-abel_sleep
-abel_fitness
-abel_learning
-```
-
-Because persistence is local to the browser, data does not sync across devices or users.
-
-## Styling Approach
-
-The app uses plain CSS files imported by each component/page. There is no CSS module setup, no Tailwind, and no component library. Shared design tokens and utilities are centralized in `src/index.css`.
-
-Important global style primitives:
-
-- CSS variables for colors and panel styling
-- `.glass` and `.glass2` panel treatments
-- `.grid-bg` background grid
-- `.neon-purple`, `.neon-cyan`, `.neon-blue`, `.neon-green`
-- `.btn`
-- `.ctrl-hints`, `.ctrl-hint`, `.ctrl-key`
-- Shared animation keyframes such as `fadeIn`, `pulse-glow`, `float`, and `spin-slow`
-
-Page-specific layout and visual behavior live beside the matching page component.
-
-## Reference Images
-
-The `reference-img/` directory contains design references for major screens:
-
-- `main.png`
-- `tree.png`
-- `journal.png`
-- `trophy.png`
-
-These files are not imported by the React app. They are useful as visual references for future UI work.
-
-## Built Output
-
-The `dist/` directory contains a production build generated by Vite. Source development should happen in `src/`; `dist/` can be regenerated with:
-
-```bash
-npm run build
-```
+Abel is a client-only, gamified self-improvement dashboard built with React,
+TypeScript, and Vite. It presents personal systems as a command-style interface
+with modules for focus, habits, planning, skill progression, archetypes,
+trophies, journaling, memory import, knowledge graphing, sleep, fitness, and
+learning.
+
+The app has no backend, authentication, database, or remote API integration.
+Runtime state is managed in React through `src/AppContext.tsx` and persisted to
+browser `localStorage`.
 
 ## Getting Started
 
@@ -317,46 +42,271 @@ Run ESLint:
 npm run lint
 ```
 
-## Dependencies
+## Tech Stack
 
-Runtime dependencies:
-
-- React
-- React DOM
-- lucide-react
-
-Development dependencies:
-
-- Vite
+- React 19
 - TypeScript
+- Vite
+- Plain CSS
+- lucide-react
 - ESLint
-- typescript-eslint
-- React Hooks ESLint plugin
-- React Refresh ESLint plugin
-- Vite React plugin
 
-`lucide-react` is installed but the current UI primarily uses text symbols for icons.
+## App Flow
+
+`src/main.tsx` mounts `<App />` into `index.html`. `src/App.tsx` wraps the UI in
+`AppProvider`, keeps the active page in local React state, and switches between
+the main menu and module pages.
+
+The project does not use `react-router`. Navigation is handled by `PageId`
+values from `src/types.ts`.
+
+Main menu controls:
+
+- Left and right arrow keys rotate the selected module.
+- Enter opens the selected module.
+- Double click opens a module node.
+- Escape returns to the main menu from module pages.
+
+## Modules
+
+### Main Menu
+
+`src/components/MainMenu.tsx` renders the orbit-style ABEL menu. The menu uses
+`NAV_TABS` from `src/data.ts` to position module buttons around an elliptical
+orbit and display the selected module description.
+
+Current modules:
+
+- Focus
+- Habit
+- Planner
+- Skill Tree
+- Archetypes
+- Trophies
+- Journal
+- Memory
+- Graph
+- Sleep
+- Fitness
+- Learning
+
+### Focus
+
+`FocusPage` in `src/pages/ModuleGrid.tsx` provides timed focus sessions. Users
+can choose a session type, start or pause the timer, reset it, and complete the
+session. Completed sessions award XP and are shown in today's session list.
+
+Current session types:
+
+- 25 Min Session
+- 50 Min Session
+- No Phone Block
+- Flow State
+- Review Session
+
+### Habit
+
+`HabitPage` manages daily habits. Users can toggle today's completion, add
+custom habits with icons, delete habits, and view best streak and done-today
+counts.
+
+### Planner
+
+`PlannerPage` manages today's quest list. Users can add, edit, complete, and
+delete tasks. Completing a task awards XP.
+
+### Skill Tree
+
+`src/pages/SkillTreePage.tsx` renders a tree of skills from `SKILL_NODES` in
+`src/data.ts`. Completing an unlocked skill awards XP and unlocks its children.
+
+The tree starts from `Self Mastery` and branches into:
+
+- Focus
+- Habit
+- Learning
+- Fitness
+
+### Archetypes
+
+`src/pages/ArchetypesPage.tsx` displays XP-based identity stages. Archetype
+progress is derived from the persisted XP value in app state.
+
+Configured archetypes:
+
+- Novice
+- Apprentice
+- Adept
+- Master
+- Legend
+
+### Trophies
+
+`src/pages/TrophyPage.tsx` renders an interactive trophy inspection screen.
+Trophy definitions live in `TROPHIES` inside `src/data.ts`, while unlock status
+is derived in `computeUnlockedTrophyIds` in `src/AppContext.tsx`.
+
+Current trophy unlock checks include total completed focus time, habit streaks,
+early wake logs, and completed flow sessions.
+
+### Journal
+
+`src/pages/JournalPage.tsx` provides editable journal entries with search and
+tag filtering. New entries award XP. Entries can be edited or deleted and are
+persisted with the rest of app state.
+
+### Memory
+
+`src/pages/MemoryPage.tsx` imports plain text, Markdown, or JSON into memory
+items. It can preview parsed entries, detect linked skills using keyword
+matching, and generate suggested quests from imported material.
+
+### Graph
+
+`src/pages/GraphPage.tsx` visualizes relationships between skills, imported
+memories, journal entries, habits, and planner quests. The graph supports node
+highlighting, panning, and zooming.
+
+### Sleep
+
+`SleepPage` logs bedtime, wake time, duration, and sleep quality. Saved logs
+award XP and contribute to trophy unlock checks.
+
+### Fitness
+
+`FitnessPage` tracks daily movement checklist items for mobility, strength,
+walking, and stretching. New completions award XP.
+
+### Learning
+
+`LearningPage` tracks daily knowledge-work checklist items for lessons, notes,
+active recall, practice problems, and mini projects. New completions award XP.
+
+## State And Persistence
+
+Global application state lives in `src/AppContext.tsx` as a reducer-backed
+context. The persisted shape is defined by `AppState` in `src/types.ts`.
+
+Persisted data includes:
+
+- XP
+- Focus sessions
+- Habits
+- Planner tasks
+- Sleep logs
+- Fitness history
+- Learning history
+- Journal entries
+- Completed skill IDs
+- Imported memories
+
+All app state is stored under one browser `localStorage` key:
+
+```text
+abel_v2
+```
+
+Because persistence is browser-local, data does not sync across devices,
+browsers, or users.
+
+## Project Structure
+
+```text
+.
+├── public/
+│   ├── favicon.svg
+│   └── icons.svg
+├── reference-img/
+│   ├── journal.png
+│   ├── main.png
+│   ├── tree.png
+│   └── trophy.png
+├── src/
+│   ├── components/
+│   │   ├── MainMenu.tsx
+│   │   └── PageShell.tsx
+│   ├── pages/
+│   │   ├── ArchetypesPage.tsx
+│   │   ├── GraphPage.tsx
+│   │   ├── JournalPage.tsx
+│   │   ├── MemoryPage.tsx
+│   │   ├── ModuleGrid.tsx
+│   │   ├── SkillTreePage.tsx
+│   │   └── TrophyPage.tsx
+│   ├── App.tsx
+│   ├── AppContext.tsx
+│   ├── data.ts
+│   ├── main.tsx
+│   ├── storage.ts
+│   └── types.ts
+├── dist/
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
+```
+
+## Key Files
+
+- `src/App.tsx`: top-level page switcher and Escape-key back handling.
+- `src/AppContext.tsx`: default state, reducer actions, persistence, XP logic,
+  archetype derivation, streak calculation, and trophy unlock checks.
+- `src/data.ts`: static navigation, skill, and trophy definitions.
+- `src/types.ts`: shared TypeScript types.
+- `src/storage.ts`: small JSON wrapper around `localStorage`.
+- `src/pages/ModuleGrid.tsx`: Focus, Habit, Planner, Sleep, Fitness, and
+  Learning modules plus shared module layout helpers.
+- `src/index.css`: global theme variables, utility classes, shared button
+  styles, panel styling, and animation keyframes.
+
+## Styling
+
+The app uses plain CSS imported beside components and pages. There are no CSS
+modules, Tailwind classes, or UI component libraries. Shared visual primitives
+live in `src/index.css`; page-specific layout and effects live beside the page
+component.
+
+The current visual language is a neon sci-fi interface with glass panels, grid
+backgrounds, symbolic icons, compact command hints, and full-screen module
+layouts.
+
+## Reference Images
+
+`reference-img/` contains design references for major screens:
+
+- `main.png`
+- `tree.png`
+- `journal.png`
+- `trophy.png`
+
+These files are not imported by the React app.
+
+## Built Output
+
+`dist/` contains a generated production build. Source development should happen
+in `src/`; regenerate `dist/` with:
+
+```bash
+npm run build
+```
 
 ## Current Limitations
 
-- No backend or remote persistence.
-- No authentication or user profiles beyond static UI labels.
-- Journal entries are static fixture data, not real files.
-- Trophy and archetype progress is mostly static.
-- Skill unlock rules are not enforced dynamically; node states come from fixture data plus locally completed IDs.
-- Focus session history is static and timer progress is not stored.
+- No backend, account system, or remote sync.
+- Journal entries and imported memories are local to one browser.
+- Memory skill linking uses simple keyword matching, not semantic search or AI.
+- The graph layout is deterministic and hand-built rather than force-directed.
+- Skill completion is manually marked by the user.
+- Focus timer progress is not restored after a page refresh.
 - Tests are not currently configured.
 
 ## Extension Points
 
-Good next places to extend the app:
+Good next areas to extend:
 
-- Move static XP/profile values into persisted app state.
-- Add real unlock rules for skill tree progression.
-- Persist focus session history.
-- Turn journal fixture data into editable entries.
-- Add import/export for local progress.
-- Split `ModuleGrid.tsx` into separate page files as the modules grow.
-- Replace symbolic icons with the installed `lucide-react` icon set if a more conventional UI language is desired.
-- Add tests for storage behavior, checklist state, planner updates, and skill completion.
-
+- Add import/export for the `abel_v2` state payload.
+- Add tests for reducer actions, storage behavior, streaks, and trophy unlocks.
+- Persist in-progress focus timers or session drafts.
+- Split `ModuleGrid.tsx` as operational modules grow.
+- Add richer journal and memory editing workflows.
+- Replace keyword-based memory linking with embeddings or a local search index.
+- Add user profiles or a backend persistence layer.

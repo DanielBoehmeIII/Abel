@@ -1,15 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { PageId } from './types';
+import { AppProvider } from './AppContext';
 import MainMenu from './components/MainMenu';
 import PageShell from './components/PageShell';
 import SkillTreePage from './pages/SkillTreePage';
 import JournalPage from './pages/JournalPage';
 import TrophyPage from './pages/TrophyPage';
 import ArchetypesPage from './pages/ArchetypesPage';
+import MemoryPage from './pages/MemoryPage';
+import GraphPage from './pages/GraphPage';
 import { FocusPage, HabitPage, PlannerPage, SleepPage, FitnessPage, LearningPage } from './pages/ModuleGrid';
 import './App.css';
 
-export default function App() {
+function AppInner() {
   const [page, setPage] = useState<PageId>('menu');
   const [menuSelected, setMenuSelected] = useState<PageId>('skilltree');
 
@@ -40,6 +43,8 @@ export default function App() {
       case 'journal':    return <JournalPage onBack={goBack} />;
       case 'trophies':   return <TrophyPage />;
       case 'archetypes': return <ArchetypesPage />;
+      case 'memory':     return <MemoryPage />;
+      case 'graph':      return <GraphPage />;
       case 'focus':      return <FocusPage />;
       case 'habit':      return <HabitPage />;
       case 'planner':    return <PlannerPage />;
@@ -54,5 +59,13 @@ export default function App() {
     <PageShell onBack={goBack} page={page}>
       {inner}
     </PageShell>
+  );
+}
+
+export default function App() {
+  return (
+    <AppProvider>
+      <AppInner />
+    </AppProvider>
   );
 }

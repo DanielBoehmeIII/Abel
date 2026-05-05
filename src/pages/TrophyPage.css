@@ -1,22 +1,20 @@
 .trophy-page {
   position: fixed;
   inset: 0;
-  background: #05060b;
+  background: #04050a;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
   overflow: hidden;
 }
 
-/* subtle bg glow */
-.trophy-page::before {
-  content: '';
+.trophy-bg-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(40, 20, 100, 0.3) 0%, transparent 70%);
   pointer-events: none;
+  transition: background 0.8s ease;
 }
 
 /* ─── Title ─── */
@@ -24,124 +22,158 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   z-index: 2;
 }
 .trophy-name {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   text-transform: uppercase;
+  transition: color 0.6s ease, text-shadow 0.6s ease;
 }
 .trophy-subtitle {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-dim);
   letter-spacing: 3px;
   text-transform: uppercase;
 }
 
-/* ─── Cube ─── */
-.cube-area {
-  position: relative;
+/* ─── Cube area ─── */
+.trophy-cube-area {
   z-index: 2;
-  animation: float 4s ease-in-out infinite;
 }
 
-.cube-wrapper {
-  width: 220px;
-  height: 220px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cube-outer {
+/* ─── Perspective wrapper ─── */
+.cube-perspective {
+  perspective: 900px;
   width: 200px;
   height: 200px;
-  position: relative;
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(20,15,60,0.85) 0%, rgba(10,8,30,0.9) 100%);
-  border: 1.5px solid var(--cube-color, #8b5cf6);
-  box-shadow:
-    0 0 30px var(--cube-glow, rgba(139,92,246,0.4)),
-    0 0 60px var(--cube-glow, rgba(139,92,246,0.2)),
-    inset 0 0 40px rgba(0,0,0,0.5),
-    inset 1px 1px 0 rgba(255,255,255,0.08),
-    inset -1px -1px 0 rgba(0,0,0,0.3);
-  overflow: hidden;
-  transform: perspective(600px) rotateX(10deg) rotateY(-10deg);
-  transition: box-shadow 0.6s ease;
-}
-
-/* glass shimmer */
-.cube-outer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
-  border-radius: 17px;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* inner edge highlight */
-.cube-outer::after {
-  content: '';
-  position: absolute;
-  top: 3px; left: 3px; right: 3px;
-  height: 40%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
-  border-radius: 14px 14px 0 0;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.cube-face {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  transition: box-shadow 0.8s ease;
 }
 
-.cube-symbols {
+/* Float + bounce combined */
+@keyframes cube-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+@keyframes trophy-bounce {
+  0%   { transform: scale(1) translateY(0); }
+  22%  { transform: scale(0.84) translateY(10px); }
+  55%  { transform: scale(1.06) translateY(-5px); }
+  78%  { transform: scale(0.98) translateY(1px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+.cube-float-bounce {
+  animation: cube-float 5s ease-in-out infinite;
+  cursor: pointer;
+}
+.cube-float-bounce.bouncing {
+  animation: trophy-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ─── 3D Cube ─── */
+@keyframes cube-spin {
+  from { transform: rotateX(-14deg) rotateY(0deg); }
+  to   { transform: rotateX(-14deg) rotateY(360deg); }
+}
+@keyframes inner-spin {
+  from { transform: rotateX(14deg) rotateY(0deg) rotateZ(0deg); }
+  to   { transform: rotateX(14deg) rotateY(-360deg) rotateZ(20deg); }
+}
+
+.cube-shell {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: cube-spin 18s linear infinite;
+}
+
+.face {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border: 1px solid;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.face-front  { transform: translateZ(90px); }
+.face-back   { transform: rotateY(180deg) translateZ(90px); }
+.face-right  { transform: rotateY(90deg) translateZ(90px); }
+.face-left   { transform: rotateY(-90deg) translateZ(90px); }
+.face-top    { transform: rotateX(90deg) translateZ(90px); }
+.face-bottom { transform: rotateX(-90deg) translateZ(90px); }
+
+/* Glass shimmer on front face */
+.face-front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ─── Inner cube (tesseract wires) ─── */
+.cube-inner {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50px;
+  left: 50px;
+  transform-style: preserve-3d;
+  animation: inner-spin 10s linear infinite;
+}
+
+.iface {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 1px solid;
+  background: transparent;
+  border-radius: 1px;
+}
+.iface-front  { transform: translateZ(40px); }
+.iface-back   { transform: rotateY(180deg) translateZ(40px); }
+.iface-right  { transform: rotateY(90deg) translateZ(40px); }
+.iface-left   { transform: rotateY(-90deg) translateZ(40px); }
+.iface-top    { transform: rotateX(90deg) translateZ(40px); }
+.iface-bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+/* ─── Symbols inside front face ─── */
+.face-symbols {
   position: relative;
   width: 100%;
   height: 100%;
 }
-
-.cube-sym {
+.face-sym {
   position: absolute;
-  font-size: 22px;
-  transition: opacity 0.3s;
+  font-size: 20px;
   pointer-events: none;
   user-select: none;
+  transition: opacity 0.3s;
 }
 
-/* ─── Prompt ─── */
-.trophy-prompt {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* ─── Description & hint ─── */
+.trophy-desc,
+.trophy-unlock-hint {
   font-size: 13px;
   color: var(--text-dim);
-  letter-spacing: 2px;
-  z-index: 2;
-}
-.prompt-dot {
-  font-size: 8px;
-  color: var(--glow-cyan);
-  text-shadow: 0 0 6px var(--glow-cyan);
-}
-
-.trophy-desc {
-  font-size: 13px;
-  color: var(--text-dim);
-  letter-spacing: 0.5px;
-  max-width: 300px;
+  max-width: 320px;
   text-align: center;
+  letter-spacing: 0.4px;
+  line-height: 1.6;
   z-index: 2;
+}
+.trophy-unlock-hint {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 /* ─── Selector ─── */
@@ -151,41 +183,35 @@
   z-index: 2;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 8px;
 }
 
 .trophy-sel-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 6px 14px;
-  border: 1px solid rgba(100,80,200,0.35);
-  background: rgba(12,14,40,0.8);
+  border: 1px solid rgba(100,80,200,0.3);
+  background: rgba(8,10,28,0.85);
   border-radius: 3px;
   font-size: 11px;
   letter-spacing: 0.8px;
   color: var(--text-dim);
   cursor: pointer;
   transition: all 0.2s;
+  font-family: inherit;
 }
 .trophy-sel-btn:hover {
   border-color: rgba(139,92,246,0.6);
   color: var(--text-main);
-  background: rgba(60,30,120,0.4);
+  background: rgba(40,20,100,0.5);
 }
 .trophy-sel-btn.active {
-  border-color: var(--glow-purple);
-  color: var(--glow-purple);
-  background: rgba(80,40,180,0.3);
-  box-shadow: 0 0 10px rgba(139,92,246,0.3);
+  color: var(--text-main);
+  background: rgba(30,15,80,0.6);
 }
 .trophy-sel-btn.locked {
-  opacity: 0.45;
-  border-color: rgba(55,65,81,0.5);
-  color: var(--locked-gray);
-}
-.trophy-sel-btn.locked.active {
-  border-color: var(--locked-gray);
-  color: var(--locked-gray);
-  background: rgba(30,35,45,0.4);
-  box-shadow: none;
+  opacity: 0.38;
+  pointer-events: none;
 }
 
 /* ─── Logo ─── */
@@ -196,13 +222,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-dim);
   letter-spacing: 2px;
   z-index: 2;
 }
 .trophy-logo .logo-a {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--glow-purple);
   text-shadow: 0 0 8px var(--glow-purple);
 }

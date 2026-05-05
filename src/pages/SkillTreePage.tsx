@@ -1,72 +1,61 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SKILL_NODES } from '../data';
+import { useApp } from '../AppContext';
 import type { SkillNode } from '../types';
-import { get, set } from '../storage';
 import './SkillTreePage.css';
 
-const STORAGE_KEY = 'abel_skills_completed';
-
-function buildTree(nodes: SkillNode[], completedSet: Set<string>): SkillNode[] {
-  return nodes.map(n => ({
-    ...n,
-    state: completedSet.has(n.id) ? 'completed' : n.state,
-  }));
+function buildTree(completedIds: string[]): SkillNode[] {
+  const completedSet = new Set(completedIds);
+  return SKILL_NODES.map(n => {
+    if (n.id === 'self-mastery') return { ...n, state: 'completed' as const };
+    if (completedSet.has(n.id)) return { ...n, state: 'completed' as const };
+    const parentCompleted = n.parentId === null || completedSet.has(n.parentId) || n.parentId === 'self-mastery';
+    return { ...n, state: parentCompleted ? 'unlocked' as const : 'locked' as const };
+  });
 }
 
 export default function SkillTreePage() {
-  const [completed, setCompleted] = useState<Set<string>>(() => {
-    const stored = get<string[]>(STORAGE_KEY, []);
-    return new Set(stored);
-  });
-  const [selectedId, setSelectedId] = useState('deep-work');
+  const { state, dispatch, archetype } = useApp();
+  const [selectedId, setSelectedId] = useState('focus');
 
-  const nodes = buildTree(SKILL_NODES, completed);
-  const selected = nodes.find(n => n.id === selectedId)!;
-
-  useEffect(() => {
-    set(STORAGE_KEY, [...completed]);
-  }, [completed]);
+  const nodes = buildTree(state.skillsCompleted);
+  const selected = nodes.find(n => n.id === selectedId) ?? nodes[0];
 
   function markComplete(id: string) {
-    setCompleted(prev => new Set([...prev, id]));
+    const node = nodes.find(n => n.id === id);
+    if (!node || node.state !== 'unlocked') return;
+    dispatch({ type: 'COMPLETE_SKILL', id, xp: node.xp });
   }
 
   const completedCount = nodes.filter(n => n.state === 'completed').length;
   const total = nodes.length;
-
   const branches = ['focus', 'habit', 'learning', 'fitness'];
 
   return (
     <div className="st-page">
-      {/* Header */}
       <div className="st-header">
         <div className="st-title">
           <span className="logo-a">▲</span>
           <span className="st-logo">Abel</span>
-          <span className="st-version">skill matrix v1.0.0</span>
+          <span className="st-version">skill matrix v2.0</span>
         </div>
         <div className="st-profile glass">
-          <div className="st-profile-row">PROFILE: <span className="neon-purple">APPRENTICE</span></div>
-          <div className="st-profile-row">XP <span className="neon-cyan">12450</span></div>
+          <div className="st-profile-row">PROFILE: <span className="neon-purple">{archetype.label.toUpperCase()}</span></div>
+          <div className="st-profile-row">XP <span className="neon-cyan">{state.xp.toLocaleString()}</span></div>
         </div>
       </div>
 
-      {/* Main area */}
       <div className="st-main">
-        {/* Tree panel */}
         <div className="st-tree-panel glass">
           <TreeDiagram nodes={nodes} selectedId={selectedId} onSelect={setSelectedId} branches={branches} />
         </div>
-
-        {/* Detail panel */}
         <NodeDetail node={selected} onComplete={markComplete} />
       </div>
 
-      {/* Bottom panel */}
       <div className="st-bottom glass">
         <div className="st-bottom-icon">⬡</div>
         <div className="st-bottom-text">
-          Build your path through connected skills and unlock new archetypes.
+          Complete parent skills to unlock children. Each completion awards XP.
         </div>
         <div className="st-progress-section">
           <div className="st-progress-label">
@@ -75,28 +64,18 @@ export default function SkillTreePage() {
           </div>
           <div className="st-progress-bar">
             {Array.from({ length: total }).map((_, i) => (
-              <div
-                key={i}
-                className={`st-progress-seg ${i < completedCount ? 'active' : ''}`}
-              />
+              <div key={i} className={`st-progress-seg ${i < completedCount ? 'active' : ''}`} />
             ))}
           </div>
-        </div>
-        <div className="ctrl-hints">
-          <span className="ctrl-hint"><span className="ctrl-key">⊕</span> Select</span>
-          <span className="ctrl-hint"><span className="ctrl-key">B</span> Back</span>
-          <span className="ctrl-hint"><span className="ctrl-key">A</span> Confirm</span>
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Tree Diagram ────────────────────────────────────────────────────────────
+// ─── Tree Diagram ─────────────────────────────────────────────────────────────
 
-function TreeDiagram({
-  nodes, selectedId, onSelect, branches,
-}: {
+function TreeDiagram({ nodes, selectedId, onSelect, branches }: {
   nodes: SkillNode[];
   selectedId: string;
   onSelect: (id: string) => void;
@@ -106,15 +85,10 @@ function TreeDiagram({
 
   return (
     <div className="tree-diagram">
-      {/* Root */}
       <div className="tree-root-row">
         <SkillBtn node={root} selected={selectedId === root.id} onSelect={onSelect} />
       </div>
-
-      {/* Branch connectors */}
       <div className="tree-connector-h" />
-
-      {/* Branches */}
       <div className="tree-branches">
         {branches.map(branchId => {
           const branch = nodes.find(n => n.id === branchId)!;
@@ -140,7 +114,11 @@ function TreeDiagram({
   );
 }
 
-function SkillBtn({ node, selected, onSelect }: { node: SkillNode; selected: boolean; onSelect: (id: string) => void }) {
+function SkillBtn({ node, selected, onSelect }: {
+  node: SkillNode;
+  selected: boolean;
+  onSelect: (id: string) => void;
+}) {
   const cls = ['skill-node', node.state, selected ? 'sel' : ''].filter(Boolean).join(' ');
   return (
     <button className={cls} onClick={() => onSelect(node.id)}>
@@ -151,7 +129,7 @@ function SkillBtn({ node, selected, onSelect }: { node: SkillNode; selected: boo
   );
 }
 
-// ─── Node Detail ─────────────────────────────────────────────────────────────
+// ─── Node Detail ──────────────────────────────────────────────────────────────
 
 function NodeDetail({ node, onComplete }: { node: SkillNode; onComplete: (id: string) => void }) {
   const statusLabel = node.state === 'completed' ? 'Completed' : node.state === 'unlocked' ? 'Unlocked' : 'Locked';
@@ -162,7 +140,7 @@ function NodeDetail({ node, onComplete }: { node: SkillNode; onComplete: (id: st
       <div className="nd-icon">{node.icon}</div>
       <div className="nd-name">{node.label}</div>
       <div className={`nd-status ${statusCls}`}>● {statusLabel}</div>
-      <div className="nd-xp neon-cyan">+{node.xp} XP</div>
+      {node.xp > 0 && <div className="nd-xp neon-cyan">+{node.xp} XP</div>}
       <p className="nd-desc">{node.description}</p>
 
       {node.tasks.length > 0 && (
@@ -182,14 +160,13 @@ function NodeDetail({ node, onComplete }: { node: SkillNode; onComplete: (id: st
         </button>
       )}
       {node.state === 'completed' && (
-        <button className="btn nd-action complete" disabled>
-          ✓ Completed
-        </button>
+        <button className="btn nd-action complete" disabled>✓ Completed</button>
       )}
       {node.state === 'locked' && (
-        <button className="btn nd-action locked-btn" disabled>
-          🔒 Locked
-        </button>
+        <button className="btn nd-action locked-btn" disabled>🔒 Locked</button>
+      )}
+      {node.state === 'locked' && node.parentId && (
+        <p className="nd-unlock-hint">Complete <strong>{node.parentId.replace(/-/g, ' ')}</strong> to unlock.</p>
       )}
     </div>
   );

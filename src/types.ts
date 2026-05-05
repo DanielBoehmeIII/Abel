@@ -9,7 +9,9 @@ export type PageId =
   | 'journal'
   | 'sleep'
   | 'fitness'
-  | 'learning';
+  | 'learning'
+  | 'memory'
+  | 'graph';
 
 export interface NavTab {
   id: PageId;
@@ -34,19 +36,86 @@ export interface Trophy {
   id: string;
   name: string;
   description: string;
-  locked: boolean;
   color: string;
+  symbols: string[];
+  unlockCondition: string;
+}
+
+export interface FocusSession {
+  id: string;
+  type: string;
+  label: string;
+  duration: number;
+  completedAt: string;
+  xp: number;
+  completed: boolean;
+}
+
+export interface Habit {
+  id: string;
+  label: string;
+  icon: string;
+  completedDates: string[];
+  createdAt: string;
+}
+
+export interface PlannerTask {
+  id: string;
+  text: string;
+  done: boolean;
+  createdAt: string;
+  completedAt?: string;
+  xp: number;
+}
+
+export interface SleepLog {
+  id: string;
+  date: string;
+  bed: string;
+  wake: string;
+  quality: number;
+  hours: number;
+}
+
+export interface FitnessDay {
+  date: string;
+  items: Record<string, boolean>;
+}
+
+export interface LearningDay {
+  date: string;
+  checked: Record<string, boolean>;
 }
 
 export interface JournalEntry {
-  path: string;
-  label: string;
-  description: string;
-  meta: string;
-  isFile: boolean;
-  preview?: {
-    date: string;
-    tags: string[];
-    text: string;
-  };
+  id: string;
+  title: string;
+  text: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MemoryItem {
+  id: string;
+  title: string;
+  source: string;
+  tags: string[];
+  linkedSkills: string[];
+  suggestedQuests: string[];
+  importedAt: string;
+  type: 'text' | 'markdown' | 'json';
+}
+
+export interface AppState {
+  xp: number;
+  focusSessions: FocusSession[];
+  habits: Habit[];
+  plannerTasks: PlannerTask[];
+  sleepLogs: SleepLog[];
+  fitnessHistory: FitnessDay[];
+  learningHistory: LearningDay[];
+  journalEntries: JournalEntry[];
+  skillsCompleted: string[];
+  memories: MemoryItem[];
 }
