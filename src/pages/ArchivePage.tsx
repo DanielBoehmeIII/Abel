@@ -3,7 +3,6 @@ import { useAbel } from '../state/AbelProvider';
 import type { PageId } from '../types/abel';
 import { LLM_PROVIDERS, getMockAbelResponse, mockGenerateQuests } from '../config/llmProviders';
 import { makeArchiveMessage } from '../state/abelStore';
-import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import './ArchivePage.css';
 
@@ -21,6 +20,7 @@ export default function ArchivePage({ onNavigate }: Props) {
 
   const activeThread = archiveThreads.find(t => t.id === activeThreadId);
   const currentProvider = LLM_PROVIDERS.find(p => p.id === settings.llmProvider) ?? LLM_PROVIDERS[0];
+  const activeJourney = journeys.find(j => j.active) ?? journeys[0];
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -28,13 +28,10 @@ export default function ArchivePage({ onNavigate }: Props) {
 
   function sendMessage() {
     if (!input.trim() || !activeThreadId) return;
-
     const userMsg = makeArchiveMessage('user', input.trim());
     dispatch({ type: 'SEND_ARCHIVE_MESSAGE', threadId: activeThreadId, message: userMsg });
     setInput('');
     setIsTyping(true);
-
-    // Simulate Abel response
     setTimeout(() => {
       const resp = getMockAbelResponse(input.trim());
       const abelMsg = makeArchiveMessage('abel', resp);
@@ -69,18 +66,18 @@ export default function ArchivePage({ onNavigate }: Props) {
 
   return (
     <div className="archive-page">
-      {/* Background */}
-      <div className="archive-bg" />
-      <div className="archive-crystal-glow" />
-
-      {/* Left sidebar */}
-      <aside className="archive-sidebar glass">
-        <div className="archive-sidebar-header">
-          <span className="heading">ARCHIVE</span>
-          <GlowButton variant="ghost" size="sm" onClick={newThread}>+</GlowButton>
+      {/* Sidebar */}
+      <aside className="archive-sidebar">
+        <div className="archive-sidebar-top">
+          <p className="archive-sidebar-eyebrow">THE ARCHIVE</p>
+          <p className="archive-sidebar-subtitle" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.05rem', fontWeight: 300, fontStyle: 'italic', color: 'var(--text-2)', marginTop: '4px', marginBottom: '16px' }}>
+            {activeJourney?.title}
+          </p>
+          <button className="archive-new-btn" onClick={newThread}>
+            <span>+</span> New Session
+          </button>
         </div>
 
-        {/* Threads */}
         <div className="archive-threads">
           {archiveThreads.map(t => (
             <div
@@ -88,50 +85,75 @@ export default function ArchivePage({ onNavigate }: Props) {
               className={`archive-thread-item ${t.id === activeThreadId ? 'archive-thread-item--active' : ''}`}
               onClick={() => setActiveThreadId(t.id)}
             >
-              <p className="archive-thread-title">{t.title}</p>
-              <p className="caption">{t.messages.length} messages</p>
+              <span className="archive-thread-glyph">◈</span>
+              <div>
+                <p className="archive-thread-title">{t.title}</p>
+                <p className="caption">{t.messages.length} entries</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="archive-sidebar-footer">
-          <p className="heading" style={{ marginBottom: '8px' }}>QUICK ACTIONS</p>
-          <GlowButton variant="cyan" size="sm" style={{ width: '100%', marginBottom: '8px' }} onClick={generateQuests}>
-            Generate Quests
-          </GlowButton>
-          <GlowButton variant="purple" size="sm" style={{ width: '100%', marginBottom: '8px' }} onClick={() => onNavigate('quests')}>
-            View Quests
-          </GlowButton>
-          <GlowButton variant="ghost" size="sm" style={{ width: '100%' }} onClick={() => onNavigate('graph')}>
-            Open Graph
-          </GlowButton>
+        <div className="archive-sidebar-context">
+          {activeJourney && (
+            <div className="archive-context-block">
+              <p className="archive-context-label">JOURNEY</p>
+              <p className="archive-context-val">{activeJourney.title}</p>
+            </div>
+          )}
+          <div className="archive-context-block">
+            <p className="archive-context-label">ARCHETYPE</p>
+            <p className="archive-context-val" style={{ color: 'var(--purple-light, rgba(200,175,255,0.9))' }}>
+              {state.archetype.primary}
+            </p>
+          </div>
+          <div className="archive-sidebar-actions">
+            <button className="archive-action-btn" onClick={generateQuests}>Generate Quests</button>
+            <button className="archive-action-btn" onClick={() => onNavigate('quests')}>View Quests</button>
+            <button className="archive-action-btn" onClick={() => onNavigate('graph')}>Open Graph</button>
+          </div>
         </div>
       </aside>
 
-      {/* Main chat area */}
-      <main className="archive-main">
+      {/* Chamber */}
+      <main className="archive-chamber">
+        {/* Atmospheric crystal background */}
+        <div className="archive-chamber-bg" aria-hidden>
+          <svg className="archive-crystal-svg" viewBox="0 0 400 400" fill="none">
+            <g opacity="0.045" stroke="rgba(180,140,255,1)" strokeWidth="0.6">
+              <polygon points="200,80 260,160 240,260 160,260 140,160" />
+              <polygon points="200,100 250,168 233,252 167,252 150,168" />
+              <line x1="200" y1="80" x2="200" y2="260" />
+              <line x1="200" y1="80" x2="140" y2="160" />
+              <line x1="200" y1="80" x2="260" y2="160" />
+              <line x1="160" y1="260" x2="240" y2="260" />
+            </g>
+            <circle cx="200" cy="172" r="60" stroke="rgba(139,92,246,0.06)" strokeWidth="0.5" fill="none" />
+            <circle cx="200" cy="172" r="100" stroke="rgba(139,92,246,0.04)" strokeWidth="0.5" fill="none" />
+            <circle cx="200" cy="172" r="4" fill="rgba(200,175,255,0.15)" />
+          </svg>
+          <div className="archive-chamber-glow" />
+        </div>
+
         {/* Header */}
-        <div className="archive-header">
+        <div className="archive-chamber-header">
           <div>
-            <h2 className="display-md archive-title">DIGITAL ARCHIVE</h2>
-            <p className="body" style={{ marginTop: '4px' }}>
-              {activeThread?.title ?? 'Select a thread'} · {journeys.find(j => j.active)?.title}
+            <h2 className="archive-chamber-title">
+              {activeThread?.title ?? 'Select a Session'}
+            </h2>
+            <p className="caption" style={{ marginTop: '3px', color: 'var(--text-4)' }}>
+              {activeThread?.messages.length ?? 0} entries · {new Date().toLocaleDateString([], { month: 'long', day: 'numeric' })}
             </p>
           </div>
 
-          {/* Provider selector */}
           <div className="archive-provider-wrap">
-            <button
-              className="archive-provider-btn glass"
-              onClick={() => setShowProviderMenu(v => !v)}
-            >
+            <button className="archive-provider-btn" onClick={() => setShowProviderMenu(v => !v)}>
               <span className="archive-provider-icon">{currentProvider.icon}</span>
               <span>{currentProvider.name}</span>
               <span className={`archive-provider-dot ${currentProvider.status}`} />
-              <span className="caption">▾</span>
             </button>
             {showProviderMenu && (
-              <div className="archive-provider-menu glass-2">
+              <div className="archive-provider-menu">
                 {LLM_PROVIDERS.map(p => (
                   <div
                     key={p.id}
@@ -152,27 +174,34 @@ export default function ArchivePage({ onNavigate }: Props) {
 
         {/* Messages */}
         <div className="archive-messages">
+          {(!activeThread || activeThread.messages.length === 0) && (
+            <div className="archive-empty">
+              <div className="archive-empty-glyph">◈</div>
+              <p className="archive-empty-text">Begin a reflection</p>
+              <p className="caption">Share a goal, insight, or question with Abel.</p>
+            </div>
+          )}
+
           {activeThread?.messages.map((msg, i) => (
             <div
               key={msg.id}
               className={`archive-msg ${msg.role === 'user' ? 'archive-msg--user' : 'archive-msg--abel'} animate-fade-in`}
-              style={{ animationDelay: `${i * 0.04}s` }}
+              style={{ animationDelay: `${i * 0.03}s` }}
             >
-              {msg.role === 'abel' && (
-                <div className="archive-msg-avatar">◈</div>
-              )}
-              <div className="archive-msg-bubble glass">
+              {msg.role === 'abel' && <div className="archive-abel-mark">◈</div>}
+              <div className={`archive-msg-content ${msg.role === 'user' ? 'archive-msg-content--user' : ''}`}>
                 <p className="archive-msg-text">{msg.content}</p>
-                <p className="caption" style={{ marginTop: '6px', opacity: 0.5 }}>
+                <p className="archive-msg-time">
                   {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
             </div>
           ))}
+
           {isTyping && (
             <div className="archive-msg archive-msg--abel">
-              <div className="archive-msg-avatar">◈</div>
-              <div className="archive-typing glass">
+              <div className="archive-abel-mark">◈</div>
+              <div className="archive-typing">
                 <span /><span /><span />
               </div>
             </div>
@@ -182,7 +211,7 @@ export default function ArchivePage({ onNavigate }: Props) {
 
         {/* Input */}
         <div className="archive-input-wrap">
-          <GlassPanel className="archive-input-bar" style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', padding: '12px 16px' }}>
+          <div className="archive-input-inner">
             <textarea
               className="archive-textarea"
               value={input}
@@ -196,50 +225,12 @@ export default function ArchivePage({ onNavigate }: Props) {
             <GlowButton variant="purple" onClick={sendMessage} disabled={!input.trim()}>
               SEND
             </GlowButton>
-          </GlassPanel>
-          <p className="caption" style={{ marginTop: '6px', textAlign: 'center' }}>
-            Using <strong style={{ color: 'var(--text-2)' }}>{currentProvider.name}</strong> ·
-            Shift+Enter for newline · Enter to send
+          </div>
+          <p className="caption archive-input-hint">
+            {currentProvider.name} · Enter to send · Shift+Enter for newline
           </p>
         </div>
       </main>
-
-      {/* Right info panel */}
-      <aside className="archive-info-panel">
-        <GlassPanel style={{ padding: '20px' }}>
-          <p className="heading" style={{ marginBottom: '12px' }}>ACTIVE JOURNEY</p>
-          {journeys.filter(j => j.active).map(j => (
-            <div key={j.id}>
-              <p style={{ fontWeight: 600, color: 'var(--text)', marginBottom: '6px' }}>{j.title}</p>
-              <p className="body">{j.description}</p>
-            </div>
-          ))}
-        </GlassPanel>
-
-        <GlassPanel style={{ padding: '20px', marginTop: '12px' }}>
-          <p className="heading" style={{ marginBottom: '12px' }}>ARCHETYPE</p>
-          <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', color: 'var(--purple)', marginBottom: '4px' }}>
-            {state.archetype.primary}
-          </p>
-          {state.archetype.secondary.map(s => (
-            <span key={s} className="pill rarity-common" style={{ marginRight: '6px', marginTop: '4px' }}>{s}</span>
-          ))}
-        </GlassPanel>
-
-        <GlassPanel style={{ padding: '20px', marginTop: '12px' }}>
-          <p className="heading" style={{ marginBottom: '12px' }}>WHAT ABEL CAN DO</p>
-          {[
-            'Generate quests from your goals',
-            'Save insights to the graph',
-            'Create memories from reflections',
-            'Update your archetype profile',
-          ].map(item => (
-            <p key={item} className="caption" style={{ marginBottom: '6px', paddingLeft: '10px', borderLeft: '2px solid var(--purple-dim)' }}>
-              {item}
-            </p>
-          ))}
-        </GlassPanel>
-      </aside>
     </div>
   );
 }

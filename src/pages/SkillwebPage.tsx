@@ -51,13 +51,11 @@ export default function SkillwebPage({ onNavigate }: Props) {
 
   return (
     <div className="skillweb-page">
-      <div className="skillweb-bg" />
-
       {/* Header */}
       <div className="skillweb-header">
         <div>
-          <p className="heading">EVERY INSIGHT CONNECTS. EVERY CONNECTION TRANSFORMS.</p>
-          <h1 className="display-xl skillweb-title">KNOWLEDGE<br />GRAPH</h1>
+          <p className="eyebrow skillweb-eyebrow">EVERY INSIGHT CONNECTS · EVERY CONNECTION TRANSFORMS</p>
+          <h1 className="display-xl skillweb-title">Knowledge<br />Graph</h1>
         </div>
         <div className="skillweb-header-stats">
           <div className="skillweb-stat">
@@ -74,24 +72,41 @@ export default function SkillwebPage({ onNavigate }: Props) {
       <div className="skillweb-body">
         {/* Web SVG */}
         <div className="skillweb-canvas-wrap">
-          <svg className="skillweb-canvas" viewBox="0 80 800 460">
+          <svg className="skillweb-canvas" viewBox="0 60 800 480">
             <defs>
-              <filter id="skill-glow">
-                <feGaussianBlur stdDeviation="4" result="blur" />
+              <filter id="skill-glow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
                 <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
               </filter>
+              <filter id="skill-glow-strong" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="8" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+              {/* Gradient for connection lines */}
+              <linearGradient id="conn-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(139,92,246,0.5)" />
+                <stop offset="100%" stopColor="rgba(34,211,238,0.3)" />
+              </linearGradient>
             </defs>
+
+            {/* Background ambient glow cloud */}
+            <ellipse cx="400" cy="280" rx="280" ry="180"
+              fill="rgba(80,30,160,0.04)" />
 
             {/* Connections */}
             {skills.map(skill =>
               skill.unlockedBy.map(parentId => {
                 const parent = skills.find(s => s.id === parentId);
                 if (!parent) return null;
+                const isRelated = selected?.id === skill.id || selected?.id === parentId;
+                const color = CATEGORY_COLORS[skill.category] ?? '#8b5cf6';
                 return (
                   <line key={`${parentId}-${skill.id}`}
                     x1={parent.x} y1={parent.y} x2={skill.x} y2={skill.y}
-                    stroke="rgba(124,77,255,0.2)" strokeWidth="1"
-                    strokeDasharray={skill.mastery < 20 ? '4 4' : '0'}
+                    stroke={isRelated ? `${color}70` : 'rgba(139,92,246,0.12)'}
+                    strokeWidth={isRelated ? 1.5 : 0.8}
+                    strokeDasharray={skill.mastery < 20 ? '4 6' : undefined}
+                    filter={isRelated ? 'url(#skill-glow)' : undefined}
                   />
                 );
               })
@@ -99,62 +114,82 @@ export default function SkillwebPage({ onNavigate }: Props) {
 
             {/* Nodes */}
             {skills.map(skill => {
-              const color = CATEGORY_COLORS[skill.category] ?? 'var(--purple)';
+              const color = CATEGORY_COLORS[skill.category] ?? '#8b5cf6';
               const isSelected = selected?.id === skill.id;
-              const r = 18 + (skill.mastery / 100) * 16;
+              const r = 20 + (skill.mastery / 100) * 14;
 
               return (
                 <g key={skill.id} onClick={() => setSelected(skill)} style={{ cursor: 'pointer' }}>
-                  {/* Glow ring for selected */}
+                  {/* Outer glow halo for selected */}
                   {isSelected && (
-                    <circle cx={skill.x} cy={skill.y} r={r + 14}
-                      fill="none" stroke={color} strokeWidth="1.5" opacity="0.4"
-                      strokeDasharray="3 3"
-                      style={{ animation: 'spin-slow 8s linear infinite' }}
-                    />
+                    <>
+                      <circle cx={skill.x} cy={skill.y} r={r + 22}
+                        fill={`${color}08`} stroke="none" />
+                      <circle cx={skill.x} cy={skill.y} r={r + 14}
+                        fill="none" stroke={color} strokeWidth="1"
+                        strokeDasharray="4 5" opacity="0.5"
+                        style={{ animation: 'spin-slow 10s linear infinite', transformOrigin: `${skill.x}px ${skill.y}px` }}
+                      />
+                    </>
                   )}
 
-                  {/* Milestone rings */}
+                  {/* Egg milestone rings */}
                   {MILESTONES.map(m => {
-                    const hasEgg = eggs.find(e => e.skillId === skill.id && e.milestone === m);
-                    if (!hasEgg) return null;
-                    const ringR = r + 6 + (MILESTONES.indexOf(m)) * 4;
+                    const egg = eggs.find(e => e.skillId === skill.id && e.milestone === m);
+                    if (!egg) return null;
+                    const ringR = r + 5 + MILESTONES.indexOf(m) * 4;
+                    const arc = (m / 100) * 2 * Math.PI * ringR;
                     return (
                       <circle key={m} cx={skill.x} cy={skill.y} r={ringR}
                         fill="none"
-                        stroke={hasEgg.state === 'hatched' ? '#34d399' : color}
-                        strokeWidth="0.8" opacity={hasEgg.state === 'hatched' ? 0.6 : 0.25}
-                        strokeDasharray={`${(m / 100) * 2 * Math.PI * ringR} 999`}
+                        stroke={egg.state === 'hatched' ? '#34d399' : color}
+                        strokeWidth="0.8"
+                        opacity={egg.state === 'hatched' ? 0.65 : 0.22}
+                        strokeDasharray={`${arc} 9999`}
+                        transform={`rotate(-90 ${skill.x} ${skill.y})`}
                       />
                     );
                   })}
 
-                  {/* Main node */}
+                  {/* Background fill */}
                   <circle cx={skill.x} cy={skill.y} r={r}
-                    fill={`${color}18`} stroke={color}
-                    strokeWidth={isSelected ? 2.5 : 1.5}
-                    filter={isSelected ? 'url(#skill-glow)' : undefined}
+                    fill={`${color}${isSelected ? '25' : '14'}`}
+                    stroke="none"
                   />
 
-                  {/* Mastery fill */}
-                  <circle cx={skill.x} cy={skill.y} r={r - 4}
-                    fill="none" stroke={color} strokeWidth="3"
-                    strokeDasharray={`${(skill.mastery / 100) * 2 * Math.PI * (r - 4)} 999`}
-                    strokeLinecap="round" opacity="0.5"
+                  {/* Main node ring */}
+                  <circle cx={skill.x} cy={skill.y} r={r}
+                    fill="none" stroke={color}
+                    strokeWidth={isSelected ? 2 : 1.2}
+                    filter={isSelected ? 'url(#skill-glow-strong)' : 'url(#skill-glow)'}
+                  />
+
+                  {/* Mastery arc */}
+                  <circle cx={skill.x} cy={skill.y} r={r - 5}
+                    fill="none" stroke={color} strokeWidth="2.5"
+                    strokeDasharray={`${(skill.mastery / 100) * 2 * Math.PI * (r - 5)} 9999`}
+                    strokeLinecap="round" opacity="0.55"
                     transform={`rotate(-90 ${skill.x} ${skill.y})`}
                   />
 
-                  <text x={skill.x} y={skill.y} textAnchor="middle" dominantBaseline="central"
-                    fill={isSelected ? color : 'rgba(220,220,240,0.85)'}
-                    fontSize="9" fontFamily="var(--font-sans)" fontWeight="600"
+                  {/* Center dot */}
+                  <circle cx={skill.x} cy={skill.y} r="3"
+                    fill={color} opacity={isSelected ? 0.9 : 0.5}
+                  />
+
+                  {/* Mastery label */}
+                  <text x={skill.x} y={skill.y + 1} textAnchor="middle" dominantBaseline="central"
+                    fill={isSelected ? 'white' : 'rgba(230,230,248,0.8)'}
+                    fontSize="9" fontFamily="var(--font-mono)" fontWeight="500"
                     style={{ pointerEvents: 'none', userSelect: 'none' }}
                   >
                     {skill.mastery}%
                   </text>
 
-                  <text x={skill.x} y={skill.y + r + 16}
+                  {/* Name label */}
+                  <text x={skill.x} y={skill.y + r + 15}
                     textAnchor="middle"
-                    fill={isSelected ? color : 'rgba(160,160,200,0.7)'}
+                    fill={isSelected ? color : 'rgba(160,160,200,0.72)'}
                     fontSize="10" fontFamily="var(--font-sans)"
                     style={{ pointerEvents: 'none', userSelect: 'none' }}
                   >

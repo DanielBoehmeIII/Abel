@@ -81,13 +81,11 @@ export default function GraphPage({ onNavigate }: Props) {
 
   return (
     <div className="graph-page">
-      <div className="graph-bg" />
-
       {/* Sidebar */}
-      <aside className="graph-sidebar glass">
+      <aside className="graph-sidebar">
         <div className="graph-sidebar-top">
-          <p className="heading" style={{ marginBottom: '4px' }}>WORKSPACE</p>
-          <p className="display-md" style={{ color: 'var(--text)', marginBottom: '16px' }}>Core Graph</p>
+          <p className="graph-sidebar-title">KNOWLEDGE GRAPH</p>
+          <p className="display-sm" style={{ color: 'var(--text)', marginBottom: '16px', fontWeight: 300, fontStyle: 'italic' }}>Core Graph</p>
 
           <input
             className="graph-search"
@@ -138,6 +136,16 @@ export default function GraphPage({ onNavigate }: Props) {
 
       {/* Main graph canvas */}
       <div className="graph-canvas-wrap">
+        {/* Atmospheric title overlay */}
+        <div className="graph-canvas-title">
+          <p className="eyebrow" style={{ letterSpacing: '0.22em', color: 'rgba(150,130,210,0.35)', marginBottom: '6px' }}>
+            EVERY INSIGHT CONNECTS
+          </p>
+          <h1 className="graph-big-title">Knowledge<br />Graph</h1>
+          <p className="body-sm graph-big-subtitle">
+            a living map of what<br />you know, feel, and are becoming.
+          </p>
+        </div>
         <svg
           className="graph-canvas"
           onMouseDown={onMouseDown}
@@ -148,12 +156,16 @@ export default function GraphPage({ onNavigate }: Props) {
           style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
         >
           <defs>
-            <filter id="node-glow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
+            <filter id="node-glow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="node-glow-strong" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="7" result="blur" />
               <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
             <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.15)" />
+              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.12)" />
             </marker>
           </defs>
 
@@ -163,12 +175,14 @@ export default function GraphPage({ onNavigate }: Props) {
               const tgt = graph.nodes.find(n => n.id === edge.target);
               if (!src || !tgt) return null;
               const isHighlighted = selected?.id === src.id || selected?.id === tgt.id;
+              const srcColor = NODE_COLORS[src.type];
               return (
                 <line
                   key={edge.id}
                   x1={src.x} y1={src.y} x2={tgt.x} y2={tgt.y}
-                  stroke={isHighlighted ? 'rgba(124,77,255,0.5)' : 'rgba(255,255,255,0.06)'}
+                  stroke={isHighlighted ? `${srcColor}88` : 'rgba(255,255,255,0.05)'}
                   strokeWidth={isHighlighted ? 1.5 : 0.8}
+                  strokeDasharray={isHighlighted ? '' : '3 6'}
                   markerEnd="url(#arrow)"
                 />
               );
@@ -180,17 +194,24 @@ export default function GraphPage({ onNavigate }: Props) {
               const isSelected = selected?.id === node.id;
               return (
                 <g key={node.id} className="graph-node-hit" onClick={() => setSelected(node)}>
+                  {/* Outer glow ring on selection */}
                   {isSelected && (
-                    <circle cx={node.x} cy={node.y} r={r + 10}
-                      fill="none" stroke={color} strokeWidth="1"
-                      strokeDasharray="3 3" opacity="0.5"
-                    />
+                    <>
+                      <circle cx={node.x} cy={node.y} r={r + 14}
+                        fill={`${color}08`} stroke={color}
+                        strokeWidth="1" strokeDasharray="4 4" opacity="0.6"
+                      />
+                      <circle cx={node.x} cy={node.y} r={r + 6}
+                        fill={`${color}10`} stroke="none"
+                      />
+                    </>
                   )}
                   <circle
                     cx={node.x} cy={node.y} r={r}
-                    fill={`${color}22`} stroke={color}
-                    strokeWidth={isSelected ? 2 : 1}
-                    filter={isSelected ? 'url(#node-glow)' : undefined}
+                    fill={`${color}${isSelected ? '30' : '18'}`}
+                    stroke={color}
+                    strokeWidth={isSelected ? 1.8 : 0.9}
+                    filter={isSelected ? 'url(#node-glow-strong)' : 'url(#node-glow)'}
                     style={{ cursor: 'pointer' }}
                   />
                   <text
@@ -238,7 +259,7 @@ export default function GraphPage({ onNavigate }: Props) {
           )}
 
           <GlassPanel style={{ padding: '14px', marginTop: '16px' }}>
-            <p className="heading" style={{ marginBottom: '8px' }}>CONNECTIONS</p>
+            <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--text-3)' }}>CONNECTIONS</p>
             {graph.edges
               .filter(e => e.source === selected.id || e.target === selected.id)
               .map(e => {

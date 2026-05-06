@@ -2,88 +2,107 @@
   position: fixed; inset: 0;
   display: flex; flex-direction: column;
   overflow: hidden;
-}
-
-.skillweb-bg {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(0,50,100,0.2) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 80% 70%, rgba(80,40,160,0.15) 0%, transparent 55%),
-    linear-gradient(160deg, #060612 0%, #09091a 100%);
+    radial-gradient(ellipse 60% 55% at 50% 40%, rgba(0,40,100,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 80% 70%, rgba(80,35,160,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 40% at 10% 60%, rgba(40,0,100,0.12) 0%, transparent 50%),
+    linear-gradient(160deg, #050510 0%, #09091a 50%, #050510 100%);
 }
 
-/* Header */
+/* ── Header ── */
 .skillweb-header {
   position: relative; z-index: 2;
   display: flex; align-items: flex-end; justify-content: space-between;
-  padding: 28px 36px 16px;
+  padding: 30px 40px 18px;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
-.skillweb-title { color: var(--text); line-height: 1.05; }
+.skillweb-eyebrow {
+  color: rgba(180,150,255,0.5);
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+.skillweb-title {
+  color: var(--text); line-height: 1.05; font-weight: 300;
+}
 
 .skillweb-header-stats { display: flex; gap: 32px; }
 .skillweb-stat { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-.skillweb-stat-val { font-size: 1.6rem; font-weight: 700; color: var(--cyan); }
+.skillweb-stat-val {
+  font-size: 1.7rem; font-weight: 700; color: var(--cyan);
+  text-shadow: 0 0 24px rgba(34,211,238,0.4);
+  font-variant-numeric: tabular-nums;
+}
 
-/* Body */
+/* ── Body ── */
 .skillweb-body {
   position: relative; z-index: 2;
   flex: 1; display: flex; overflow: hidden;
 }
 
-.skillweb-canvas-wrap {
-  flex: 1; overflow: hidden;
-}
-.skillweb-canvas {
-  width: 100%; height: 100%;
-}
+.skillweb-canvas-wrap { flex: 1; overflow: hidden; }
+.skillweb-canvas { width: 100%; height: 100%; }
 
-/* Detail panel */
+/* ── Detail panel ── */
 .skillweb-detail {
-  width: 280px; flex-shrink: 0;
+  width: 290px; flex-shrink: 0;
   border-left: 1px solid var(--border);
-  padding: 20px;
+  padding: 22px;
   overflow-y: auto;
+  background: rgba(5,5,14,0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeInScale 0.3s cubic-bezier(0.16,1,0.3,1) both;
 }
 
-.skillweb-detail-top { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.skillweb-detail-top {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+}
 
 .skillweb-milestone {
   display: flex; align-items: center; gap: 8px;
-  padding: 6px 0; border-bottom: 1px solid var(--border);
+  padding: 7px 0; border-bottom: 1px solid var(--border);
 }
 .skillweb-milestone:last-child { border-bottom: none; }
 .skillweb-milestone-dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--border-2); flex-shrink: 0;
+  transition: var(--transition);
 }
-.skillweb-milestone-dot--reached { background: var(--purple); box-shadow: 0 0 6px var(--purple-glow); }
+.skillweb-milestone-dot--reached {
+  background: var(--purple);
+  box-shadow: 0 0 8px rgba(139,92,246,0.6);
+}
 
 .skillweb-quest-item {
   display: flex; align-items: center;
-  padding: 5px 0; cursor: pointer;
+  padding: 6px 0; cursor: pointer;
   border-bottom: 1px solid var(--border);
+  transition: opacity 0.15s;
 }
+.skillweb-quest-item:hover { opacity: 0.7; }
 .skillweb-quest-item:last-child { border-bottom: none; }
-.skillweb-quest-item:hover > :last-child { color: var(--text); }
 
-/* Bottom bar */
+/* ── Bottom bar ── */
 .skillweb-bottom {
   position: relative; z-index: 2;
-  padding: 10px 24px;
+  padding: 11px 28px;
   border-top: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: rgba(5,5,14,0.5);
+  backdrop-filter: blur(12px);
 }
 
-.skillweb-bottom-skills { display: flex; gap: 20px; flex: 1; overflow-x: auto; }
+.skillweb-bottom-skills { display: flex; gap: 24px; flex: 1; overflow-x: auto; }
 .skillweb-bottom-skill {
   display: flex; align-items: center; gap: 8px;
-  cursor: pointer; flex-shrink: 0;
+  cursor: pointer; flex-shrink: 0; transition: opacity 0.2s;
 }
-.skillweb-bottom-name { font-size: 0.7rem; color: var(--text-3); white-space: nowrap; }
+.skillweb-bottom-skill:hover { opacity: 0.75; }
+.skillweb-bottom-name { font-size: 0.68rem; color: var(--text-3); white-space: nowrap; }
 .skillweb-bottom-bar {
-  width: 60px; height: 4px; background: rgba(255,255,255,0.06);
+  width: 60px; height: 3px; background: rgba(255,255,255,0.06);
   border-radius: 2px; overflow: hidden;
 }
-.skillweb-bottom-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+.skillweb-bottom-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }

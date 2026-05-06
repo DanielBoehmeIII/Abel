@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import type { PageId } from './types/abel';
 import { AbelProvider } from './state/AbelProvider';
 import OrbitalNav from './components/nav/OrbitalNav';
+import PageTransition from './components/ui/PageTransition';
 import MainPage from './pages/MainPage';
 import ArchivePage from './pages/ArchivePage';
 import QuestsPage from './pages/QuestsPage';
@@ -22,7 +23,7 @@ function AppInner() {
     setNavOpen(false);
   }, []);
 
-  const openNav = useCallback(() => setNavOpen(true),  []);
+  const openNav  = useCallback(() => setNavOpen(true),  []);
   const closeNav = useCallback(() => setNavOpen(false), []);
 
   useEffect(() => {
@@ -36,20 +37,22 @@ function AppInner() {
     return () => window.removeEventListener('keydown', handler);
   }, [navOpen, openNav, closeNav]);
 
-  const sharedProps = { onNavigate: navigate };
+  const shared = { onNavigate: navigate };
 
   return (
     <>
-      {page === 'main'       && <MainPage     {...sharedProps} onOpenNav={openNav} />}
-      {page === 'archive'    && <ArchivePage  {...sharedProps} />}
-      {page === 'quests'     && <QuestsPage   {...sharedProps} />}
-      {page === 'focus'      && <FocusPage    {...sharedProps} />}
-      {page === 'graph'      && <GraphPage    {...sharedProps} />}
-      {page === 'skillweb'   && <SkillwebPage {...sharedProps} />}
-      {page === 'egg-hatch'  && <EggHatchPage {...sharedProps} />}
-      {page === 'trophies'   && <TrophiesPage {...sharedProps} />}
-      {page === 'exhibition' && <ExhibitionPage {...sharedProps} />}
-      {page === 'settings'   && <SettingsPage {...sharedProps} />}
+      <PageTransition pageId={page}>
+        {page === 'main'       && <MainPage     {...shared} onOpenNav={openNav} />}
+        {page === 'archive'    && <ArchivePage  {...shared} />}
+        {page === 'quests'     && <QuestsPage   {...shared} />}
+        {page === 'focus'      && <FocusPage    {...shared} />}
+        {page === 'graph'      && <GraphPage    {...shared} />}
+        {page === 'skillweb'   && <SkillwebPage {...shared} />}
+        {page === 'egg-hatch'  && <EggHatchPage {...shared} />}
+        {page === 'trophies'   && <TrophiesPage {...shared} />}
+        {page === 'exhibition' && <ExhibitionPage {...shared} />}
+        {page === 'settings'   && <SettingsPage {...shared} />}
+      </PageTransition>
 
       {navOpen && (
         <OrbitalNav

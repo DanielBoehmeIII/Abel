@@ -98,16 +98,31 @@ export default function FocusPage({ onNavigate }: Props) {
 
   return (
     <div className="focus-page">
-      <div className="focus-bg" />
-
       {phase === 'config' && (
         <div className="focus-config animate-fade-in">
+          {/* Portal arch backdrop */}
+          <div className="focus-portal-bg" aria-hidden>
+            <svg className="focus-portal-svg" viewBox="0 0 600 600" fill="none">
+              <circle cx="300" cy="300" r="220" stroke="rgba(139,92,246,0.055)" strokeWidth="0.8" />
+              <circle cx="300" cy="300" r="175" stroke="rgba(139,92,246,0.07)" strokeWidth="0.6" />
+              <circle cx="300" cy="300" r="130" stroke="rgba(34,211,238,0.05)" strokeWidth="0.6" />
+              <circle cx="300" cy="300" r="88" stroke="rgba(139,92,246,0.09)" strokeWidth="0.5" />
+              {/* Arch lines at angles */}
+              <line x1="300" y1="80" x2="300" y2="520" stroke="rgba(139,92,246,0.04)" strokeWidth="0.5" />
+              <line x1="80" y1="300" x2="520" y2="300" stroke="rgba(139,92,246,0.04)" strokeWidth="0.5" />
+              <line x1="144" y1="144" x2="456" y2="456" stroke="rgba(139,92,246,0.025)" strokeWidth="0.4" />
+              <line x1="456" y1="144" x2="144" y2="456" stroke="rgba(139,92,246,0.025)" strokeWidth="0.4" />
+              <circle cx="300" cy="300" r="4" fill="rgba(180,140,255,0.18)" />
+            </svg>
+            <div className="focus-portal-glow" />
+          </div>
+
           <div className="focus-config-left">
-            <p className="heading">FOCUS SESSION</p>
-            <h1 className="display-lg" style={{ margin: '8px 0 24px' }}>Your mind.<br /><em style={{ color: 'var(--purple)' }}>Augmented.</em></h1>
+            <p className="eyebrow focus-section-eyebrow">FOCUS SESSION</p>
+            <h1 className="focus-headline">Your mind.<br /><em style={{ color: 'rgba(180,140,255,0.9)' }}>Augmented.</em></h1>
 
             {/* Mode selector */}
-            <p className="heading" style={{ marginBottom: '10px' }}>SELECT MODE</p>
+            <p className="eyebrow" style={{ marginBottom: '10px', color: 'var(--text-3)' }}>SELECT MODE</p>
             <div className="focus-modes">
               {MODES.map(m => (
                 <div
@@ -121,12 +136,10 @@ export default function FocusPage({ onNavigate }: Props) {
               ))}
             </div>
 
-            <p className="body" style={{ marginTop: '12px', marginBottom: '20px' }}>
-              {MODES.find(m => m.id === mode)?.desc}
-            </p>
+            <p className="focus-mode-desc">{MODES.find(m => m.id === mode)?.desc}</p>
 
             {/* Duration */}
-            <p className="heading" style={{ marginBottom: '10px' }}>DURATION</p>
+            <p className="eyebrow" style={{ marginBottom: '10px', color: 'var(--text-3)' }}>DURATION</p>
             <div className="focus-durations">
               {DURATIONS.map(d => (
                 <button
@@ -140,7 +153,7 @@ export default function FocusPage({ onNavigate }: Props) {
             </div>
 
             {/* Sound */}
-            <p className="heading" style={{ margin: '20px 0 10px' }}>AMBIENT SOUND</p>
+            <p className="eyebrow" style={{ margin: '20px 0 10px', color: 'var(--text-3)' }}>AMBIENT SOUND</p>
             <div className="focus-sounds">
               {SOUNDS.map(s => (
                 <button
@@ -211,9 +224,10 @@ export default function FocusPage({ onNavigate }: Props) {
         <div className="focus-active animate-fade-in">
           {/* Animated ambient */}
           <div className="focus-ambient">
-            <div className="focus-ambient-ring focus-ambient-ring--1 animate-spin-slow" />
-            <div className="focus-ambient-ring focus-ambient-ring--2" style={{ animationDirection: 'reverse' }} />
-            <div className="focus-ambient-glow animate-pulse-glow" />
+            <div className="focus-ambient-ring focus-ambient-ring--1" />
+            <div className="focus-ambient-ring focus-ambient-ring--2" />
+            <div className="focus-ambient-ring focus-ambient-ring--3" />
+            <div className="focus-ambient-glow" />
           </div>
 
           {/* Timer */}
@@ -232,7 +246,7 @@ export default function FocusPage({ onNavigate }: Props) {
             </svg>
             <div className="focus-timer-text">
               <span className="focus-timer-digits">{remMin}:{remSec}</span>
-              <span className="heading">{mode.replace('-', ' ').toUpperCase()}</span>
+              <span className="eyebrow">{mode.replace('-', ' ').toUpperCase()}</span>
             </div>
           </div>
 

@@ -1,0 +1,137 @@
+.atmo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* ── Base background ── */
+.atmo--default {
+  background: radial-gradient(ellipse 90% 70% at 55% 35%, rgba(80,40,160,0.22) 0%, transparent 65%),
+              radial-gradient(ellipse 60% 50% at 20% 75%, rgba(30,80,160,0.14) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 40% at 80% 70%, rgba(60,20,120,0.12) 0%, transparent 55%),
+              linear-gradient(165deg, #050510 0%, #08081a 45%, #060612 100%);
+}
+
+.atmo--violet {
+  background: radial-gradient(ellipse 80% 65% at 50% 30%, rgba(100,40,200,0.3) 0%, transparent 65%),
+              radial-gradient(ellipse 55% 45% at 15% 80%, rgba(50,20,160,0.18) 0%, transparent 60%),
+              radial-gradient(ellipse 40% 50% at 85% 60%, rgba(80,30,180,0.15) 0%, transparent 55%),
+              linear-gradient(160deg, #060414 0%, #09091e 50%, #060610 100%);
+}
+
+.atmo--navy {
+  background: radial-gradient(ellipse 70% 55% at 60% 40%, rgba(30,60,160,0.25) 0%, transparent 65%),
+              radial-gradient(ellipse 55% 45% at 20% 60%, rgba(60,40,180,0.18) 0%, transparent 55%),
+              radial-gradient(ellipse 45% 40% at 80% 75%, rgba(20,40,120,0.14) 0%, transparent 50%),
+              linear-gradient(155deg, #04060e 0%, #080a18 50%, #060810 100%);
+}
+
+.atmo--deep {
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(70,20,150,0.28) 0%, transparent 60%),
+              radial-gradient(ellipse 45% 40% at 10% 80%, rgba(0,60,140,0.16) 0%, transparent 55%),
+              linear-gradient(180deg, #040408 0%, #080820 60%, #050510 100%);
+}
+
+.atmo--archive {
+  background: radial-gradient(ellipse 65% 55% at 50% 25%, rgba(0,80,160,0.2) 0%, transparent 65%),
+              radial-gradient(ellipse 50% 45% at 20% 70%, rgba(40,20,120,0.15) 0%, transparent 55%),
+              radial-gradient(ellipse 40% 35% at 80% 80%, rgba(0,40,100,0.12) 0%, transparent 50%),
+              linear-gradient(170deg, #040810 0%, #06081a 55%, #050510 100%);
+}
+
+.atmo--focus {
+  background: radial-gradient(ellipse 70% 55% at 50% 40%, rgba(80,30,180,0.3) 0%, transparent 65%),
+              radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,80,160,0.15) 0%, transparent 55%),
+              radial-gradient(ellipse 50% 45% at 80% 20%, rgba(60,0,140,0.18) 0%, transparent 55%),
+              linear-gradient(160deg, #050412 0%, #090820 55%, #050510 100%);
+}
+
+.atmo--exhibition {
+  background: radial-gradient(ellipse 60% 50% at 55% 35%, rgba(50,20,120,0.25) 0%, transparent 62%),
+              radial-gradient(ellipse 50% 42% at 20% 65%, rgba(20,60,120,0.16) 0%, transparent 58%),
+              radial-gradient(ellipse 40% 45% at 80% 70%, rgba(80,20,100,0.14) 0%, transparent 52%),
+              linear-gradient(165deg, #040410 0%, #07071c 50%, #050510 100%);
+}
+
+/* ── Nebula layers ── */
+.atmo-nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
+.atmo-nebula-1 {
+  width: 55%; height: 55%;
+  top: -10%; left: 25%;
+  background: radial-gradient(circle, rgba(100,50,200,0.18) 0%, rgba(80,30,160,0.08) 40%, transparent 70%);
+  animation: nebula-drift 18s ease-in-out infinite;
+}
+
+.atmo-nebula-2 {
+  width: 40%; height: 40%;
+  bottom: 5%; right: 5%;
+  background: radial-gradient(circle, rgba(30,60,180,0.15) 0%, rgba(20,40,140,0.07) 40%, transparent 70%);
+  animation: nebula-shift 22s ease-in-out infinite;
+}
+
+.atmo-nebula-3 {
+  width: 35%; height: 45%;
+  top: 30%; left: -5%;
+  background: radial-gradient(circle, rgba(60,20,140,0.12) 0%, rgba(40,10,100,0.05) 40%, transparent 70%);
+  animation: nebula-drift 26s ease-in-out infinite reverse;
+}
+
+.atmo-nebula-4 {
+  width: 30%; height: 30%;
+  top: 10%; right: 20%;
+  background: radial-gradient(circle, rgba(0,120,180,0.08) 0%, rgba(0,80,140,0.04) 40%, transparent 70%);
+  animation: nebula-shift 30s ease-in-out infinite;
+}
+
+/* ── Noise texture ── */
+.atmo-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Vignette ── */
+.atmo-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%,
+    transparent 30%,
+    rgba(4,4,14,0.4) 70%,
+    rgba(4,4,14,0.85) 100%);
+}
+
+/* ── Stars ── */
+.atmo-stars {
+  position: absolute;
+  inset: 0;
+}
+
+.atmo-star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: star-twinkle var(--dur, 3s) ease-in-out infinite;
+}
+
+/* ── Particles ── */
+.atmo-particles {
+  position: absolute;
+  inset: 0;
+}
+
+.atmo-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(139,92,246,0.7);
+  animation: particle-rise var(--dur, 10s) ease-in-out infinite;
+  box-shadow: 0 0 4px rgba(139,92,246,0.5);
+}

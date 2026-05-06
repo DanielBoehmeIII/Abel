@@ -3,6 +3,7 @@ import { useAbel } from '../state/AbelProvider';
 import type { PageId, Quest, QuestType } from '../types/abel';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
+import AtmosphereBackground from '../components/ui/AtmosphereBackground';
 import './QuestsPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
@@ -37,14 +38,19 @@ export default function QuestsPage({ onNavigate }: Props) {
 
   return (
     <div className="quests-page">
-      <div className="quests-bg" />
+      <AtmosphereBackground variant="violet" stars={50} />
 
       {/* Left column — journey + filter */}
       <div className="quests-left">
-        <div className="quests-journey-header">
-          <p className="heading" style={{ marginBottom: '6px' }}>ACTIVE JOURNEY</p>
-          <h1 className="display-lg quests-journey-title">{activeJourney?.title}</h1>
-          <p className="body" style={{ marginTop: '8px' }}>{activeJourney?.description}</p>
+        <div>
+          <p className="eyebrow quests-journey-eyebrow">EVERY INSIGHT CONNECTS</p>
+          <h1 className="quests-journey-title">Atlas<br />of Being</h1>
+          <p className="quests-journey-desc" style={{ marginTop: '8px' }}>
+            A living map of what you know, feel, and are becoming.
+          </p>
+          <p className="caption" style={{ color: 'var(--text-4)', marginTop: '4px' }}>
+            {activeJourney?.title}
+          </p>
         </div>
 
         {/* Radial mindmap style — progress visualization */}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId, MemoryItem, MemorySubtype } from '../types/abel';
 import { makeMemory } from '../state/abelStore';
@@ -26,16 +26,9 @@ export default function ExhibitionPage({ onNavigate }: Props) {
   const { memories, trophies, archetype } = state;
 
   const [selected, setSelected] = useState<MemoryItem | null>(memories[memories.length - 1] ?? null);
-  const [filterSubtype, setFilterSubtype] = useState<MemorySubtype | 'all'>('all');
   const [showAddModal, setShowAddModal] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newBody, setNewBody] = useState('');
-
-  const filtered = filterSubtype === 'all'
-    ? memories
-    : memories.filter(m => m.subtypes.includes(filterSubtype));
-
-  const allSubtypes = Array.from(new Set(memories.flatMap(m => m.subtypes)));
 
   function addMemory() {
     if (!newTitle.trim() || !newBody.trim()) return;
@@ -46,215 +39,259 @@ export default function ExhibitionPage({ onNavigate }: Props) {
     setNewTitle(''); setNewBody('');
   }
 
+  // Orbit positions for memory constellation
+  const orbitItems = useMemo(() => {
+    return memories.map((m, i) => {
+      const angle = (i / memories.length) * 360 - 90;
+      const tier  = i < 4 ? 1 : i < 8 ? 2 : 3;
+      const r     = [160, 230, 290][tier - 1];
+      const rad   = angle * Math.PI / 180;
+      return {
+        memory: m,
+        x: Math.cos(rad) * r,
+        y: Math.sin(rad) * r,
+        tier,
+      };
+    });
+  }, [memories]);
+
   return (
     <div className="exhibition-page">
-      <div className="exhibition-bg" />
 
-      {/* Header */}
-      <div className="exhibition-header">
-        <div>
-          <p className="heading" style={{ marginBottom: '6px' }}>EXHIBITION OF CONSCIOUSNESS</p>
+      {/* ── Left column: header + nav ─────────────────────── */}
+      <div className="exhibition-left">
+        <div className="exhibition-brand">
+          <p className="eyebrow exhibition-eyebrow">EXHIBITION OF CONSCIOUSNESS</p>
           <h1 className="display-xl exhibition-title">Memory<br />Exhibition</h1>
           <p className="exhibition-subtitle">
-            記憶は、わたしを持つくり、未来を開こ示す。
+            記憶は、わたしを持つくり、<br />未来を開こ示す。
           </p>
-          <GlowButton variant="purple" style={{ marginTop: '16px' }} onClick={() => setShowAddModal(true)}>
+          <GlowButton variant="purple" size="sm" onClick={() => setShowAddModal(true)}>
             + ENTER THE EXHIBIT
           </GlowButton>
         </div>
 
-        {/* Constellation */}
-        <div className="exhibition-constellation">
-          <svg className="exhibition-star-svg" viewBox="0 0 400 300">
-            <defs>
-              <filter id="mem-glow">
-                <feGaussianBlur stdDeviation="3" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-            </defs>
-
-            {/* Connection lines between nearby memories */}
-            {filtered.map((m, i) => {
-              const next = filtered[i + 1];
-              if (!next) return null;
-              const x1 = 40 + (i % 5) * 72;
-              const y1 = 40 + Math.floor(i / 5) * 90 + (i % 2) * 30;
-              const x2 = 40 + ((i+1) % 5) * 72;
-              const y2 = 40 + Math.floor((i+1) / 5) * 90 + ((i+1) % 2) * 30;
-              return (
-                <line key={`l${m.id}`} x1={x1} y1={y1} x2={x2} y2={y2}
-                  stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
-              );
-            })}
-
-            {filtered.map((m, i) => {
-              const x = 40 + (i % 5) * 72;
-              const y = 40 + Math.floor(i / 5) * 90 + (i % 2) * 30;
-              const color = m.subtypes[0] ? SUBTYPE_COLORS[m.subtypes[0]] : 'var(--purple)';
-              const isSelected = selected?.id === m.id;
-              return (
-                <g key={m.id} onClick={() => setSelected(m)} style={{ cursor: 'pointer' }}>
-                  <circle cx={x} cy={y} r={isSelected ? 10 : 6}
-                    fill={`${color}22`} stroke={color}
-                    strokeWidth={isSelected ? 2 : 1}
-                    filter={isSelected ? 'url(#mem-glow)' : undefined}
-                  />
-                  <circle cx={x} cy={y} r={2} fill={color} />
-                  <text x={x} y={y + 18} textAnchor="middle"
-                    fill="rgba(160,160,200,0.6)" fontSize="9"
-                    fontFamily="var(--font-sans)"
-                    style={{ pointerEvents: 'none', userSelect: 'none' }}
-                  >
-                    {m.title.slice(0, 14)}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-        </div>
-      </div>
-
-      {/* Body */}
-      <div className="exhibition-body">
-        {/* Left — filter + list */}
-        <div className="exhibition-list-col">
-          <div className="exhibition-subtypes">
-            <button
-              className={`exhibition-subtype-btn ${filterSubtype === 'all' ? 'exhibition-subtype-btn--active' : ''}`}
-              onClick={() => setFilterSubtype('all')}
-            >All</button>
-            {allSubtypes.map(s => (
+        {/* Memory list */}
+        <div className="exhibition-memory-list">
+          {memories.slice().reverse().map((m) => {
+            const color = m.subtypes[0] ? SUBTYPE_COLORS[m.subtypes[0]] : 'var(--purple)';
+            const icon  = m.subtypes[0] ? SUBTYPE_ICONS[m.subtypes[0]] : '▣';
+            return (
               <button
-                key={s}
-                className={`exhibition-subtype-btn ${filterSubtype === s ? 'exhibition-subtype-btn--active' : ''}`}
-                style={{ color: SUBTYPE_COLORS[s] }}
-                onClick={() => setFilterSubtype(s === filterSubtype ? 'all' : s)}
-              >
-                {SUBTYPE_ICONS[s]} {s}
-              </button>
-            ))}
-          </div>
-
-          <div className="exhibition-memory-list">
-            {filtered.map((m, i) => (
-              <div
                 key={m.id}
-                className={`exhibition-memory-item glass ${selected?.id === m.id ? 'exhibition-memory-item--active' : ''} animate-fade-in`}
-                style={{ animationDelay: `${i * 0.04}s` }}
+                className={`exhibition-mem-row ${selected?.id === m.id ? 'exhibition-mem-row--active' : ''}`}
+                style={{ '--mc': color } as React.CSSProperties}
                 onClick={() => setSelected(m)}
               >
-                <div className="exhibition-memory-top">
-                  <h4 className="exhibition-memory-title">{m.title}</h4>
-                  <span className="caption">{new Date(m.createdAt).toLocaleDateString()}</span>
+                <span className="exhibition-mem-icon" style={{ color }}>{icon}</span>
+                <div className="exhibition-mem-text">
+                  <p className="exhibition-mem-title">{m.title}</p>
+                  <p className="caption">{new Date(m.createdAt).toLocaleDateString()}</p>
                 </div>
-                <p className="exhibition-memory-body">{m.body.slice(0, 100)}…</p>
-                <div className="exhibition-memory-tags">
-                  {m.subtypes.map(s => (
-                    <span key={s} className="pill" style={{ background: `${SUBTYPE_COLORS[s]}18`, color: SUBTYPE_COLORS[s], border: `1px solid ${SUBTYPE_COLORS[s]}44` }}>
-                      {SUBTYPE_ICONS[s]} {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Profile at bottom */}
+        <div className="exhibition-left-footer">
+          <div className="exhibition-avatar" />
+          <div>
+            <p style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text)' }}>{state.user.name}</p>
+            <p className="caption">{archetype.primary}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Center: constellation + crystal ──────────────── */}
+      <div className="exhibition-center">
+        {/* Atmosphere */}
+        <div className="exhibition-nebula" />
+
+        <svg className="exhibition-constellation-svg" viewBox="-320 -320 640 640">
+          <defs>
+            <filter id="mem-node-glow">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <filter id="crystal-glow">
+              <feGaussianBlur stdDeviation="6" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+
+          {/* Orbit rings */}
+          <circle cx="0" cy="0" r="160" fill="none" stroke="rgba(139,92,246,0.08)" strokeWidth="0.8" strokeDasharray="4 12" />
+          <circle cx="0" cy="0" r="230" fill="none" stroke="rgba(34,211,238,0.06)" strokeWidth="0.7" strokeDasharray="3 14" />
+          <circle cx="0" cy="0" r="290" fill="none" stroke="rgba(139,92,246,0.05)" strokeWidth="0.6" strokeDasharray="3 16" />
+
+          {/* Constellation lines to selected */}
+          {orbitItems.map(item => {
+            const isSelected = selected?.id === item.memory.id;
+            if (!isSelected) return null;
+            return (
+              <line key={`sel-${item.memory.id}`}
+                x1="0" y1="-20" x2={item.x} y2={item.y}
+                stroke="rgba(139,92,246,0.4)" strokeWidth="0.8" strokeDasharray="4 6"
+              />
+            );
+          })}
+
+          {/* Connection lines between adjacent nodes */}
+          {orbitItems.map((item, i) => {
+            const next = orbitItems[i + 1];
+            if (!next || item.tier !== next.tier) return null;
+            return (
+              <line key={`c${i}`}
+                x1={item.x} y1={item.y} x2={next.x} y2={next.y}
+                stroke="rgba(255,255,255,0.04)" strokeWidth="0.6"
+              />
+            );
+          })}
+
+          {/* Memory nodes */}
+          {orbitItems.map(item => {
+            const { memory, x, y } = item;
+            const color = memory.subtypes[0] ? SUBTYPE_COLORS[memory.subtypes[0]] : '#8b5cf6';
+            const isSel = selected?.id === memory.id;
+            const r     = isSel ? 9 : 5.5;
+            return (
+              <g key={memory.id} style={{ cursor: 'pointer' }} onClick={() => setSelected(memory)}>
+                {isSel && (
+                  <circle cx={x} cy={y} r={18}
+                    fill={`${color}10`} stroke={color} strokeWidth="0.8" strokeDasharray="3 4" opacity="0.7"
+                    style={{ animation: 'spin-slow 8s linear infinite', transformOrigin: `${x}px ${y}px` }}
+                  />
+                )}
+                <circle cx={x} cy={y} r={r}
+                  fill={`${color}${isSel ? '28' : '14'}`}
+                  stroke={color} strokeWidth={isSel ? 1.5 : 0.9}
+                  filter={isSel ? 'url(#mem-node-glow)' : undefined}
+                />
+                <circle cx={x} cy={y} r="2" fill={color} opacity={isSel ? 0.9 : 0.55} />
+                <text x={x} y={y + r + 12} textAnchor="middle"
+                  fill={isSel ? color : 'rgba(160,160,200,0.55)'}
+                  fontSize="8.5" fontFamily="var(--font-sans)"
+                  style={{ pointerEvents: 'none', userSelect: 'none' }}>
+                  {memory.title.slice(0, 16)}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* Center crystal object */}
+          <g filter="url(#crystal-glow)">
+            {/* Outer hexagon ring */}
+            <polygon points="0,-58 50,-29 50,29 0,58 -50,29 -50,-29"
+              fill="rgba(30,10,70,0.08)" stroke="rgba(139,92,246,0.45)" strokeWidth="1.2" />
+            {/* Inner thin hexagon */}
+            <polygon points="0,-42 36,-21 36,21 0,42 -36,21 -36,-21"
+              fill="rgba(20,5,50,0.06)" stroke="rgba(139,92,246,0.28)" strokeWidth="0.8" />
+            {/* Crystal vertical lines */}
+            <line x1="0" y1="-58" x2="0" y2="-8" stroke="rgba(139,92,246,0.5)" strokeWidth="1" />
+            <line x1="0" y1="8" x2="0" y2="58" stroke="rgba(139,92,246,0.5)" strokeWidth="1" />
+            {/* Cross */}
+            <line x1="-42" y1="0" x2="42" y2="0" stroke="rgba(139,92,246,0.25)" strokeWidth="0.7" />
+            {/* Center core */}
+            <circle cx="0" cy="0" r="10" fill="rgba(139,92,246,0.25)" stroke="rgba(180,140,255,0.7)" strokeWidth="1.5" />
+            <circle cx="0" cy="0" r="4" fill="rgba(200,180,255,0.85)" />
+            <circle cx="0" cy="0" r="2" fill="white" opacity="0.9" />
+          </g>
+        </svg>
+
+        {/* Bottom stats */}
+        <div className="exhibition-stats">
+          <div className="exhibition-stat">
+            <span className="exhibition-stat-val">{memories.length}</span>
+            <span className="caption">MEMORIES</span>
+          </div>
+          <div className="exhibition-stat">
+            <span className="exhibition-stat-val">{memories.filter(m => m.subtypes.includes('breakthrough')).length}</span>
+            <span className="caption">BREAKTHROUGHS</span>
+          </div>
+          <div className="exhibition-stat">
+            <span className="exhibition-stat-val">{memories.filter(m => m.subtypes.includes('flow')).length}</span>
+            <span className="caption">FLOW MOMENTS</span>
+          </div>
+          <div className="exhibition-stat">
+            <span className="exhibition-stat-val">{trophies.length}</span>
+            <span className="caption">TROPHIES</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Right: featured exhibit ─────────────────────── */}
+      {selected && (
+        <div className="exhibition-right animate-fade-in-scale" key={selected.id}>
+          <div className="exhibition-featured-top">
+            <span className="exhibition-featured-glyph">
+              {selected.subtypes[0] ? SUBTYPE_ICONS[selected.subtypes[0]] : '▣'}
+            </span>
+            <p className="eyebrow" style={{ color: 'rgba(180,150,255,0.5)', marginBottom: '10px' }}>FEATURED EXHIBIT</p>
+          </div>
+
+          <h2 className="exhibition-featured-title">{selected.title}</h2>
+
+          <div style={{ display: 'flex', gap: '6px', marginBottom: '16px', flexWrap: 'wrap' }}>
+            {selected.subtypes.map(s => (
+              <span key={s} className="pill" style={{
+                background: `${SUBTYPE_COLORS[s]}16`,
+                color: SUBTYPE_COLORS[s],
+                border: `1px solid ${SUBTYPE_COLORS[s]}40`
+              }}>
+                {SUBTYPE_ICONS[s]} {s}
+              </span>
             ))}
           </div>
-        </div>
 
-        {/* Right — featured exhibit */}
-        {selected && (
-          <div className="exhibition-featured animate-fade-in-scale">
-            <GlassPanel variant="raised" style={{ padding: '28px', height: '100%' }}>
-              <p className="heading" style={{ marginBottom: '12px' }}>FEATURED EXHIBIT</p>
-              <h2 className="display-md" style={{ color: 'var(--text)', marginBottom: '6px' }}>
-                {selected.title}
-              </h2>
+          <p className="body exhibition-featured-body">{selected.body}</p>
 
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-                {selected.subtypes.map(s => (
-                  <span key={s} className="pill" style={{
-                    background: `${SUBTYPE_COLORS[s]}18`,
-                    color: SUBTYPE_COLORS[s],
-                    border: `1px solid ${SUBTYPE_COLORS[s]}44`
-                  }}>
-                    {SUBTYPE_ICONS[s]} {s}
-                  </span>
-                ))}
-                <span className="pill rarity-common">{selected.source}</span>
-              </div>
+          {selected.emotionalTone && (
+            <p className="caption" style={{ marginBottom: '16px' }}>
+              Tone: <span style={{ color: 'var(--text-2)' }}>{selected.emotionalTone}</span>
+            </p>
+          )}
 
-              {selected.emotionalTone && (
-                <p className="caption" style={{ marginBottom: '12px' }}>
-                  Tone: <span style={{ color: 'var(--text-2)' }}>{selected.emotionalTone}</span>
-                </p>
-              )}
+          <GlassPanel style={{ padding: '14px', marginBottom: '14px' }}>
+            <p className="eyebrow" style={{ marginBottom: '6px', color: 'var(--text-3)' }}>EFFECT ON ARCHETYPE</p>
+            <p className="caption">
+              Contributes evidence for{' '}
+              <strong style={{ color: 'var(--purple)' }}>{archetype.primary}</strong>
+            </p>
+          </GlassPanel>
 
-              <p className="body" style={{ lineHeight: 1.8, marginBottom: '20px' }}>
-                {selected.body}
-              </p>
+          <p className="caption" style={{ color: 'var(--text-4)', marginBottom: '14px' }}>
+            {new Date(selected.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
 
-              <div className="exhibition-featured-footer">
-                <p className="caption">
-                  {new Date(selected.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                </p>
-
-                {selected.relatedTrophyIds.length > 0 && (
-                  <GlowButton variant="gold" size="sm" onClick={() => onNavigate('trophies')}>
-                    View Trophy
-                  </GlowButton>
-                )}
-                {selected.relatedGraphNodeIds.length > 0 && (
-                  <GlowButton variant="cyan" size="sm" onClick={() => onNavigate('graph')}>
-                    View in Graph
-                  </GlowButton>
-                )}
-              </div>
-
-              {/* Archetype effect */}
-              <GlassPanel style={{ padding: '14px', marginTop: '16px' }}>
-                <p className="heading" style={{ marginBottom: '6px' }}>EFFECT ON ARCHETYPE</p>
-                <p className="caption">
-                  Contributes evidence for <strong style={{ color: 'var(--purple)' }}>{archetype.primary}</strong>
-                </p>
-              </GlassPanel>
-            </GlassPanel>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {selected.relatedTrophyIds.length > 0 && (
+              <GlowButton variant="gold" size="sm" onClick={() => onNavigate('trophies')}>
+                View Trophy
+              </GlowButton>
+            )}
+            {selected.relatedGraphNodeIds.length > 0 && (
+              <GlowButton variant="cyan" size="sm" onClick={() => onNavigate('graph')}>
+                View in Graph
+              </GlowButton>
+            )}
           </div>
-        )}
-      </div>
 
-      {/* Bottom stats */}
-      <div className="exhibition-stats glass">
-        <div className="exhibition-stat">
-          <span className="exhibition-stat-val">{memories.length}</span>
-          <span className="caption">MEMORIES CAPTURED</span>
-        </div>
-        <div className="exhibition-stat">
-          <span className="exhibition-stat-val">{memories.filter(m => m.subtypes.includes('breakthrough')).length}</span>
-          <span className="caption">BREAKTHROUGHS</span>
-        </div>
-        <div className="exhibition-stat">
-          <span className="exhibition-stat-val">{memories.filter(m => m.subtypes.includes('flow')).length}</span>
-          <span className="caption">FLOW MOMENTS</span>
-        </div>
-        <div className="exhibition-stat">
-          <span className="exhibition-stat-val">{trophies.length}</span>
-          <span className="caption">TROPHIES LINKED</span>
-        </div>
-        <div style={{ marginLeft: 'auto' }}>
-          <p className="body" style={{ fontStyle: 'italic', color: 'var(--text-3)' }}>
-            "We do not remember to escape. We remember to become."
+          <p className="body exhibition-quote">
+            "We do not remember to escape.<br />We remember to become."
           </p>
         </div>
-      </div>
+      )}
 
       {/* Add modal */}
       {showAddModal && (
         <div className="exhibition-modal-overlay" onClick={() => setShowAddModal(false)}>
           <GlassPanel
             variant="raised"
-            style={{ padding: '28px', width: '480px', borderRadius: 'var(--radius-xl)' }}
+            style={{ padding: '28px', width: '460px', borderRadius: 'var(--radius-xl)' }}
             onClick={e => e.stopPropagation()}
           >
-            <p className="heading" style={{ marginBottom: '12px' }}>NEW MEMORY</p>
+            <p className="heading" style={{ marginBottom: '14px' }}>NEW MEMORY</p>
             <input
               className="exhibition-input"
               value={newTitle}

@@ -44,15 +44,12 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
 
   return (
     <div className="settings-page">
-      <div className="settings-bg" />
-      <div className="settings-portal-glow" />
-
       <div className="settings-layout">
         {/* Sidebar */}
-        <aside className="settings-sidebar glass">
-          <p className="heading" style={{ padding: '20px 16px 12px', borderBottom: '1px solid var(--border)' }}>
-            SETTINGS
-          </p>
+        <aside className="settings-sidebar">
+          <div className="settings-sidebar-logo">
+            <p className="settings-sidebar-logo-mark">ABEL OS</p>
+          </div>
           {SECTIONS.map(s => (
             <button
               key={s.id}
@@ -77,6 +74,7 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
           {/* LLM Provider */}
           {activeSection === 'llm' && (
             <div className="settings-section animate-fade-in">
+              <p className="eyebrow settings-section-eyebrow">CONFIGURATION</p>
               <h2 className="settings-section-title">LLM Provider</h2>
               <p className="body" style={{ marginBottom: '24px' }}>
                 Choose which AI powers Abel's planning and reflection capabilities.
@@ -108,7 +106,7 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
               </div>
 
               <GlassPanel style={{ padding: '16px', marginTop: '20px' }}>
-                <p className="heading" style={{ marginBottom: '6px' }}>API KEY CONFIGURATION</p>
+                <p className="eyebrow" style={{ marginBottom: '6px', color: 'var(--text-3)' }}>API KEY CONFIGURATION</p>
                 <p className="caption">Real provider API keys would be configured here. For this MVP, only Mock Abel is functional.</p>
               </GlassPanel>
             </div>
@@ -117,6 +115,7 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
           {/* Themes */}
           {activeSection === 'themes' && (
             <div className="settings-section animate-fade-in">
+              <p className="eyebrow settings-section-eyebrow">APPEARANCE</p>
               <h2 className="settings-section-title">Themes</h2>
               <p className="body" style={{ marginBottom: '24px' }}>
                 Visual themes affect backgrounds and accent colors. Dark and Cinematic are fully implemented.
