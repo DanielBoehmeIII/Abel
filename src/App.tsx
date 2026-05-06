@@ -1,71 +1,71 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { PageId } from './types';
-import { AppProvider } from './AppContext';
-import MainMenu from './components/MainMenu';
-import PageShell from './components/PageShell';
-import SkillTreePage from './pages/SkillTreePage';
-import JournalPage from './pages/JournalPage';
-import TrophyPage from './pages/TrophyPage';
-import ArchetypesPage from './pages/ArchetypesPage';
-import MemoryPage from './pages/MemoryPage';
+import type { PageId } from './types/abel';
+import { AbelProvider } from './state/AbelProvider';
+import OrbitalNav from './components/nav/OrbitalNav';
+import MainPage from './pages/MainPage';
+import ArchivePage from './pages/ArchivePage';
+import QuestsPage from './pages/QuestsPage';
+import FocusPage from './pages/FocusPage';
 import GraphPage from './pages/GraphPage';
-import { FocusPage, HabitPage, PlannerPage, SleepPage, FitnessPage, LearningPage } from './pages/ModuleGrid';
-import './App.css';
+import SkillwebPage from './pages/SkillwebPage';
+import EggHatchPage from './pages/EggHatchPage';
+import TrophiesPage from './pages/TrophiesPage';
+import ExhibitionPage from './pages/ExhibitionPage';
+import SettingsPage from './pages/SettingsPage';
 
 function AppInner() {
-  const [page, setPage] = useState<PageId>('menu');
-  const [menuSelected, setMenuSelected] = useState<PageId>('skilltree');
+  const [page, setPage]       = useState<PageId>('main');
+  const [navOpen, setNavOpen] = useState(false);
 
-  const goBack = useCallback(() => setPage('menu'), []);
-  const openPage = useCallback((id: PageId) => setPage(id), []);
+  const navigate = useCallback((id: PageId) => {
+    setPage(id);
+    setNavOpen(false);
+  }, []);
+
+  const openNav = useCallback(() => setNavOpen(true),  []);
+  const closeNav = useCallback(() => setNavOpen(false), []);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && page !== 'menu') goBack();
+      if (e.key === 'Escape') {
+        if (navOpen) { closeNav(); return; }
+        openNav();
+      }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [page, goBack]);
+  }, [navOpen, openNav, closeNav]);
 
-  if (page === 'menu') {
-    return (
-      <MainMenu
-        selected={menuSelected}
-        onSelect={setMenuSelected}
-        onOpen={openPage}
-      />
-    );
-  }
-
-  const inner = (() => {
-    switch (page) {
-      case 'skilltree':  return <SkillTreePage />;
-      case 'journal':    return <JournalPage onBack={goBack} />;
-      case 'trophies':   return <TrophyPage />;
-      case 'archetypes': return <ArchetypesPage />;
-      case 'memory':     return <MemoryPage />;
-      case 'graph':      return <GraphPage />;
-      case 'focus':      return <FocusPage />;
-      case 'habit':      return <HabitPage />;
-      case 'planner':    return <PlannerPage />;
-      case 'sleep':      return <SleepPage />;
-      case 'fitness':    return <FitnessPage />;
-      case 'learning':   return <LearningPage />;
-      default:           return null;
-    }
-  })();
+  const sharedProps = { onNavigate: navigate };
 
   return (
-    <PageShell onBack={goBack} page={page}>
-      {inner}
-    </PageShell>
+    <>
+      {page === 'main'       && <MainPage     {...sharedProps} onOpenNav={openNav} />}
+      {page === 'archive'    && <ArchivePage  {...sharedProps} />}
+      {page === 'quests'     && <QuestsPage   {...sharedProps} />}
+      {page === 'focus'      && <FocusPage    {...sharedProps} />}
+      {page === 'graph'      && <GraphPage    {...sharedProps} />}
+      {page === 'skillweb'   && <SkillwebPage {...sharedProps} />}
+      {page === 'egg-hatch'  && <EggHatchPage {...sharedProps} />}
+      {page === 'trophies'   && <TrophiesPage {...sharedProps} />}
+      {page === 'exhibition' && <ExhibitionPage {...sharedProps} />}
+      {page === 'settings'   && <SettingsPage {...sharedProps} />}
+
+      {navOpen && (
+        <OrbitalNav
+          currentPage={page}
+          onNavigate={navigate}
+          onClose={closeNav}
+        />
+      )}
+    </>
   );
 }
 
 export default function App() {
   return (
-    <AppProvider>
+    <AbelProvider>
       <AppInner />
-    </AppProvider>
+    </AbelProvider>
   );
 }

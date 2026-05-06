@@ -1,0 +1,89 @@
+.skillweb-page {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+.skillweb-bg {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(0,50,100,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 70%, rgba(80,40,160,0.15) 0%, transparent 55%),
+    linear-gradient(160deg, #060612 0%, #09091a 100%);
+}
+
+/* Header */
+.skillweb-header {
+  position: relative; z-index: 2;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 28px 36px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.skillweb-title { color: var(--text); line-height: 1.05; }
+
+.skillweb-header-stats { display: flex; gap: 32px; }
+.skillweb-stat { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.skillweb-stat-val { font-size: 1.6rem; font-weight: 700; color: var(--cyan); }
+
+/* Body */
+.skillweb-body {
+  position: relative; z-index: 2;
+  flex: 1; display: flex; overflow: hidden;
+}
+
+.skillweb-canvas-wrap {
+  flex: 1; overflow: hidden;
+}
+.skillweb-canvas {
+  width: 100%; height: 100%;
+}
+
+/* Detail panel */
+.skillweb-detail {
+  width: 280px; flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.skillweb-detail-top { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+
+.skillweb-milestone {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.skillweb-milestone:last-child { border-bottom: none; }
+.skillweb-milestone-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border-2); flex-shrink: 0;
+}
+.skillweb-milestone-dot--reached { background: var(--purple); box-shadow: 0 0 6px var(--purple-glow); }
+
+.skillweb-quest-item {
+  display: flex; align-items: center;
+  padding: 5px 0; cursor: pointer;
+  border-bottom: 1px solid var(--border);
+}
+.skillweb-quest-item:last-child { border-bottom: none; }
+.skillweb-quest-item:hover > :last-child { color: var(--text); }
+
+/* Bottom bar */
+.skillweb-bottom {
+  position: relative; z-index: 2;
+  padding: 10px 24px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+
+.skillweb-bottom-skills { display: flex; gap: 20px; flex: 1; overflow-x: auto; }
+.skillweb-bottom-skill {
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; flex-shrink: 0;
+}
+.skillweb-bottom-name { font-size: 0.7rem; color: var(--text-3); white-space: nowrap; }
+.skillweb-bottom-bar {
+  width: 60px; height: 4px; background: rgba(255,255,255,0.06);
+  border-radius: 2px; overflow: hidden;
+}
+.skillweb-bottom-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }

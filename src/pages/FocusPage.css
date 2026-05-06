@@ -1,0 +1,161 @@
+.focus-page {
+  position: fixed; inset: 0; overflow-y: auto;
+}
+
+.focus-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 40%, rgba(80,40,160,0.2) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 30% at 80% 80%, rgba(0,100,200,0.1) 0%, transparent 55%),
+    linear-gradient(160deg, #070710 0%, #0a0a18 100%);
+}
+
+/* Config view */
+.focus-config {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 380px;
+  gap: 32px; padding: 36px;
+  min-height: 100vh; align-items: start;
+}
+
+.focus-config-left {}
+.focus-config-right {}
+
+.focus-modes {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 8px;
+}
+
+.focus-mode-card {
+  padding: 12px 10px; border-radius: var(--radius);
+  cursor: pointer; transition: var(--transition);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  text-align: center;
+}
+.focus-mode-card:hover { background: var(--surface-2); }
+.focus-mode-card--active {
+  border-color: var(--purple);
+  background: var(--purple-dim);
+  box-shadow: 0 0 16px rgba(124,77,255,0.2);
+}
+.focus-mode-icon { font-size: 1.2rem; }
+.focus-mode-label { font-size: 0.7rem; font-weight: 600; color: var(--text-2); }
+.focus-mode-card--active .focus-mode-label { color: var(--purple); }
+
+.focus-durations, .focus-sounds { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.focus-dur-btn, .focus-sound-btn {
+  padding: 6px 14px; border-radius: var(--radius);
+  border: 1px solid var(--border); color: var(--text-3);
+  font-size: 0.75rem; font-weight: 600; transition: var(--transition);
+}
+.focus-dur-btn:hover, .focus-sound-btn:hover { border-color: var(--border-2); color: var(--text-2); }
+.focus-dur-btn--active, .focus-sound-btn--active {
+  border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim);
+}
+
+.focus-intention-input, .focus-textarea {
+  width: 100%; background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 10px 14px; color: var(--text); resize: none; outline: none;
+  font-size: 0.875rem; line-height: 1.6;
+  transition: border-color 0.2s;
+}
+.focus-intention-input:focus, .focus-textarea:focus { border-color: var(--purple); }
+.focus-intention-input::placeholder, .focus-textarea::placeholder { color: var(--text-4); }
+
+.focus-select {
+  width: 100%; background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 8px 12px; color: var(--text); outline: none;
+  font-size: 0.875rem;
+}
+.focus-select option { background: #12121f; }
+
+.focus-recent-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.focus-recent-item:last-child { border-bottom: none; }
+.focus-recent-mode { font-size: 0.8rem; color: var(--text-2); text-transform: capitalize; }
+.focus-score-chip {
+  padding: 2px 8px; border-radius: 99px;
+  background: var(--purple-dim); color: var(--purple);
+  font-size: 0.7rem; font-weight: 700;
+}
+
+/* Active session */
+.focus-active {
+  position: relative; z-index: 2;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 24px;
+}
+
+.focus-ambient {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.focus-ambient-ring {
+  position: absolute; border-radius: 50%; border: 1px solid;
+  animation: spin-slow 20s linear infinite;
+}
+.focus-ambient-ring--1 {
+  width: 500px; height: 500px;
+  border-color: rgba(124,77,255,0.12);
+}
+.focus-ambient-ring--2 {
+  width: 700px; height: 700px;
+  border-color: rgba(0,212,255,0.06);
+  animation-duration: 35s;
+}
+.focus-ambient-glow {
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,77,255,0.15) 0%, transparent 70%);
+}
+
+.focus-timer-wrap {
+  position: relative; z-index: 3;
+  width: 200px; height: 200px;
+  display: flex; align-items: center; justify-content: center;
+}
+.focus-timer-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.focus-timer-text {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  z-index: 4;
+}
+.focus-timer-digits {
+  font-size: 2.2rem; font-weight: 300; color: var(--text);
+  font-variant-numeric: tabular-nums; letter-spacing: 0.05em;
+}
+
+.focus-active-intention {
+  font-size: 1rem; color: var(--text-2); text-align: center;
+  max-width: 420px; line-height: 1.6;
+  z-index: 3;
+}
+
+.focus-active-controls { z-index: 3; }
+
+/* Complete view */
+.focus-complete {
+  position: relative; z-index: 2;
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 36px;
+}
+.focus-complete-inner { max-width: 520px; width: 100%; }
+
+.focus-score-bar-wrap { margin: 10px 0 6px; }
+.focus-score-bar {
+  width: 100%; height: 6px; background: var(--border);
+  border-radius: 99px; overflow: hidden; margin-bottom: 10px;
+}
+.focus-score-fill {
+  height: 100%; background: linear-gradient(90deg, var(--purple), var(--cyan));
+  border-radius: 99px; transition: width 0.5s ease;
+}
+.focus-score-range {
+  width: 100%; accent-color: var(--purple); cursor: pointer;
+}
+
+.focus-complete-actions { display: flex; flex-wrap: wrap; gap: 10px; }
