@@ -34,3 +34,27 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Graphify local/cache files
+graphify-out*/cache/
+graphify-out*/manifest.json
+graphify-out*/cost.json
+graphify-out*/.graphify_python
+graphify-out*/.graphify_root
+graphify-out*/.graphify_labels.json
+
+# Claude local-only files
+.claude/settings.local.json
+.claude/agent-edit-log.md
+
+# Claude local-only files
+.claude/settings.local.json
+.claude/agent-edit-log.md
+
+# Graphify local/cache files
+graphify-out*/cache/
+graphify-out*/manifest.json
+graphify-out*/cost.json
+graphify-out*/.graphify_python
+graphify-out*/.graphify_root
+graphify-out*/.graphify_labels.json
