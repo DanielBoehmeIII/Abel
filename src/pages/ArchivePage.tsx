@@ -4,6 +4,7 @@ import type { PageId } from '../types/abel';
 import { LLM_PROVIDERS, getMockAbelResponse, mockGenerateQuests } from '../config/llmProviders';
 import { makeArchiveMessage } from '../state/abelStore';
 import GlowButton from '../components/common/GlowButton';
+import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './ArchivePage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
@@ -75,6 +76,7 @@ export default function ArchivePage({ onNavigate }: Props) {
 
   return (
     <div className="archive-page">
+      <CinematicIdleBackplate src="/scene/archive/archive.mp4" pingPong={false} className="cib-archive" />
       {/* Sidebar */}
       <aside className="archive-sidebar">
         <div className="archive-sidebar-top">

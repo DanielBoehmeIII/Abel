@@ -3,10 +3,6 @@
   display: grid;
   grid-template-columns: 210px 1fr;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 50% 60% at 60% 40%, rgba(30,10,80,0.18) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 40% at 15% 70%, rgba(10,20,80,0.12) 0%, transparent 55%),
-    linear-gradient(170deg, #050510 0%, #08091a 55%, #050510 100%);
 }
 
 /* ── Sidebar ── */
@@ -15,7 +11,7 @@
   border-right: 1px solid var(--border);
   display: flex; flex-direction: column;
   overflow: hidden;
-  background: rgba(4,4,12,0.5);
+  background: rgba(4,4,12,0.72);
   backdrop-filter: blur(6px);
 }
 
@@ -137,7 +133,7 @@
   border-bottom: 1px solid rgba(255,255,255,0.04);
   display: flex; align-items: center; justify-content: space-between;
   flex-shrink: 0;
-  background: rgba(5,5,14,0.3);
+  background: rgba(5,5,14,0.52);
   backdrop-filter: blur(6px);
 }
 
@@ -307,4 +303,17 @@
 .archive-input-hint {
   margin-top: 8px; text-align: center;
   color: var(--text-4); font-size: 0.6rem; letter-spacing: 0.05em;
+}
+
+/* ── Cinematic archive backplate overrides ── */
+.cib-archive .cib-dark-veil {
+  background: rgba(6, 6, 16, 0.42);
+}
+.cib-archive .cib-vignette {
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 20%,
+    rgba(6, 6, 16, 0.55) 70%,
+    rgba(6, 6, 16, 0.88) 100%
+  );
 }

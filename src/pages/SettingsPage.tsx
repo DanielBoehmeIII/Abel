@@ -5,6 +5,7 @@ import { LLM_PROVIDERS } from '../config/llmProviders';
 import { SEED_STATE } from '../data/seed';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
+import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './SettingsPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
@@ -44,6 +45,7 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
 
   return (
     <div className="settings-page">
+      <CinematicIdleBackplate src="/scene/settings/settings.mp4" pingPong={false} className="cib-settings" />
       <div className="settings-layout">
         {/* Sidebar */}
         <aside className="settings-sidebar">

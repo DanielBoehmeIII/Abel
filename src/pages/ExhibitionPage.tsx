@@ -5,6 +5,7 @@ import { makeMemory } from '../state/abelStore';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import './ExhibitionPage.css';
+import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 
 interface Props { onNavigate: (page: PageId) => void; }
 
@@ -57,6 +58,7 @@ export default function ExhibitionPage({ onNavigate }: Props) {
 
   return (
     <div className="exhibition-page">
+      <CinematicIdleBackplate src="/scene/exhibition/exhibition.mp4" pingPong={false} className="cib-exhibition" />
 
       {/* ── Left column: header + nav ─────────────────────── */}
       <div className="exhibition-left">

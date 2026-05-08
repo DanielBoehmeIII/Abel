@@ -4,7 +4,19 @@
   overflow: hidden;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  background: var(--bg);
+}
+
+/* Lighter overlays so egg-idle.mp4 reads clearly */
+.cib-egg .cib-dark-veil {
+  background: rgba(6, 6, 16, 0.18);
+}
+.cib-egg .cib-vignette {
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 30%,
+    rgba(6, 6, 16, 0.40) 75%,
+    rgba(6, 6, 16, 0.65) 100%
+  );
 }
 
 /* ── Header ───────────────────────────────────────────────── */

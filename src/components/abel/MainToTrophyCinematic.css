@@ -85,12 +85,22 @@
   /* no CSS transition — rAF writes opacity directly each frame */
 }
 
-/* ── Cinematic veil above transition video — z-index 6 ─────── */
-/* Bottom-weighted gradient for readability during arrival UI.  */
+/* ── Destination idle video (Trophy) — z-index 6 ───────────── */
+.mtc-dest-idle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 6;
+}
+
+/* ── Cinematic veil above destination video — z-index 7 ─────── */
+/* Bottom-weighted gradient for readability during arrival UI.   */
 .mtc-cinematic-veil {
   position: absolute;
   inset: 0;
-  z-index: 6;
+  z-index: 7;
   pointer-events: none;
   background: linear-gradient(
     to top,
@@ -188,5 +198,6 @@
 /* ── Reduced motion: skip all video ─────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .mtc-idle,
-  .mtc-trans { display: none; }
+  .mtc-trans,
+  .mtc-dest-idle { display: none; }
 }

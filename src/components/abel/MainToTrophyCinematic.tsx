@@ -5,6 +5,7 @@ import './MainToTrophyCinematic.css';
 const LERP_FACTOR = 0.08;
 const IDLE_SRC    = '/scene/main/main.mp4';
 const TRANS_SRC   = '/scene/main/main-to-trophy.mp4';
+const DEST_SRC    = '/scene/trophy/trophy.mp4';
 const FRAME_COUNT = 145;
 const FRAMES_BASE = '/scene/main/main-to-trophy-frames/';
 
@@ -35,6 +36,7 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
   const sectionRef  = useRef<HTMLElement>(null);
   const idleRef     = useRef<HTMLVideoElement>(null);
   const transRef    = useRef<HTMLVideoElement>(null);
+  const destRef     = useRef<HTMLVideoElement>(null);
   const imgRef      = useRef<HTMLImageElement>(null);
   const trophyUiRef = useRef<HTMLDivElement>(null);
 
@@ -45,6 +47,7 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
   const prevFrameRef         = useRef(0);
   const preloadedRef         = useRef<Set<number>>(new Set());
   const framesErrorRef       = useRef(false);
+  const destErrorRef         = useRef(false);
 
   const isScrollActiveRef        = useRef(false);
   const idleTimeAtScrollStartRef = useRef(0);
@@ -55,6 +58,7 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
   const [idleError,   setIdleError]   = useState(false);
   const [transError,  setTransError]  = useState(false);
   const [framesError, setFramesError] = useState(false);
+  const [destError,   setDestError]   = useState(false);
 
   const reducedMotion = typeof window !== 'undefined'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -91,6 +95,22 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
       }
     }
     idle.addEventListener('loadedmetadata', onIdleMeta, { once: true });
+
+    // Start destination idle video early so it's warm when it fades in at p≈0.82
+    const dest = destRef.current;
+    if (dest && !destErrorRef.current) {
+      if (import.meta.env.DEV) {
+        dest.addEventListener('loadedmetadata', () =>
+          console.debug('[MTC] dest loadedmetadata — duration:', dest.duration.toFixed(2))
+        );
+        dest.addEventListener('canplay', () =>
+          console.debug('[MTC] dest canplay')
+        );
+      }
+      dest.play().catch(err => {
+        if (import.meta.env.DEV) console.warn('[MTC] dest play rejected:', err);
+      });
+    }
 
     const scrollContainer = sectionRef.current?.parentElement;
     if (scrollContainer) {
@@ -130,13 +150,32 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
         }
       }
 
-      // Phase 2: crossfade (p 0.12–0.26)
+      // Phase 2: idle crossfade out (p 0.12–0.26)
       if (idle) idle.style.opacity = String(clamp(1 - (p - 0.12) / 0.14, 0, 1));
-      const transOpacity = String(clamp((p - 0.12) / 0.14, 0, 1));
+
+      // Frame sequence: fade IN p 0.12→0.26, hold, fade OUT p 0.88→1.00
+      // If dest failed, skip fade-out so last frame stays as fallback
+      const frameIn  = clamp((p - 0.12) / 0.14, 0, 1);
+      const frameOut = destErrorRef.current ? 1 : clamp(1 - (p - 0.88) / 0.12, 0, 1);
+      const frameOpacity = String(Math.min(frameIn, frameOut));
       if (!framesErrorRef.current && img) {
-        img.style.opacity = transOpacity;
+        img.style.opacity = frameOpacity;
       } else if (framesErrorRef.current && trans) {
-        trans.style.opacity = transOpacity;
+        trans.style.opacity = frameOpacity;
+      }
+
+      // Destination idle video: fade IN p 0.82→0.96
+      const dest = destRef.current;
+      const destOpacity = destErrorRef.current ? 0 : clamp((p - 0.82) / 0.14, 0, 1);
+      if (dest) dest.style.opacity = String(destOpacity);
+
+      if (import.meta.env.DEV && p > 0.8 && frameCountRef.current % 30 === 0) {
+        console.debug(
+          '[MTC] p', p.toFixed(3),
+          '| frameOpacity', Math.min(frameIn, frameOut).toFixed(3),
+          '| destOpacity', destOpacity.toFixed(3),
+          '| destErr', destErrorRef.current,
+        );
       }
 
       // Phase 3: transition scrub (p 0.26–0.82)
@@ -285,7 +324,28 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
           />
         )}
 
-        {/* Bottom-weighted cinematic veil above transition video — z-index 6 */}
+        {/* Destination idle video (Trophy) — z-index 6, fades in near p 0.82 */}
+        {!destError && (
+          <video
+            ref={destRef}
+            className="mtc-dest-idle"
+            src={DEST_SRC}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            style={{ opacity: 0 }}
+            onError={() => {
+              if (import.meta.env.DEV) console.warn('[MTC] dest idle video error:', DEST_SRC);
+              destErrorRef.current = true;
+              setDestError(true);
+            }}
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Bottom-weighted cinematic veil above destination video — z-index 7 */}
         <div className="mtc-cinematic-veil" aria-hidden="true" />
 
         {/* Trophy arrival UI — z-index 10, opacity starts 0, rAF-controlled */}

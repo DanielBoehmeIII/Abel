@@ -1,0 +1,60 @@
+.cib-root {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cib-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cib-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cib-dark-veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 6, 16, 0.38);
+}
+
+.cib-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 25%,
+    rgba(6, 6, 16, 0.55) 75%,
+    rgba(6, 6, 16, 0.82) 100%
+  );
+}
+
+.cib-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.cib-error-fallback {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #06060f 0%, #0d0a1a 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cib-video {
+    display: none;
+  }
+}

@@ -4,6 +4,7 @@ import type { PageId, FocusMode } from '../types/abel';
 import { makeFocusSession } from '../state/abelStore';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
+import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './FocusPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
@@ -98,6 +99,7 @@ export default function FocusPage({ onNavigate }: Props) {
 
   return (
     <div className="focus-page">
+      <CinematicIdleBackplate src="/scene/focus/focus.mp4" pingPong={false} className="cib-focus" />
       {phase === 'config' && (
         <div className="focus-config animate-fade-in">
           {/* Portal arch backdrop */}

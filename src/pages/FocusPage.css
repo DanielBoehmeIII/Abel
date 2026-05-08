@@ -1,10 +1,5 @@
 .focus-page {
   position: fixed; inset: 0; overflow-y: auto;
-  background:
-    radial-gradient(ellipse 65% 70% at 50% 35%, rgba(80,30,180,0.28) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 50% at 15% 80%, rgba(0,60,140,0.15) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 40% at 85% 20%, rgba(60,0,160,0.14) 0%, transparent 50%),
-    linear-gradient(165deg, #050412 0%, #090820 50%, #050510 100%);
 }
 
 /* ── Config view ── */
@@ -247,3 +242,16 @@
 }
 
 .focus-complete-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ── Cinematic focus backplate overrides ── */
+.cib-focus .cib-dark-veil {
+  background: rgba(4, 3, 16, 0.40);
+}
+.cib-focus .cib-vignette {
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 30%,
+    rgba(4, 3, 16, 0.50) 70%,
+    rgba(4, 3, 16, 0.88) 100%
+  );
+}

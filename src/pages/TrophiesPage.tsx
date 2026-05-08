@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId, Trophy, TrophyRarity } from '../types/abel';
 import GlowButton from '../components/common/GlowButton';
+import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './TrophiesPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
@@ -104,6 +105,8 @@ export default function TrophiesPage({ onNavigate }: Props) {
 
   return (
     <div className="trophies-page">
+
+      <CinematicIdleBackplate src="/scene/trophy/trophy.mp4" pingPong />
 
       {/* ── Left: object viewer ─────────────────────────────── */}
       <div className="trophies-stage">

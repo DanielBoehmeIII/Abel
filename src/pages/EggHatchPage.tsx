@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId, Egg, EggType } from '../types/abel';
 import GlowButton from '../components/common/GlowButton';
+import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './EggHatchPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
@@ -179,6 +180,7 @@ export default function EggHatchPage({ onNavigate }: Props) {
   if (justHatchedId && newTrophy) {
     return (
       <div className="egg-page">
+        <CinematicIdleBackplate src="/scene/egg/egg-idle.mp4" pingPong={false} className="cib-egg" />
         <TrophyReveal
           trophy={newTrophy}
           onViewVault={() => onNavigate('trophies')}
@@ -191,6 +193,7 @@ export default function EggHatchPage({ onNavigate }: Props) {
   if (earnedEggs.length === 0) {
     return (
       <div className="egg-page">
+        <CinematicIdleBackplate src="/scene/egg/egg-idle.mp4" pingPong={false} className="cib-egg" />
         <div className="egg-empty-state">
           <div className="egg-empty-ring" />
           <p className="eyebrow egg-eyebrow" style={{ marginBottom: '20px' }}>EGG HATCH</p>
@@ -211,6 +214,7 @@ export default function EggHatchPage({ onNavigate }: Props) {
 
   return (
     <div className="egg-page">
+      <CinematicIdleBackplate src="/scene/egg/egg-idle.mp4" pingPong={false} className="cib-egg" />
       {/* Header */}
       <div className="egg-header">
         <p className="eyebrow egg-eyebrow">EGG HATCH</p>

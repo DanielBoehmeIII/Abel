@@ -4,11 +4,12 @@
   display: grid;
   grid-template-columns: 220px 1fr 280px;
   overflow: hidden;
-  background: var(--bg);
+  isolation: isolate;
 }
 
 /* ── Left column ─────────────────────────────────────────── */
 .exhibition-left {
+  position: relative; z-index: 1;
   display: flex; flex-direction: column;
   border-right: 1px solid var(--border);
   overflow: hidden;
@@ -82,7 +83,7 @@
 
 /* ── Center constellation ────────────────────────────────── */
 .exhibition-center {
-  position: relative;
+  position: relative; z-index: 1;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   overflow: hidden;
@@ -91,8 +92,8 @@
 .exhibition-nebula {
   position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 70% 30%, rgba(34,211,238,0.04) 0%, transparent 45%);
+    radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 30%, rgba(34,211,238,0.025) 0%, transparent 45%);
 }
 
 .exhibition-constellation-svg {
@@ -124,6 +125,7 @@
 
 /* ── Right: featured ─────────────────────────────────────── */
 .exhibition-right {
+  position: relative; z-index: 1;
   border-left: 1px solid var(--border);
   padding: 32px 22px;
   overflow-y: auto;
@@ -176,3 +178,16 @@
   outline: none; font-family: var(--font-sans);
 }
 .exhibition-input:focus { border-color: rgba(139,92,246,0.45); }
+
+/* ── Exhibition backplate tuning ────────────────────────── */
+.cib-exhibition .cib-dark-veil {
+  background: rgba(6, 6, 16, 0.30);
+}
+.cib-exhibition .cib-vignette {
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 20%,
+    rgba(6, 6, 16, 0.45) 72%,
+    rgba(6, 6, 16, 0.78) 100%
+  );
+}

@@ -1,19 +1,5 @@
 .settings-page {
   position: fixed; inset: 0; overflow: hidden;
-  background:
-    radial-gradient(ellipse 50% 55% at 50% 25%, rgba(40,30,100,0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 40% at 80% 75%, rgba(20,40,100,0.14) 0%, transparent 55%),
-    linear-gradient(165deg, #050510 0%, #09091a 50%, #050510 100%);
-}
-
-/* Atmospheric crystal in top-right of main area */
-.settings-page::before {
-  content: '';
-  position: fixed; top: 0; right: 0; bottom: 0; left: 210px;
-  pointer-events: none; z-index: 0;
-  background:
-    radial-gradient(ellipse 40% 40% at 75% 20%, rgba(80,30,160,0.07) 0%, transparent 55%),
-    radial-gradient(ellipse 35% 35% at 80% 85%, rgba(20,60,140,0.05) 0%, transparent 50%);
 }
 
 .settings-layout {
@@ -156,6 +142,19 @@
   font-size: 2rem; font-weight: 700; color: var(--cyan);
   text-shadow: 0 0 24px rgba(34,211,238,0.4);
   font-variant-numeric: tabular-nums;
+}
+
+/* ── Cinematic settings backplate overrides ── */
+.cib-settings .cib-dark-veil {
+  background: rgba(6, 6, 16, 0.48);
+}
+.cib-settings .cib-vignette {
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 20%,
+    rgba(6, 6, 16, 0.50) 65%,
+    rgba(6, 6, 16, 0.85) 100%
+  );
 }
 
 /* ── Toggle ── */
