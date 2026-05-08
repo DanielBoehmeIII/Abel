@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId, Quest, QuestType } from '../types/abel';
 import GlassPanel from '../components/common/GlassPanel';
@@ -53,43 +53,110 @@ export default function QuestsPage({ onNavigate }: Props) {
           </p>
         </div>
 
-        {/* Radial mindmap style — progress visualization */}
-        <div className="quests-orbit-map">
-          <div className="quests-orbit-center">
-            <span className="quests-orbit-center-label">Purpose</span>
-          </div>
-          {quests.slice(0, 6).map((q, i) => {
-            const angle = (i / 6) * 360 - 90;
-            const rad = angle * (Math.PI / 180);
-            const r = 90;
-            const x = Math.cos(rad) * r;
-            const y = Math.sin(rad) * r;
-            return (
-              <div
-                key={q.id}
-                className={`quests-orbit-node quests-orbit-node--${q.status}`}
-                style={{ '--ox': `${x}px`, '--oy': `${y}px` } as React.CSSProperties}
-                onClick={() => setSelected(q)}
-                title={q.title}
-              >
-                <span>{TYPE_ICONS[q.type]}</span>
-              </div>
-            );
-          })}
-          {/* Lines */}
-          <svg className="quests-orbit-lines" viewBox="-150 -150 300 300">
-            {quests.slice(0, 6).map((q, i) => {
-              const angle = (i / 6) * 360 - 90;
-              const rad = angle * (Math.PI / 180);
-              const x = Math.cos(rad) * 90;
-              const y = Math.sin(rad) * 90;
+        {/* Orbital quest map */}
+        <div className="quests-orbit-wrap">
+          <svg className="quests-orbit-svg" viewBox="-130 -130 260 260">
+            <defs>
+              <radialGradient id="q-hub-grad" cx="40%" cy="35%" r="65%">
+                <stop offset="0%" stopColor="rgba(245,197,24,0.3)" />
+                <stop offset="100%" stopColor="rgba(8,8,18,0.98)" />
+              </radialGradient>
+            </defs>
+
+            {/* Decorative + orbit rings */}
+            <circle cx="0" cy="0" r="122" fill="none"
+              stroke="rgba(139,92,246,0.04)" strokeWidth="1" />
+            <circle cx="0" cy="0" r="100" fill="none"
+              stroke="rgba(139,92,246,0.15)" strokeWidth="0.7"
+              strokeDasharray="4 10" />
+            <circle cx="0" cy="0" r="50" fill="none"
+              stroke="rgba(245,197,24,0.1)" strokeWidth="0.7" />
+
+            {/* Spokes */}
+            {quests.map((q, i) => {
+              const angle = (i / quests.length) * 360 - 90;
+              const rad   = angle * (Math.PI / 180);
+              const x = Math.cos(rad) * 100;
+              const y = Math.sin(rad) * 100;
+              const isSel = selected?.id === q.id;
               return (
-                <line key={q.id} x1="0" y1="0" x2={x} y2={y}
-                  stroke={q.status === 'completed' ? '#34d399' : q.status === 'active' ? 'var(--purple)' : 'rgba(255,255,255,0.08)'}
-                  strokeWidth="0.8"
+                <line key={`sp-${q.id}`}
+                  x1="0" y1="0" x2={x} y2={y}
+                  stroke={
+                    isSel              ? 'rgba(139,92,246,0.55)' :
+                    q.status === 'completed' ? 'rgba(52,211,153,0.22)' :
+                    q.status === 'active'    ? 'rgba(139,92,246,0.28)' :
+                    'rgba(255,255,255,0.04)'
+                  }
+                  strokeWidth={isSel ? '1.3' : '0.5'}
+                  strokeDasharray={isSel ? '3 5' : '2 9'}
+                  style={{ transition: 'stroke 0.3s, stroke-width 0.3s' }}
                 />
               );
             })}
+
+            {/* Quest nodes */}
+            {quests.map((q, i) => {
+              const angle = (i / quests.length) * 360 - 90;
+              const rad   = angle * (Math.PI / 180);
+              const x = Math.cos(rad) * 100;
+              const y = Math.sin(rad) * 100;
+              const isSel   = selected?.id === q.id;
+              const isLocked = q.status === 'locked';
+              const nc =
+                q.status === 'completed' ? '#34d399' :
+                q.status === 'active'    ? '#a78bfa' :
+                q.status === 'available' ? '#22d3ee' :
+                'rgba(200,200,220,0.18)';
+              return (
+                <g key={`nd-${q.id}`} style={{ cursor: 'pointer' }}
+                  onClick={() => setSelected(q)}>
+                  {isSel && (
+                    <circle cx={x} cy={y} r="22" fill="none"
+                      stroke="rgba(139,92,246,0.38)"
+                      strokeWidth="0.8" strokeDasharray="3 4" />
+                  )}
+                  {q.status === 'active' && (
+                    <circle cx={x} cy={y} r="18" fill="none"
+                      stroke="rgba(167,139,250,0.3)"
+                      strokeWidth="1"
+                      className="quests-node-pulse" />
+                  )}
+                  <circle cx={x} cy={y} r="13"
+                    fill="rgba(8,8,20,0.92)"
+                    stroke={nc}
+                    strokeWidth={isSel ? '1.6' : '0.8'}
+                    opacity={isLocked ? 0.25 : 1}
+                    style={{ transition: 'stroke-width 0.3s' }}
+                  />
+                  <text x={x} y={y}
+                    textAnchor="middle" dominantBaseline="central"
+                    fontSize="9" fill={nc}
+                    fontFamily="var(--font-sans)"
+                    opacity={isLocked ? 0.25 : 0.95}
+                    style={{ pointerEvents: 'none' }}>
+                    {TYPE_ICONS[q.type]}
+                  </text>
+                </g>
+              );
+            })}
+
+            {/* Center hub */}
+            <circle cx="0" cy="0" r="32"
+              fill="url(#q-hub-grad)"
+              stroke="rgba(245,197,24,0.45)" strokeWidth="1" />
+            <text x="0" y="-6" textAnchor="middle"
+              fontSize="6.5" fontWeight="700" letterSpacing="0.1em"
+              fill="rgba(245,197,24,0.85)"
+              fontFamily="var(--font-sans)">
+              ATLAS
+            </text>
+            <text x="0" y="7" textAnchor="middle"
+              fontSize="5.5" letterSpacing="0.05em"
+              fill="rgba(200,175,255,0.5)"
+              fontFamily="var(--font-sans)">
+              {quests.filter(q => q.status === 'completed').length}/{quests.length}
+            </text>
           </svg>
         </div>
 

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId } from '../types/abel';
 import { LLM_PROVIDERS, getMockAbelResponse, mockGenerateQuests } from '../config/llmProviders';
@@ -7,6 +7,15 @@ import GlowButton from '../components/common/GlowButton';
 import './ArchivePage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
+
+function parseAbelText(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*\n]+\*\*)/g);
+  return parts.map((part, i) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <strong key={i} style={{ color: 'rgba(210,185,255,0.95)', fontWeight: 500 }}>{part.slice(2, -2)}</strong>
+      : part
+  );
+}
 
 export default function ArchivePage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
@@ -190,7 +199,9 @@ export default function ArchivePage({ onNavigate }: Props) {
             >
               {msg.role === 'abel' && <div className="archive-abel-mark">◈</div>}
               <div className={`archive-msg-content ${msg.role === 'user' ? 'archive-msg-content--user' : ''}`}>
-                <p className="archive-msg-text">{msg.content}</p>
+                <p className="archive-msg-text">
+                  {msg.role === 'abel' ? parseAbelText(msg.content) : msg.content}
+                </p>
                 <p className="archive-msg-time">
                   {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>

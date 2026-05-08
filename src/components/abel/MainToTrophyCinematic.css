@@ -1,0 +1,192 @@
+/* ── Section: 260vh scroll space ────────────────────────────── */
+.mtc-section {
+  height: 260vh;
+  position: relative;
+}
+
+/* ── Sticky viewport ─────────────────────────────────────────── */
+.mtc-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate; /* contain all z-index stacking within */
+}
+
+/* ── Idle video — z-index 0 ──────────────────────────────────── */
+.mtc-idle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  /* opacity managed by rAF loop; no CSS transition */
+}
+
+/* ── Idle post-processing overlay — z-index 1 ───────────────── */
+/* Dark veil (30%) + radial vignette + film grain, all in one element */
+.mtc-idle-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(6, 6, 16, 0.30);
+}
+.mtc-idle-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 25%,
+    rgba(6, 6, 16, 0.55) 75%,
+    rgba(6, 6, 16, 0.82) 100%
+  );
+}
+.mtc-idle-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Main UI children wrapper — z-index 3 ───────────────────── */
+/* Positioned above idle video, below transition video.          */
+/* Absolute children (hero, portal, etc.) position relative to  */
+/* this element, which fills the sticky 100vh viewport.         */
+.mtc-main-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+/* ── Transition frame sequence img — z-index 5 (primary) ────── */
+.mtc-trans-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 5;
+}
+
+/* ── Transition video fallback — z-index 5 ──────────────────── */
+/* Used only if JPG frames fail to load. opacity via rAF inline. */
+.mtc-trans {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 5;
+  /* no CSS transition — rAF writes opacity directly each frame */
+}
+
+/* ── Cinematic veil above transition video — z-index 6 ─────── */
+/* Bottom-weighted gradient for readability during arrival UI.  */
+.mtc-cinematic-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(6, 6, 16, 0.62) 0%,
+    rgba(6, 6, 16, 0.12) 38%,
+    transparent 66%
+  );
+}
+
+/* ── Trophy arrival UI — z-index 10 ─────────────────────────── */
+.mtc-trophy-ui {
+  position: absolute;
+  bottom: 13vh;
+  left: 56px;
+  z-index: 10;
+  max-width: 460px;
+  pointer-events: none;
+  /* opacity managed by rAF loop; no CSS transition */
+}
+
+.mtc-trophy-eyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.72;
+  margin-bottom: 10px;
+}
+
+.mtc-trophy-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  color: var(--text);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+}
+
+.mtc-trophy-body {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: rgba(236, 236, 244, 0.52);
+  font-weight: 300;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.mtc-trophy-secondary {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: rgba(34, 211, 238, 0.55);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.mtc-trophy-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 12px 26px;
+  border-radius: 36px;
+  border: 1px solid rgba(139, 92, 246, 0.38);
+  background: rgba(139, 92, 246, 0.09);
+  color: rgba(200, 175, 255, 0.9);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mtc-trophy-cta:hover {
+  border-color: rgba(139, 92, 246, 0.65);
+  background: rgba(139, 92, 246, 0.18);
+  color: white;
+  box-shadow: 0 0 32px rgba(139, 92, 246, 0.25);
+}
+
+/* ── Dark gradient fallback when idle video fails ───────────── */
+.mtc-error-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(6, 6, 16, 1) 0%, rgba(14, 8, 28, 0.95) 100%);
+  pointer-events: none;
+}
+
+/* ── Reduced motion: skip all video ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .mtc-idle,
+  .mtc-trans { display: none; }
+}

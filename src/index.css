@@ -81,8 +81,9 @@
 html, body, #root {
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
+html, body { overflow-x: hidden; } /* vertical scroll on body unused; .main-page scrolls internally */
+#root { overflow: hidden; }
 
 body {
   font-family: var(--font-sans);

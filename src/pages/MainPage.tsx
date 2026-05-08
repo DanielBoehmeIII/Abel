@@ -1,14 +1,39 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId } from '../types/abel';
 import ArtifactScene from '../components/3d/ArtifactScene';
+import MainToTrophyCinematic from '../components/abel/MainToTrophyCinematic';
 import './MainPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; onOpenNav: () => void; }
 
+const PORTAL_NODES: Array<{ id: PageId; label: string; glyph: string; angle: number }> = [
+  { id: 'archive',    label: 'Archive',    glyph: '◈', angle: 30  },
+  { id: 'quests',     label: 'Quests',     glyph: '⊕', angle: 90  },
+  { id: 'graph',      label: 'Graph',      glyph: '◇', angle: 150 },
+  { id: 'exhibition', label: 'Exhibition', glyph: '▣', angle: 210 },
+  { id: 'focus',      label: 'Focus',      glyph: '⬡', angle: 270 },
+  { id: 'skillweb',   label: 'Skills',     glyph: '⟁', angle: 330 },
+];
+
+function hexPoints(cx: number, cy: number, r: number): string {
+  return Array.from({ length: 6 }, (_, i) => {
+    const a = (i * 60 - 90) * (Math.PI / 180);
+    return `${(cx + Math.cos(a) * r).toFixed(2)},${(cy + Math.sin(a) * r).toFixed(2)}`;
+  }).join(' ');
+}
+
 export default function MainPage({ onNavigate, onOpenNav }: Props) {
   const { state } = useAbel();
-  const { user, quests, skills, memories, recentActivity, graph } = state;
+  const { user, quests, skills, memories, recentActivity, graph, archetype, trophies } = state;
+
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  const handleTransitionProgress = useCallback((p: number) => {
+    if (!pageRef.current) return;
+    pageRef.current.style.setProperty('--transition-progress', String(p));
+    pageRef.current.classList.toggle('main-page--in-transition', p > 0.18);
+  }, []);
 
   const activeQuest    = quests.find(q => q.status === 'active') ?? quests.find(q => q.status === 'available');
   const recentMemory   = memories[memories.length - 1];
@@ -19,12 +44,124 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
   const completedCount = quests.filter(q => q.status === 'completed').length;
 
   return (
-    <div className="main-page">
-      {/* Three.js scene — right-side backdrop */}
+    <div ref={pageRef} className="main-page">
+      <MainToTrophyCinematic
+        onProgress={handleTransitionProgress}
+        onNavigate={onNavigate}
+        trophyCount={trophies.length}
+      >
+
+      {/* Three.js scene — right-side backdrop (transparent canvas, floats over video) */}
       <ArtifactScene className="main-scene" />
 
       {/* Gradient veil: blends scene into bg */}
       <div className="main-veil" />
+
+      {/* ── Portal orbital ring — always-visible scene layer ── */}
+      <div className="main-portal" aria-hidden="true">
+        <svg className="main-portal-svg" viewBox="-230 -230 460 460">
+          <defs>
+            <radialGradient id="main-hub-glow" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stopColor="rgba(180,140,255,0.22)" />
+              <stop offset="100%" stopColor="rgba(8,8,22,0.55)" />
+            </radialGradient>
+          </defs>
+
+          {/* Atmosphere ring */}
+          <circle cx="0" cy="0" r="215" fill="none"
+            stroke="rgba(139,92,246,0.05)" strokeWidth="1" />
+
+          {/* Main orbit — dashed, slow rotation */}
+          <circle cx="0" cy="0" r="175" fill="none"
+            stroke="rgba(139,92,246,0.14)" strokeWidth="0.8"
+            strokeDasharray="5 14"
+            style={{ animation: 'spin-slow 110s linear infinite', transformOrigin: 'center' }} />
+
+          {/* Inner accent ring */}
+          <circle cx="0" cy="0" r="108" fill="none"
+            stroke="rgba(34,211,238,0.05)" strokeWidth="0.6" />
+
+          {/* Hub boundary */}
+          <circle cx="0" cy="0" r="60" fill="none"
+            stroke="rgba(139,92,246,0.1)" strokeWidth="0.8" />
+
+          {/* Sweeping arc highlight */}
+          <circle cx="0" cy="0" r="175" fill="none"
+            stroke="rgba(34,211,238,0.22)" strokeWidth="1.5"
+            strokeDasharray="28 1100"
+            style={{ animation: 'spin-slow 20s linear infinite', transformOrigin: 'center' }} />
+
+          {/* Spokes */}
+          {PORTAL_NODES.map(node => {
+            const rad = (node.angle - 90) * (Math.PI / 180);
+            return (
+              <line key={`sp-${node.id}`}
+                x1="0" y1="0"
+                x2={(Math.cos(rad) * 175).toFixed(2)}
+                y2={(Math.sin(rad) * 175).toFixed(2)}
+                stroke="rgba(139,92,246,0.07)"
+                strokeWidth="0.5" strokeDasharray="2 10" />
+            );
+          })}
+
+          {/* Nav nodes */}
+          {PORTAL_NODES.map(node => {
+            const rad = (node.angle - 90) * (Math.PI / 180);
+            const x = +(Math.cos(rad) * 175).toFixed(2);
+            const y = +(Math.sin(rad) * 175).toFixed(2);
+            return (
+              <g key={node.id}
+                className="portal-node-g"
+                onClick={() => onNavigate(node.id)}>
+                <circle cx={x} cy={y} r="24" fill="rgba(8,8,22,0.0)" />
+                <polygon
+                  className="portal-node-hex"
+                  points={hexPoints(x, y, 13)}
+                  fill="rgba(8,8,22,0.88)"
+                  stroke="rgba(139,92,246,0.32)"
+                  strokeWidth="0.8"
+                />
+                <text x={x} y={y}
+                  textAnchor="middle" dominantBaseline="central"
+                  fontSize="9.5" fill="rgba(180,155,255,0.72)"
+                  fontFamily="var(--font-sans)"
+                  style={{ pointerEvents: 'none' }}>
+                  {node.glyph}
+                </text>
+                <text x={x} y={y + 26}
+                  textAnchor="middle"
+                  fontSize="5.5" fill="rgba(150,125,200,0.42)"
+                  fontFamily="var(--font-sans)"
+                  letterSpacing="0.12em"
+                  style={{ pointerEvents: 'none' }}>
+                  {node.label.toUpperCase()}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* Hub */}
+          <circle cx="0" cy="0" r="52"
+            fill="url(#main-hub-glow)"
+            stroke="rgba(139,92,246,0.28)" strokeWidth="1" />
+          <circle cx="0" cy="0" r="52" fill="none"
+            stroke="rgba(255,255,255,0.025)" strokeWidth="0.5" />
+          <text x="0" y="-5"
+            textAnchor="middle" dominantBaseline="central"
+            fontSize="8" fontWeight="700" letterSpacing="0.22em"
+            fill="rgba(200,175,255,0.62)"
+            fontFamily="var(--font-sans)">
+            ABEL
+          </text>
+          <text x="0" y="8"
+            textAnchor="middle"
+            fontSize="5.5" letterSpacing="0.28em"
+            fill="rgba(150,125,200,0.32)"
+            fontFamily="var(--font-sans)">
+            OS
+          </text>
+        </svg>
+      </div>
 
       {/* ── Header ── */}
       <header className="main-header">
@@ -75,10 +212,13 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
         </button>
       </main>
 
-      {/* ── Right floating instruments ── */}
+      {/* ── Right instrument panels ── */}
       <aside className="main-info-right">
         <div className="main-widget animate-fade-in" style={{ animationDelay: '0.22s' }}>
-          <p className="main-widget-eye">SYSTEM STATUS</p>
+          <div className="main-widget-header">
+            <p className="main-widget-eye">SYSTEM STATUS</p>
+            <span className="main-widget-dot" />
+          </div>
           <p className="main-widget-value">HARMONIC</p>
           <div className="main-widget-wave">
             {Array.from({ length: 20 }, (_, i) => (
@@ -88,6 +228,9 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
               }} />
             ))}
           </div>
+          {archetype.primary && (
+            <p className="main-widget-archetype">{archetype.primary}</p>
+          )}
         </div>
 
         {recentMemory && (
@@ -96,10 +239,13 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
             style={{ animationDelay: '0.32s' }}
             onClick={() => onNavigate('exhibition')}
           >
-            <p className="main-widget-eye">RECENT MEMORY</p>
+            <div className="main-widget-header">
+              <p className="main-widget-eye">RECENT MEMORY</p>
+              <span className="main-widget-glyph">▣</span>
+            </div>
             <p className="main-widget-title">{recentMemory.title}</p>
-            <p className="main-widget-sub">{recentMemory.body.slice(0, 70)}…</p>
-            <span className="main-widget-nav">VIEW MEMORY →</span>
+            <p className="main-widget-sub">{recentMemory.body.slice(0, 68)}…</p>
+            <span className="main-widget-nav">VIEW →</span>
           </div>
         )}
 
@@ -109,10 +255,13 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
             style={{ animationDelay: '0.42s' }}
             onClick={() => onNavigate('quests')}
           >
-            <p className="main-widget-eye">ACTIVE QUEST</p>
+            <div className="main-widget-header">
+              <p className="main-widget-eye">ACTIVE QUEST</p>
+              <span className="main-widget-glyph">⊕</span>
+            </div>
             <p className="main-widget-title">{activeQuest.title}</p>
             <p className="main-widget-sub">{activeQuest.description.slice(0, 62)}…</p>
-            <span className="main-widget-nav">VIEW QUEST →</span>
+            <span className="main-widget-nav">VIEW →</span>
           </div>
         )}
       </aside>
@@ -150,6 +299,8 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
           </div>
         )}
       </footer>
+
+      </MainToTrophyCinematic>
     </div>
   );
 }
