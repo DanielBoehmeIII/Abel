@@ -4,9 +4,125 @@ import type { PageId, Quest, QuestType } from '../types/abel';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import AtmosphereBackground from '../components/ui/AtmosphereBackground';
+import AtlasTree from '../components/abel/AtlasTree';
+import type { AtlasTreeNode } from '../components/abel/AtlasTree';
 import './QuestsPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
+
+// ── Atlas tree data ───────────────────────────────────────────────────────────
+
+const ATLAS_ROOT: AtlasTreeNode = {
+  id: 'core',
+  label: 'Core',
+  color: '#f5c518',
+  children: [
+    {
+      id: 'focus', label: 'Focus', color: '#a78bfa',
+      children: [
+        { id: 'daily-ritual', label: 'Daily Ritual', status: 'active',    progress: 0.6  },
+        { id: 'deep-work',    label: 'Deep Work',    status: 'available', progress: 0.18 },
+      ],
+    },
+    {
+      id: 'memory', label: 'Memory', color: '#22d3ee',
+      children: [
+        { id: 'archive-rev', label: 'Archive', status: 'complete'                },
+        { id: 'pattern',     label: 'Pattern',  status: 'active', progress: 0.42 },
+      ],
+    },
+    {
+      id: 'expression', label: 'Expression', color: '#ec4899',
+      children: [
+        { id: 'journal', label: 'Journal', status: 'active',  progress: 0.75 },
+        { id: 'voice',   label: 'Voice',   status: 'locked'                  },
+      ],
+    },
+    {
+      id: 'social', label: 'Social', color: '#34d399',
+      children: [
+        { id: 'outreach',   label: 'Outreach',   status: 'available' },
+        { id: 'reflection', label: 'Reflection', status: 'complete'  },
+      ],
+    },
+    {
+      id: 'mastery', label: 'Mastery', color: '#f5c518', weight: 0.3,
+      children: [
+        { id: 'challenge',   label: 'Challenge', status: 'locked' },
+        { id: 'trophy-path', label: 'Trophies',  status: 'locked' },
+      ],
+    },
+    {
+      id: 'world', label: 'World', color: '#c4b5fd',
+      children: [
+        { id: 'exploration', label: 'Explore', status: 'available', progress: 0.1 },
+        { id: 'collection',  label: 'Collect', status: 'locked'                   },
+      ],
+    },
+  ],
+};
+
+// ── Node metadata (QuestsPage-owned; AtlasTree renders shape/status only) ────
+
+interface AtlasNodeMeta {
+  description: string;
+  questTypes: QuestType[];
+  suggestedQuestId?: string;
+}
+
+const ATLAS_NODE_META: Record<string, AtlasNodeMeta> = {
+  core:           { description: 'The full map of who you are becoming.', questTypes: ['focus','knowledge','reflection','skill','memory','archetype'] },
+  focus:          { description: 'Attention, rhythm, and deep work rituals.', questTypes: ['focus'], suggestedQuestId: 'q2' },
+  memory:         { description: 'Archives, reflection, and pattern recall.', questTypes: ['memory','knowledge'], suggestedQuestId: 'q1' },
+  expression:     { description: 'Journaling, voice, and externalized thought.', questTypes: ['reflection','archetype'], suggestedQuestId: 'q5' },
+  social:         { description: 'Outreach, reflection, and human connection.', questTypes: ['reflection'] },
+  mastery:        { description: 'Challenge chains, repetition, and earned trophies.', questTypes: ['skill'], suggestedQuestId: 'q6' },
+  world:          { description: 'Exploration, collection, and discovered context.', questTypes: ['knowledge'] },
+  'daily-ritual': { description: 'Consistent small actions build lasting form.', questTypes: ['focus'] },
+  'deep-work':    { description: 'Extended focus, distraction-free.', questTypes: ['focus'], suggestedQuestId: 'q2' },
+  'archive-rev':  { description: 'What the archive holds.', questTypes: ['memory'] },
+  'pattern':      { description: 'Recurring structures in your thinking.', questTypes: ['memory','knowledge'] },
+  'journal':      { description: 'Regular written reflection.', questTypes: ['reflection'] },
+  'voice':        { description: 'Spoken and recorded thought.', questTypes: ['archetype','reflection'] },
+  'outreach':     { description: 'Connection rituals with others.', questTypes: ['reflection'] },
+  'reflection':   { description: 'Reviewing what happened and why.', questTypes: ['reflection'] },
+  'challenge':    { description: 'Structured difficulty chains.', questTypes: ['skill'] },
+  'trophy-path':  { description: 'Achievements earned through mastery.', questTypes: ['skill'] },
+  'exploration':  { description: 'New terrain, new context.', questTypes: ['knowledge'] },
+  'collection':   { description: 'What you gather along the way.', questTypes: ['knowledge'] },
+};
+
+// Quest type → atlas branch, for reverse-linking quest clicks to the atlas
+const QUEST_TYPE_TO_ATLAS: Record<QuestType, string> = {
+  focus:      'focus',
+  memory:     'memory',
+  knowledge:  'memory',
+  reflection: 'expression',
+  archetype:  'core',
+  skill:      'mastery',
+};
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function findAtlasNode(root: AtlasTreeNode, id: string): AtlasTreeNode | null {
+  if (root.id === id) return root;
+  for (const child of root.children ?? []) {
+    const found = findAtlasNode(child, id);
+    if (found) return found;
+  }
+  return null;
+}
+
+// Returns the depth-1 branch that contains or is the given node
+function findBranchAncestor(id: string): AtlasTreeNode | null {
+  for (const branch of ATLAS_ROOT.children ?? []) {
+    if (branch.id === id) return branch;
+    if (branch.children?.some(c => c.id === id)) return branch;
+  }
+  return null;
+}
+
+// ── Display constants ─────────────────────────────────────────────────────────
 
 const TYPE_ICONS: Record<QuestType, string> = {
   focus: '⊕', knowledge: '◇', reflection: '▣',
@@ -15,14 +131,69 @@ const TYPE_ICONS: Record<QuestType, string> = {
 
 const DIFF_LABELS = ['', '■', '■■', '■■■', '■■■■', '■■■■■'];
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function QuestsPage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { quests, journeys, skills } = state;
   const [filter, setFilter] = useState<Quest['status'] | 'all'>('all');
   const [selected, setSelected] = useState<Quest | null>(quests.find(q => q.status === 'active') ?? null);
+  const [atlasNodeId, setAtlasNodeId] = useState<string | null>(null);
 
   const activeJourney = journeys.find(j => j.active) ?? journeys[0];
-  const filtered = filter === 'all' ? quests : quests.filter(q => q.status === filter);
+
+  // Derived atlas state
+  const atlasNodeMeta  = atlasNodeId ? (ATLAS_NODE_META[atlasNodeId] ?? null) : null;
+  const atlasNode      = atlasNodeId ? findAtlasNode(ATLAS_ROOT, atlasNodeId) : null;
+  const branchAncestor = atlasNodeId ? findBranchAncestor(atlasNodeId) : null;
+
+  // Atlas filter stacks with status filter
+  const filtered = quests.filter(q => {
+    const matchesStatus = filter === 'all' || q.status === filter;
+    const matchesAtlas  = !atlasNodeMeta || atlasNodeMeta.questTypes.includes(q.type);
+    return matchesStatus && matchesAtlas;
+  });
+
+  // Node context data
+  const nodeQuestCount = atlasNodeMeta
+    ? quests.filter(q => atlasNodeMeta.questTypes.includes(q.type)).length
+    : 0;
+  const suggestedQuest = atlasNodeMeta?.suggestedQuestId
+    ? (quests.find(q => q.id === atlasNodeMeta.suggestedQuestId) ?? null)
+    : null;
+
+  // Right panel content mode
+  const rightMode: 'overview' | 'node' | 'quest' = selected
+    ? 'quest'
+    : atlasNodeId && atlasNodeId !== 'core'
+      ? 'node'
+      : 'overview';
+
+  const listLabel = atlasNodeId && atlasNodeId !== 'core' && atlasNode
+    ? `Showing ${atlasNode.label} quests`
+    : 'Showing all quests';
+
+  // ── Handlers ──────────────────────────────────────────────────────────────
+
+  function handleAtlasNodeClick(node: AtlasTreeNode) {
+    const newId = atlasNodeId === node.id ? null : node.id;
+    setAtlasNodeId(newId);
+    if (newId && selected) {
+      const meta = ATLAS_NODE_META[newId];
+      if (meta && !meta.questTypes.includes(selected.type)) setSelected(null);
+    }
+    if (!newId) setSelected(null);
+  }
+
+  function handleQuestClick(q: Quest) {
+    setSelected(q);
+    setAtlasNodeId(QUEST_TYPE_TO_ATLAS[q.type]);
+  }
+
+  function clearSelection() {
+    setAtlasNodeId(null);
+    setSelected(null);
+  }
 
   function completeQuest(q: Quest) {
     if (q.status !== 'active' && q.status !== 'available') return;
@@ -36,11 +207,13 @@ export default function QuestsPage({ onNavigate }: Props) {
     setSelected({ ...q, status: 'active' });
   }
 
+  // ── Render ────────────────────────────────────────────────────────────────
+
   return (
     <div className="quests-page">
       <AtmosphereBackground variant="violet" stars={50} />
 
-      {/* Left column — journey + filter */}
+      {/* Col 1: Left — header + filters + quest stream */}
       <div className="quests-left">
         <div>
           <p className="eyebrow quests-journey-eyebrow">EVERY INSIGHT CONNECTS</p>
@@ -53,114 +226,7 @@ export default function QuestsPage({ onNavigate }: Props) {
           </p>
         </div>
 
-        {/* Orbital quest map */}
-        <div className="quests-orbit-wrap">
-          <svg className="quests-orbit-svg" viewBox="-130 -130 260 260">
-            <defs>
-              <radialGradient id="q-hub-grad" cx="40%" cy="35%" r="65%">
-                <stop offset="0%" stopColor="rgba(245,197,24,0.3)" />
-                <stop offset="100%" stopColor="rgba(8,8,18,0.98)" />
-              </radialGradient>
-            </defs>
-
-            {/* Decorative + orbit rings */}
-            <circle cx="0" cy="0" r="122" fill="none"
-              stroke="rgba(139,92,246,0.04)" strokeWidth="1" />
-            <circle cx="0" cy="0" r="100" fill="none"
-              stroke="rgba(139,92,246,0.15)" strokeWidth="0.7"
-              strokeDasharray="4 10" />
-            <circle cx="0" cy="0" r="50" fill="none"
-              stroke="rgba(245,197,24,0.1)" strokeWidth="0.7" />
-
-            {/* Spokes */}
-            {quests.map((q, i) => {
-              const angle = (i / quests.length) * 360 - 90;
-              const rad   = angle * (Math.PI / 180);
-              const x = Math.cos(rad) * 100;
-              const y = Math.sin(rad) * 100;
-              const isSel = selected?.id === q.id;
-              return (
-                <line key={`sp-${q.id}`}
-                  x1="0" y1="0" x2={x} y2={y}
-                  stroke={
-                    isSel              ? 'rgba(139,92,246,0.55)' :
-                    q.status === 'completed' ? 'rgba(52,211,153,0.22)' :
-                    q.status === 'active'    ? 'rgba(139,92,246,0.28)' :
-                    'rgba(255,255,255,0.04)'
-                  }
-                  strokeWidth={isSel ? '1.3' : '0.5'}
-                  strokeDasharray={isSel ? '3 5' : '2 9'}
-                  style={{ transition: 'stroke 0.3s, stroke-width 0.3s' }}
-                />
-              );
-            })}
-
-            {/* Quest nodes */}
-            {quests.map((q, i) => {
-              const angle = (i / quests.length) * 360 - 90;
-              const rad   = angle * (Math.PI / 180);
-              const x = Math.cos(rad) * 100;
-              const y = Math.sin(rad) * 100;
-              const isSel   = selected?.id === q.id;
-              const isLocked = q.status === 'locked';
-              const nc =
-                q.status === 'completed' ? '#34d399' :
-                q.status === 'active'    ? '#a78bfa' :
-                q.status === 'available' ? '#22d3ee' :
-                'rgba(200,200,220,0.18)';
-              return (
-                <g key={`nd-${q.id}`} style={{ cursor: 'pointer' }}
-                  onClick={() => setSelected(q)}>
-                  {isSel && (
-                    <circle cx={x} cy={y} r="22" fill="none"
-                      stroke="rgba(139,92,246,0.38)"
-                      strokeWidth="0.8" strokeDasharray="3 4" />
-                  )}
-                  {q.status === 'active' && (
-                    <circle cx={x} cy={y} r="18" fill="none"
-                      stroke="rgba(167,139,250,0.3)"
-                      strokeWidth="1"
-                      className="quests-node-pulse" />
-                  )}
-                  <circle cx={x} cy={y} r="13"
-                    fill="rgba(8,8,20,0.92)"
-                    stroke={nc}
-                    strokeWidth={isSel ? '1.6' : '0.8'}
-                    opacity={isLocked ? 0.25 : 1}
-                    style={{ transition: 'stroke-width 0.3s' }}
-                  />
-                  <text x={x} y={y}
-                    textAnchor="middle" dominantBaseline="central"
-                    fontSize="9" fill={nc}
-                    fontFamily="var(--font-sans)"
-                    opacity={isLocked ? 0.25 : 0.95}
-                    style={{ pointerEvents: 'none' }}>
-                    {TYPE_ICONS[q.type]}
-                  </text>
-                </g>
-              );
-            })}
-
-            {/* Center hub */}
-            <circle cx="0" cy="0" r="32"
-              fill="url(#q-hub-grad)"
-              stroke="rgba(245,197,24,0.45)" strokeWidth="1" />
-            <text x="0" y="-6" textAnchor="middle"
-              fontSize="6.5" fontWeight="700" letterSpacing="0.1em"
-              fill="rgba(245,197,24,0.85)"
-              fontFamily="var(--font-sans)">
-              ATLAS
-            </text>
-            <text x="0" y="7" textAnchor="middle"
-              fontSize="5.5" letterSpacing="0.05em"
-              fill="rgba(200,175,255,0.5)"
-              fontFamily="var(--font-sans)">
-              {quests.filter(q => q.status === 'completed').length}/{quests.length}
-            </text>
-          </svg>
-        </div>
-
-        {/* Filter tabs */}
+        {/* Status filter tabs */}
         <div className="quests-filters">
           {(['all', 'active', 'available', 'completed', 'locked'] as const).map(f => (
             <button
@@ -172,95 +238,202 @@ export default function QuestsPage({ onNavigate }: Props) {
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Center — quest list */}
-      <div className="quests-list-col">
-        {filtered.map((q, i) => (
-          <div
-            key={q.id}
-            className={`quests-card glass ${selected?.id === q.id ? 'quests-card--selected' : ''} animate-fade-in`}
-            style={{ animationDelay: `${i * 0.05}s` }}
-            onClick={() => setSelected(q)}
-          >
-            <div className="quests-card-top">
-              <span className={`pill status-${q.status}`}>{q.status}</span>
-              <span className="quests-card-type">{TYPE_ICONS[q.type]} {q.type}</span>
-              <span className="quests-diff" title={`Difficulty ${q.difficulty}`}>{DIFF_LABELS[q.difficulty]}</span>
-            </div>
-            <h3 className="quests-card-title">{q.title}</h3>
-            <p className="quests-card-desc">{q.description}</p>
-            {q.status === 'completed' && q.completedAt && (
-              <p className="caption" style={{ marginTop: '6px' }}>
-                Completed {new Date(q.completedAt).toLocaleDateString()}
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Right — detail panel */}
-      {selected && (
-        <div className="quests-detail animate-fade-in-scale">
-          <div className="quests-detail-top">
-            <span className={`pill status-${selected.status}`}>{selected.status}</span>
-            <span className="caption">{TYPE_ICONS[selected.type]} {selected.type} quest</span>
-          </div>
-
-          <h2 className="display-md" style={{ margin: '12px 0 8px', color: 'var(--text)' }}>{selected.title}</h2>
-          <p className="body">{selected.description}</p>
-
-          <GlassPanel style={{ padding: '16px', marginTop: '16px' }}>
-            <p className="heading" style={{ marginBottom: '6px' }}>WHY IT MATTERS</p>
-            <p className="body">{selected.whyItMatters}</p>
-          </GlassPanel>
-
-          {/* Rewards */}
-          <GlassPanel style={{ padding: '16px', marginTop: '12px' }}>
-            <p className="heading" style={{ marginBottom: '10px' }}>REWARDS</p>
-            <div className="quests-rewards">
-              <div className="quests-reward">
-                <span className="quests-reward-val">{selected.rewards.xp}</span>
-                <span className="caption">XP</span>
-              </div>
-              <div className="quests-reward">
-                <span className="quests-reward-val">+{selected.rewards.skillMastery}%</span>
-                <span className="caption">MASTERY</span>
-              </div>
-            </div>
-            {selected.rewards.skillIds.map(sid => {
-              const sk = skills.find(s => s.id === sid);
-              return sk ? (
-                <div key={sid} className="quests-skill-pill" onClick={() => onNavigate('skillweb')}>
-                  <span>⬡</span> {sk.name}
-                </div>
-              ) : null;
-            })}
-          </GlassPanel>
-
-          {/* Actions */}
-          <div className="quests-actions">
-            {selected.status === 'available' && (
-              <GlowButton variant="cyan" onClick={() => activateQuest(selected)}>
-                ACTIVATE QUEST
-              </GlowButton>
-            )}
-            {(selected.status === 'active' || selected.status === 'available') && (
-              <GlowButton variant="purple" onClick={() => completeQuest(selected)}>
-                COMPLETE QUEST ✓
-              </GlowButton>
-            )}
-            {selected.status === 'completed' && (
-              <GlowButton variant="ghost" onClick={() => onNavigate('graph')}>
-                VIEW IN GRAPH →
-              </GlowButton>
-            )}
-            {selected.status === 'locked' && (
-              <p className="caption">Complete earlier quests to unlock.</p>
-            )}
-          </div>
+        {/* List header: atlas context label + count + clear */}
+        <div className="quests-list-header" aria-live="polite">
+          <span className="quests-filter-label">{listLabel}</span>
+          <span className="quests-filter-count">
+            {filtered.length} {filtered.length === 1 ? 'quest' : 'quests'}
+          </span>
+          {atlasNodeId && (
+            <button
+              className="quests-clear-selection"
+              onClick={clearSelection}
+              aria-label="Clear Atlas selection"
+            >
+              ×
+            </button>
+          )}
         </div>
-      )}
+
+        {/* Quest list */}
+        <div className="quests-list-col">
+          {filtered.length === 0 ? (
+            <div className="quests-empty-state">
+              <div className="quests-empty-glyph">◌</div>
+              <p className="quests-empty-title">
+                {atlasNodeMeta ? 'No quests here yet' : 'No quests match'}
+              </p>
+              <p className="quests-empty-desc">
+                {atlasNodeMeta
+                  ? 'This branch grows as you explore.'
+                  : 'Try a different filter.'}
+              </p>
+            </div>
+          ) : (
+            filtered.map((q, i) => (
+              <div
+                key={q.id}
+                className={`quests-card glass ${selected?.id === q.id ? 'quests-card--selected' : ''} animate-fade-in`}
+                style={{ animationDelay: `${i * 0.05}s` }}
+                onClick={() => handleQuestClick(q)}
+              >
+                <div className="quests-card-top">
+                  <span className={`pill status-${q.status}`}>{q.status}</span>
+                  <span className="quests-card-type">{TYPE_ICONS[q.type]} {q.type}</span>
+                  <span className="quests-diff" title={`Difficulty ${q.difficulty}`}>{DIFF_LABELS[q.difficulty]}</span>
+                </div>
+                <h3 className="quests-card-title">{q.title}</h3>
+                <p className="quests-card-desc">{q.description}</p>
+                {q.status === 'completed' && q.completedAt && (
+                  <p className="caption" style={{ marginTop: '6px' }}>
+                    Completed {new Date(q.completedAt).toLocaleDateString()}
+                  </p>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Col 2: Center — Atlas tree hero */}
+      <div className="quests-atlas-col">
+        <AtlasTree
+          root={ATLAS_ROOT}
+          selectedId={atlasNodeId ?? undefined}
+          onNodeClick={handleAtlasNodeClick}
+        />
+      </div>
+
+      {/* Col 3: Right — always-visible context panel */}
+      <div className="quests-right">
+
+        {/* Atlas Overview — no atlas selection */}
+        {rightMode === 'overview' && (
+          <div key="overview" className="quests-atlas-overview animate-fade-in">
+            <p className="eyebrow quests-overview-eyebrow">ATLAS OVERVIEW</p>
+            <p className="quests-overview-desc">
+              A living map of growth, organized into branches of becoming.
+            </p>
+            <div className="quests-overview-stats">
+              <div>
+                <span className="quests-overview-stat-val">{quests.length}</span>
+                <span className="quests-overview-stat-label">QUESTS</span>
+              </div>
+              <div>
+                <span className="quests-overview-stat-val">{quests.filter(q => q.status === 'completed').length}</span>
+                <span className="quests-overview-stat-label">COMPLETE</span>
+              </div>
+              <div>
+                <span className="quests-overview-stat-val">{quests.filter(q => q.status === 'active').length}</span>
+                <span className="quests-overview-stat-label">ACTIVE</span>
+              </div>
+              <div>
+                <span className="quests-overview-stat-val">6</span>
+                <span className="quests-overview-stat-label">BRANCHES</span>
+              </div>
+            </div>
+            <p className="quests-overview-hint">Select a branch to explore.</p>
+          </div>
+        )}
+
+        {/* Node Context — branch or leaf selected, no quest open */}
+        {rightMode === 'node' && atlasNode && atlasNodeMeta && (
+          <div key="node" className="quests-node-context animate-fade-in">
+            <p className="quests-node-context-branch">
+              {branchAncestor && branchAncestor.id !== atlasNodeId
+                ? branchAncestor.label
+                : 'Atlas Branch'}
+            </p>
+            <h2 className="quests-node-context-label">{atlasNode.label}</h2>
+            <p className="quests-node-context-desc">{atlasNodeMeta.description}</p>
+            <div className="quests-node-context-stats">
+              <span>{nodeQuestCount} {nodeQuestCount === 1 ? 'quest' : 'quests'}</span>
+              {atlasNode.status && <span>{atlasNode.status}</span>}
+            </div>
+            {suggestedQuest && (
+              <div className="quests-node-suggested-wrap">
+                <p className="quests-node-suggested-eyebrow">SUGGESTED</p>
+                <button
+                  className="quests-node-suggested"
+                  onClick={() => handleQuestClick(suggestedQuest)}
+                >
+                  <span className={`pill status-${suggestedQuest.status}`}>{suggestedQuest.status}</span>
+                  <span className="quests-node-suggested-title">{suggestedQuest.title} →</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Quest Detail — quest selected */}
+        {rightMode === 'quest' && selected && (
+          <div key="quest" className="animate-fade-in-scale">
+            {atlasNode && (
+              <div className="quests-node-badge">
+                <span style={{ color: atlasNode.color ?? 'var(--text-4)' }}>◉</span>
+                {atlasNode.label}
+              </div>
+            )}
+
+            <div className="quests-detail-top">
+              <span className={`pill status-${selected.status}`}>{selected.status}</span>
+              <span className="caption">{TYPE_ICONS[selected.type]} {selected.type} quest</span>
+            </div>
+
+            <h2 className="display-md" style={{ margin: '12px 0 8px', color: 'var(--text)' }}>{selected.title}</h2>
+            <p className="body">{selected.description}</p>
+
+            <GlassPanel style={{ padding: '16px', marginTop: '16px' }}>
+              <p className="heading" style={{ marginBottom: '6px' }}>WHY IT MATTERS</p>
+              <p className="body">{selected.whyItMatters}</p>
+            </GlassPanel>
+
+            <GlassPanel style={{ padding: '16px', marginTop: '12px' }}>
+              <p className="heading" style={{ marginBottom: '10px' }}>REWARDS</p>
+              <div className="quests-rewards">
+                <div className="quests-reward">
+                  <span className="quests-reward-val">{selected.rewards.xp}</span>
+                  <span className="caption">XP</span>
+                </div>
+                <div className="quests-reward">
+                  <span className="quests-reward-val">+{selected.rewards.skillMastery}%</span>
+                  <span className="caption">MASTERY</span>
+                </div>
+              </div>
+              {selected.rewards.skillIds.map(sid => {
+                const sk = skills.find(s => s.id === sid);
+                return sk ? (
+                  <div key={sid} className="quests-skill-pill" onClick={() => onNavigate('skillweb')}>
+                    <span>⬡</span> {sk.name}
+                  </div>
+                ) : null;
+              })}
+            </GlassPanel>
+
+            <div className="quests-actions">
+              {selected.status === 'available' && (
+                <GlowButton variant="cyan" onClick={() => activateQuest(selected)}>
+                  ACTIVATE QUEST
+                </GlowButton>
+              )}
+              {(selected.status === 'active' || selected.status === 'available') && (
+                <GlowButton variant="purple" onClick={() => completeQuest(selected)}>
+                  COMPLETE QUEST ✓
+                </GlowButton>
+              )}
+              {selected.status === 'completed' && (
+                <GlowButton variant="ghost" onClick={() => onNavigate('graph')}>
+                  VIEW IN GRAPH →
+                </GlowButton>
+              )}
+              {selected.status === 'locked' && (
+                <p className="caption">Complete earlier quests to unlock.</p>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
