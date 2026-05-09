@@ -55,50 +55,79 @@ const MID_R    = 16;
 const LEAF_R   = 10;
 const R_WEIGHT = 4;
 
-// Expanded star/dust field — original + fine atmospheric scatter
-const STARS: ReadonlyArray<{ fx: number; fy: number; r: number; o: number }> = [
-  // Outer perimeter
-  { fx: 0.07, fy: 0.08,  r: 0.80, o: 0.20 },
-  { fx: 0.91, fy: 0.12,  r: 1.00, o: 0.14 },
-  { fx: 0.03, fy: 0.39,  r: 0.65, o: 0.16 },
-  { fx: 0.95, fy: 0.44,  r: 0.72, o: 0.18 },
-  { fx: 0.09, fy: 0.67,  r: 0.88, o: 0.13 },
-  { fx: 0.93, fy: 0.72,  r: 0.58, o: 0.15 },
-  { fx: 0.17, fy: 0.88,  r: 0.75, o: 0.12 },
-  { fx: 0.84, fy: 0.91,  r: 0.82, o: 0.10 },
-  { fx: 0.50, fy: 0.03,  r: 0.62, o: 0.11 },
-  { fx: 0.43, fy: 0.95,  r: 0.52, o: 0.10 },
-  // Mid-field
-  { fx: 0.22, fy: 0.16,  r: 0.38, o: 0.08 },
-  { fx: 0.78, fy: 0.24,  r: 0.34, o: 0.07 },
-  { fx: 0.35, fy: 0.54,  r: 0.42, o: 0.07 },
-  { fx: 0.64, fy: 0.61,  r: 0.36, o: 0.09 },
-  { fx: 0.12, fy: 0.51,  r: 0.28, o: 0.07 },
-  { fx: 0.87, fy: 0.57,  r: 0.30, o: 0.08 },
-  { fx: 0.56, fy: 0.78,  r: 0.26, o: 0.06 },
-  { fx: 0.27, fy: 0.83,  r: 0.44, o: 0.07 },
-  { fx: 0.71, fy: 0.86,  r: 0.28, o: 0.06 },
-  { fx: 0.47, fy: 0.21,  r: 0.32, o: 0.08 },
-  // Fine dust — denser scatter
-  { fx: 0.31, fy: 0.10,  r: 0.22, o: 0.09 },
-  { fx: 0.61, fy: 0.14,  r: 0.28, o: 0.07 },
-  { fx: 0.15, fy: 0.30,  r: 0.24, o: 0.06 },
-  { fx: 0.82, fy: 0.36,  r: 0.20, o: 0.07 },
-  { fx: 0.40, fy: 0.42,  r: 0.26, o: 0.05 },
-  { fx: 0.73, fy: 0.49,  r: 0.18, o: 0.06 },
-  { fx: 0.08, fy: 0.60,  r: 0.22, o: 0.05 },
-  { fx: 0.92, fy: 0.65,  r: 0.24, o: 0.06 },
-  { fx: 0.19, fy: 0.74,  r: 0.20, o: 0.05 },
-  { fx: 0.77, fy: 0.78,  r: 0.26, o: 0.05 },
-  { fx: 0.48, fy: 0.33,  r: 0.18, o: 0.06 },
-  { fx: 0.55, fy: 0.48,  r: 0.22, o: 0.05 },
-  { fx: 0.38, fy: 0.68,  r: 0.20, o: 0.06 },
-  { fx: 0.66, fy: 0.73,  r: 0.24, o: 0.05 },
-  { fx: 0.26, fy: 0.47,  r: 0.18, o: 0.04 },
-  { fx: 0.88, fy: 0.82,  r: 0.20, o: 0.05 },
-  { fx: 0.44, fy: 0.85,  r: 0.26, o: 0.04 },
-  { fx: 0.60, fy: 0.93,  r: 0.22, o: 0.05 },
-];
+// ── Seeded RNG ────────────────────────────────────────────────────────────────
+
+function atlasRng(seed: number): () => number {
+  let s = seed;
+  return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+}
+
+// ── Animated star field — seeded deterministic, 3 weighted layers ─────────────
+
+interface AtlasStar {
+  fx: number; fy: number;
+  r: number; o: number;
+  kind: 'bg' | 'spine' | 'root';
+  dur: number; del: number;
+}
+
+function buildAtlasStars(): AtlasStar[] {
+  const rng = atlasRng(54321);
+  const stars: AtlasStar[] = [];
+  // Background quiet scatter — very dim, no animation
+  for (let i = 0; i < 80; i++) {
+    stars.push({ fx: rng(), fy: rng(), r: rng() * 0.80 + 0.14, o: rng() * 0.14 + 0.022, kind: 'bg', dur: 5 + rng() * 5, del: rng() * 8 });
+  }
+  // Root halo — dense top-center concentration, brighter + faster pulse
+  for (let i = 0; i < 55; i++) {
+    stars.push({ fx: 0.5 + (rng() - 0.5) * 0.48, fy: rng() * 0.28, r: rng() * 1.1 + 0.18, o: rng() * 0.28 + 0.07, kind: 'root', dur: 1.5 + rng() * 2.5, del: rng() * 5 });
+  }
+  // Spine column — center-biased across full height
+  for (let i = 0; i < 55; i++) {
+    stars.push({ fx: 0.5 + (rng() - 0.5) * 0.20, fy: 0.04 + rng() * 0.90, r: rng() * 0.95 + 0.16, o: rng() * 0.22 + 0.04, kind: 'spine', dur: 2 + rng() * 4, del: rng() * 7 });
+  }
+  return stars;
+}
+
+const ATLAS_STARS = buildAtlasStars();
+
+// ── Wire hair filaments — faint branching strands off each edge curve ─────────
+
+interface WireHair {
+  x1: number; y1: number;
+  x2: number; y2: number;
+  op: number; dur: number; del: number;
+}
+
+function buildWireHairs(edges: LayoutEdge[]): WireHair[] {
+  const result: WireHair[] = [];
+  edges.forEach((e, ei) => {
+    const x1 = e.from.x, y1 = e.from.y + e.from.r;
+    const x2 = e.to.x,   y2 = e.to.y - e.to.r;
+    const dy = y2 - y1, dx = x2 - x1;
+    const tt = 0.44 + Math.min(Math.abs(dx) / 220, 0.14);
+    const cx1 = x1 + dx * 0.08, cy1 = y1 + dy * tt;
+    const cx2 = x2 - dx * 0.08, cy2 = y2 - dy * tt;
+    const count = 5;
+    for (let i = 0; i < count; i++) {
+      const t = (i + 1) / (count + 1);
+      const mt = 1 - t;
+      const px = mt*mt*mt*x1 + 3*mt*mt*t*cx1 + 3*mt*t*t*cx2 + t*t*t*x2;
+      const py = mt*mt*mt*y1 + 3*mt*mt*t*cy1 + 3*mt*t*t*cy2 + t*t*t*y2;
+      const side = i % 2 === 0 ? 1 : -1;
+      const spread = (8 + (i % 3) * 5) * side;
+      const down = 6 + (i % 4) * 4;
+      result.push({
+        x1: px, y1: py,
+        x2: px + spread * 0.65, y2: py + down,
+        op: 0.05 + (i % 3) * 0.018,
+        dur: 2.4 + i * 0.38,
+        del: i * 0.28 + ei * 0.12,
+      });
+    }
+  });
+  return result;
+}
 
 // Tiny orbital offsets for junction sparks around mid-level nodes
 const JUNCTION_OFFSETS: ReadonlyArray<[number, number]> = [
@@ -310,6 +339,7 @@ export default function AtlasTree({
   const { nodes, edges, viewBox, vbH } = buildLayout(root);
   const relatedIds = selectedId ? getRelated(root, selectedId) : null;
   const filaments  = buildFilaments(edges);
+  const wireHairs  = buildWireHairs(edges);
 
   function nodeClass(ln: LayoutNode): string {
     if (!relatedIds) return 'atlas-node-group';
@@ -507,6 +537,52 @@ export default function AtlasTree({
         />
       )}
 
+      {/* SpineCap — pulsing focal anchor above the root node */}
+      {rootNode && !prefersReducedMotion && (
+        <g style={{ pointerEvents: 'none' } as CSSProperties}>
+          {/* Breathing bloom halo */}
+          <circle cx={rootNode.x} cy={rootNode.y - 44} r={16}
+            fill="rgba(245,242,235,0.06)"
+            filter={`url(#${nodeHardId})`}
+          >
+            <animate attributeName="r" values="12;22;12" dur="4.2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.04;0.14;0.04" dur="4.2s" repeatCount="indefinite" />
+          </circle>
+          {/* Connector thread to root rim */}
+          <line
+            x1={rootNode.x} y1={rootNode.y - 52}
+            x2={rootNode.x} y2={rootNode.y - rootNode.r}
+            stroke="rgba(245,242,235,0.28)" strokeWidth="0.6" strokeLinecap="round"
+          >
+            <animate attributeName="opacity" values="0.12;0.44;0.12" dur="4.2s" repeatCount="indefinite" />
+          </line>
+          {/* Bright center point */}
+          <circle cx={rootNode.x} cy={rootNode.y - 44} r={2.2}
+            fill="rgba(245,242,235,0.92)"
+            filter={`url(#${nodeGlowId})`}
+          >
+            <animate attributeName="opacity" values="0.45;1;0.45" dur="2.8s" repeatCount="indefinite" />
+            <animate attributeName="r" values="1.5;3.0;1.5" dur="2.8s" repeatCount="indefinite" />
+          </circle>
+          {/* 4-ray cross flares */}
+          {[0, 90, 45, 135].map((deg, fi) => {
+            const rad = (deg * Math.PI) / 180;
+            const len = fi < 2 ? 10 : 6;
+            return (
+              <line key={fi}
+                x1={rootNode.x + Math.cos(rad) * 2.5}
+                y1={rootNode.y - 44 + Math.sin(rad) * 2.5}
+                x2={rootNode.x + Math.cos(rad) * len}
+                y2={rootNode.y - 44 + Math.sin(rad) * len}
+                stroke="rgba(245,242,235,0.42)" strokeWidth="0.55" strokeLinecap="round"
+              >
+                <animate attributeName="opacity" values="0.15;0.60;0.15" dur="2.8s" begin={`${fi * 0.28}s`} repeatCount="indefinite" />
+              </line>
+            );
+          })}
+        </g>
+      )}
+
       {/* Grain/mist atmosphere overlay */}
       <rect
         x="0" y="0"
@@ -516,8 +592,8 @@ export default function AtlasTree({
         style={{ pointerEvents: 'none' } as CSSProperties}
       />
 
-      {/* Star / dust field */}
-      {STARS.map((s, i) => (
+      {/* Star / dust field — seeded, 3 weighted layers, animated non-background stars */}
+      {ATLAS_STARS.map((s, i) => (
         <circle
           key={`star_${i}`}
           cx={s.fx * VB_W}
@@ -525,7 +601,18 @@ export default function AtlasTree({
           r={s.r}
           fill="rgba(220,217,252,0.9)"
           opacity={s.o}
-        />
+          style={{ pointerEvents: 'none' } as CSSProperties}
+        >
+          {!prefersReducedMotion && s.kind !== 'bg' && (
+            <animate
+              attributeName="opacity"
+              values={`${s.o * 0.18};${s.o};${s.o * 0.18}`}
+              dur={`${s.dur}s`}
+              begin={`${s.del}s`}
+              repeatCount="indefinite"
+            />
+          )}
+        </circle>
       ))}
 
       {/* Root power source — layered ivory halo rings */}
@@ -547,7 +634,7 @@ export default function AtlasTree({
         </g>
       )}
 
-      {/* Junction sparks — tiny dots orbiting mid-level nodes */}
+      {/* Junction sparks — animated tiny dots orbiting mid-level nodes */}
       {midNodes.map(ln =>
         JUNCTION_OFFSETS.map(([ox, oy], j) => (
           <circle
@@ -556,11 +643,21 @@ export default function AtlasTree({
             r="0.50"
             fill="rgba(230,227,255,0.35)"
             style={{ pointerEvents: 'none' } as CSSProperties}
-          />
+          >
+            {!prefersReducedMotion && (
+              <animate
+                attributeName="opacity"
+                values="0.07;0.45;0.07"
+                dur={`${2.4 + j * 0.65}s`}
+                begin={`${j * 0.38}s`}
+                repeatCount="indefinite"
+              />
+            )}
+          </circle>
         ))
       )}
 
-      {/* ═══ Decorative micro-filaments ══════════════════════════════════════ */}
+      {/* ═══ Decorative micro-filaments — animated opacity breathe ═══════════ */}
 
       {filaments.map((f, i) => (
         <path
@@ -570,7 +667,17 @@ export default function AtlasTree({
           stroke="rgba(228,225,255,0.13)"
           strokeWidth="0.24"
           style={{ pointerEvents: 'none' } as CSSProperties}
-        />
+        >
+          {!prefersReducedMotion && (
+            <animate
+              attributeName="opacity"
+              values="0.14;1;0.14"
+              dur={`${3 + (i % 7) * 0.48}s`}
+              begin={`${(i % 5) * 0.55}s`}
+              repeatCount="indefinite"
+            />
+          )}
+        </path>
       ))}
 
       {filaments.map((f, i) => (
@@ -580,7 +687,38 @@ export default function AtlasTree({
           r="0.52"
           fill="rgba(240,238,255,0.42)"
           style={{ pointerEvents: 'none' } as CSSProperties}
-        />
+        >
+          {!prefersReducedMotion && (
+            <animate
+              attributeName="opacity"
+              values="0.07;0.62;0.07"
+              dur={`${2 + (i % 5) * 0.55}s`}
+              begin={`${(i % 4) * 0.48}s`}
+              repeatCount="indefinite"
+            />
+          )}
+        </circle>
+      ))}
+
+      {/* ═══ Wire hair filaments — faint organic strands branching off edges ═ */}
+      {!prefersReducedMotion && wireHairs.map((h, i) => (
+        <line
+          key={`wh_${i}`}
+          x1={h.x1} y1={h.y1}
+          x2={h.x2} y2={h.y2}
+          stroke={`rgba(228,225,255,${h.op})`}
+          strokeWidth="0.40"
+          strokeLinecap="round"
+          style={{ pointerEvents: 'none' } as CSSProperties}
+        >
+          <animate
+            attributeName="opacity"
+            values={`${h.op * 0.15};${h.op};${h.op * 0.15}`}
+            dur={`${h.dur}s`}
+            begin={`${h.del}s`}
+            repeatCount="indefinite"
+          />
+        </line>
       ))}
 
       {/* ═══ Edges — 5 pearl layers each ═════════════════════════════════════ */}
@@ -789,6 +927,27 @@ export default function AtlasTree({
                   strokeDasharray="4 7"
                   strokeOpacity="0.30"
                 />
+                {/* Outer rotating dashed ring — slow celestial rotation */}
+                {!prefersReducedMotion && (
+                  <circle
+                    cx={ln.x} cy={ln.y}
+                    r={ln.r + 40}
+                    fill="none"
+                    stroke={displayColor}
+                    strokeWidth="0.28"
+                    strokeDasharray="2 9"
+                    strokeOpacity="0.15"
+                  >
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      from={`0 ${ln.x} ${ln.y}`}
+                      to={`360 ${ln.x} ${ln.y}`}
+                      dur="22s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                )}
               </>
             )}
 
@@ -826,6 +985,44 @@ export default function AtlasTree({
                 fill={displayColor}
                 opacity={isComplete ? 0.72 : isSelected ? 0.24 : 0.14}
               />
+            )}
+
+            {/* Top anchor light — where parent wire meets this node's rim */}
+            {!isLocked && !prefersReducedMotion && (
+              <circle
+                cx={ln.x} cy={ln.y - ln.r}
+                r={isRoot ? 2.0 : 1.5}
+                fill="rgba(240,237,255,0.88)"
+                filter={`url(#${nodeGlowId})`}
+                style={{ pointerEvents: 'none' } as CSSProperties}
+              >
+                <animate
+                  attributeName="opacity"
+                  values={isRoot ? '0.45;1;0.45' : '0.22;0.72;0.22'}
+                  dur={isRoot ? '2.5s' : '3.5s'}
+                  begin={`${i * 0.07}s`}
+                  repeatCount="indefinite"
+                />
+              </circle>
+            )}
+
+            {/* Bottom anchor light — where child wires leave this node's rim */}
+            {!isLocked && !prefersReducedMotion && (ln.node.children?.length ?? 0) > 0 && (
+              <circle
+                cx={ln.x} cy={ln.y + ln.r}
+                r={isRoot ? 1.6 : 1.1}
+                fill="rgba(230,227,255,0.72)"
+                filter={`url(#${nodeGlowId})`}
+                style={{ pointerEvents: 'none' } as CSSProperties}
+              >
+                <animate
+                  attributeName="opacity"
+                  values="0.12;0.52;0.12"
+                  dur="4s"
+                  begin={`${i * 0.07 + 0.28}s`}
+                  repeatCount="indefinite"
+                />
+              </circle>
             )}
 
             {/* Root glyph */}

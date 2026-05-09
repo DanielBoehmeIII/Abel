@@ -4,7 +4,7 @@ import type { PageId, Quest, QuestType } from '../types/abel';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import AtmosphereBackground from '../components/ui/AtmosphereBackground';
-import AtlasTree from '../components/abel/AtlasTree';
+import AtlasWorkspace from '../components/abel/atlas-workspace/AtlasWorkspace';
 import type { AtlasTreeNode } from '../components/abel/AtlasTree';
 import './QuestsPage.css';
 
@@ -298,7 +298,7 @@ export default function QuestsPage({ onNavigate }: Props) {
 
       {/* Col 2: Center — Atlas tree hero */}
       <div className="quests-atlas-col">
-        <AtlasTree
+        <AtlasWorkspace
           root={ATLAS_ROOT}
           selectedId={atlasNodeId ?? undefined}
           onNodeClick={handleAtlasNodeClick}
