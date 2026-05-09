@@ -1,0 +1,13 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - generic [ref=e6]: Atlas of Being
+    - heading "Return to your map." [level=1] [ref=e7]
+    - paragraph [ref=e8]: A living map of what you know, feel, and are becoming.
+    - generic [ref=e9]:
+      - textbox "email" [ref=e10]
+      - textbox "password" [ref=e11]
+      - button "Enter" [ref=e12] [cursor=pointer]
+    - generic [ref=e13]:
+      - generic [ref=e14]: New here?
+      - button "Create account" [ref=e15] [cursor=pointer]
+  - generic [ref=e16]: Every insight connects.
