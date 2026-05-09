@@ -161,11 +161,25 @@
   width: 1800px; height: 1400px;
 }
 
-/* SVG layer for edges — fills the world div */
-.gp-edges-svg {
-  position: absolute; inset: 0;
-  width: 1800px; height: 1400px;
-  pointer-events: none; overflow: visible;
+/* Unified SVG canvas — nodes + edges in one layer */
+.gp-graph-svg {
+  position: absolute; left: 0; top: 0;
+  display: block; overflow: visible;
+}
+
+/* Node group — pointer events enabled for click/hover */
+.gn-node-group { outline: none; }
+
+/* Pulse ring animation */
+@keyframes gnPulse {
+  0%   { opacity: 0.55; transform: scale(1);    }
+  50%  { opacity: 0.20; transform: scale(1.15); }
+  100% { opacity: 0.55; transform: scale(1);    }
+}
+.gn-pulse-ring {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: gnPulse 2.8s ease-in-out infinite;
 }
 
 /* Zoom controls */
@@ -189,68 +203,98 @@
 }
 .gp-zoom button:hover { background: rgba(255,255,255,0.12); }
 
-/* ── Node cards ─────────────────────────────────────────────────────────── */
+/* ── Card nodes ──────────────────────────────────────────────────────────── */
 
 .gn-card {
   position: absolute;
-  width: 180px;
+  width: 210px;
+  min-height: 118px;
+  background: rgba(10,8,24,0.90);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 12px;
-  background: rgba(13,11,27,0.93);
-  border: 1px solid rgba(120,80,220,0.20);
-  padding: 11px 13px 10px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
   cursor: pointer;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 4px 22px rgba(0,0,0,0.45);
-  transition: box-shadow 0.2s, transform 0.15s;
+  display: flex; flex-direction: column;
+  overflow: hidden;
   user-select: none;
 }
-
 .gn-card:hover {
-  box-shadow: 0 6px 30px rgba(0,0,0,0.55), 0 0 0 1px rgba(124,77,255,0.32);
-  transform: translateY(-1px);
+  background: rgba(14,11,30,0.93);
+  box-shadow: 0 6px 28px rgba(0,0,0,0.55);
 }
-
 .gn-card--sel {
-  box-shadow: 0 8px 40px rgba(0,0,0,0.60), 0 0 24px rgba(124,77,255,0.18);
+  background: rgba(16,12,34,0.96);
 }
 
+/* Header row: icon + titles + conn count */
 .gn-header {
-  display: flex; align-items: flex-start; gap: 7px;
-  margin-bottom: 5px;
+  display: flex; align-items: center; gap: 9px;
+  padding: 11px 12px 8px;
+}
+
+.gn-icon-wrap {
+  width: 30px; height: 30px; border-radius: 7px; flex-shrink: 0;
+  border: 1px solid;
+  display: flex; align-items: center; justify-content: center;
 }
 .gn-icon {
-  font-size: 0.95rem; flex-shrink: 0;
-  width: 20px; height: 20px;
-  display: flex; align-items: center; justify-content: center;
-  margin-top: 1px;
+  font-size: 0.85rem; line-height: 1;
+}
+
+.gn-titles {
+  display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0;
 }
 .gn-title {
-  font-size: 0.80rem; font-weight: 600;
-  color: rgba(215,210,250,0.95); line-height: 1.25;
+  font-size: 0.78rem; font-weight: 600;
+  color: rgba(215,210,250,0.92);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+.gn-type {
+  font-size: 0.57rem; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.gn-conn-count {
+  flex-shrink: 0;
+  font-size: 0.60rem; font-weight: 700;
+  padding: 2px 6px; border-radius: 99px;
+  background: rgba(255,255,255,0.07);
+  color: rgba(160,155,210,0.60);
+}
+
+/* Description */
 .gn-desc {
-  font-size: 0.67rem; line-height: 1.48;
-  color: rgba(148,142,195,0.65); margin-bottom: 7px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  padding: 0 12px 9px;
+  font-size: 0.68rem; color: rgba(140,135,185,0.60);
+  line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
+
+/* Tag footer */
 .gn-footer {
-  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  padding: 7px 12px 10px;
+  display: flex; flex-wrap: wrap; gap: 4px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: auto;
 }
 .gn-badge {
   font-size: 0.57rem; font-weight: 600; letter-spacing: 0.04em;
-  padding: 1px 6px; border-radius: 99px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.09);
-  color: rgba(155,148,205,0.70);
-}
-.gn-type {
-  margin-left: auto;
-  font-size: 0.57rem; font-weight: 700; letter-spacing: 0.07em;
-  text-transform: uppercase; opacity: 0.75;
+  padding: 2px 7px; border-radius: 99px;
+  background: rgba(124,77,255,0.10);
+  border: 1px solid rgba(124,77,255,0.22);
+  color: rgba(168,140,255,0.80);
 }
 
+/* Sidebar link label */
+.gp-link-label { font-size: 0.70rem; }
+
 /* ── Detail panel ───────────────────────────────────────────────────────── */
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.94) translateY(4px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
 
 .gp-detail {
   position: absolute; right: 14px; top: 56px;

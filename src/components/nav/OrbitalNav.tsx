@@ -24,7 +24,7 @@ const NAV_NODES: NavNode[] = [
   { id: 'settings',   label: 'Settings',   glyph: '⊞', tier: 2, description: 'Configure Abel. Providers and preferences.',    angle: 324 },
 ];
 
-const ORBIT_R = 228;
+const ORBIT_R = 240;
 
 interface Props {
   onNavigate: (page: PageId) => void;
@@ -61,11 +61,11 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
   }, [selected, onClose, onNavigate, rotate]);
 
   const stars = useMemo(() =>
-    Array.from({ length: 80 }, (_, i) => ({
+    Array.from({ length: 70 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: 0.6 + Math.random() * 1.6,
+      size: 0.5 + Math.random() * 1.4,
       delay: Math.random() * 6,
       dur: 2 + Math.random() * 4,
     })),
@@ -75,7 +75,7 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
     <div className={`orbital-overlay ${mounted ? 'orbital-overlay--in' : ''}`} onClick={onClose}>
       <div className="orbital-scene" onClick={e => e.stopPropagation()}>
 
-        {/* Stars scattered across full overlay */}
+        {/* Stars */}
         <div className="orbital-stars">
           {stars.map(s => (
             <div key={s.id} className="orbital-star" style={{
@@ -87,37 +87,46 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
           ))}
         </div>
 
-        {/* Nebula blobs */}
-        <div className="orbital-nebula-a" />
-        <div className="orbital-nebula-b" />
+        {/* Full-scene background SVG — large outer orbital ellipses */}
+        <svg className="orbital-bg-svg" aria-hidden="true">
+          <ellipse cx="50%" cy="50%" rx="44%" ry="14%"
+            fill="none" stroke="rgba(139,92,246,0.13)" strokeWidth="1"
+            style={{ transform: 'rotate(-18deg)', transformOrigin: '50% 50%' }} />
+          <ellipse cx="50%" cy="50%" rx="40%" ry="11%"
+            fill="none" stroke="rgba(100,70,210,0.08)" strokeWidth="0.8"
+            style={{ transform: 'rotate(24deg)', transformOrigin: '50% 50%' }} />
+          <ellipse cx="50%" cy="50%" rx="47%" ry="8%"
+            fill="none" stroke="rgba(80,50,180,0.06)" strokeWidth="0.7"
+            style={{ transform: 'rotate(0deg)', transformOrigin: '50% 50%' }} />
+        </svg>
 
         {/* Orbital container */}
         <div className="orbital-container">
 
-          {/* SVG — rings and spokes */}
-          <svg className="orbital-svg" viewBox="-300 -300 600 600">
-            {/* Outermost decorative ring */}
-            <circle cx="0" cy="0" r="270" fill="none"
-              stroke="rgba(139,92,246,0.05)" strokeWidth="1" />
+          {/* Sphere backplate — rendered as screen-blend to let dark bg show through */}
+          <div className="orbital-sphere-plate" aria-hidden="true" />
 
-            {/* Secondary decorative ring */}
-            <circle cx="0" cy="0" r="248" fill="none"
-              stroke="rgba(139,92,246,0.06)" strokeWidth="0.6" />
+          {/* SVG — orbit ring + spokes only (sphere is the image) */}
+          <svg className="orbital-svg" viewBox="-300 -300 600 600">
+            {/* Outer decorative rings */}
+            <circle cx="0" cy="0" r="280" fill="none"
+              stroke="rgba(139,92,246,0.04)" strokeWidth="1" />
+            <circle cx="0" cy="0" r="258" fill="none"
+              stroke="rgba(139,92,246,0.05)" strokeWidth="0.6" />
 
             {/* Main orbit ring — dashed */}
             <circle cx="0" cy="0" r={ORBIT_R} fill="none"
-              stroke="rgba(139,92,246,0.18)" strokeWidth="1"
-              strokeDasharray="3 9" />
+              stroke="rgba(139,92,246,0.22)" strokeWidth="1"
+              strokeDasharray="4 10" />
 
-            {/* Inner ring */}
-            <circle cx="0" cy="0" r="180" fill="none"
-              stroke="rgba(34,211,238,0.06)" strokeWidth="0.7" />
+            {/* Rotating arc on orbit */}
+            <circle cx="0" cy="0" r={ORBIT_R} fill="none"
+              stroke="rgba(139,92,246,0.45)" strokeWidth="1.5"
+              strokeDasharray="32 900"
+              style={{ animation: 'spin-slow 14s linear infinite', transformOrigin: 'center' }}
+            />
 
-            {/* Hub ring */}
-            <circle cx="0" cy="0" r="58" fill="none"
-              stroke="rgba(139,92,246,0.22)" strokeWidth="1.5" />
-
-            {/* Spoke to selected */}
+            {/* Spokes from center to each node */}
             {NAV_NODES.map(node => {
               const rad = (node.angle - 90) * (Math.PI / 180);
               const x   = Math.cos(rad) * ORBIT_R;
@@ -126,39 +135,20 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
               return (
                 <line key={node.id}
                   x1="0" y1="0" x2={x} y2={y}
-                  stroke={sel ? 'rgba(139,92,246,0.45)' : 'rgba(255,255,255,0.03)'}
-                  strokeWidth={sel ? '1.4' : '0.5'}
-                  strokeDasharray={sel ? '3 5' : '2 10'}
+                  stroke={sel ? 'rgba(139,92,246,0.50)' : 'rgba(255,255,255,0.025)'}
+                  strokeWidth={sel ? '1.2' : '0.5'}
+                  strokeDasharray={sel ? '4 6' : '2 12'}
                   style={{ transition: 'stroke 0.35s, stroke-width 0.35s' }}
                 />
               );
             })}
-
-            {/* Rotating arc highlight */}
-            <circle cx="0" cy="0" r={ORBIT_R} fill="none"
-              stroke="rgba(34,211,238,0.22)" strokeWidth="1.5"
-              strokeDasharray="28 600"
-              style={{ animation: 'spin-slow 14s linear infinite', transformOrigin: 'center' }}
-            />
-
-            {/* Cross-hairs at center */}
-            <line x1="-12" y1="0" x2="12" y2="0" stroke="rgba(139,92,246,0.25)" strokeWidth="1" />
-            <line x1="0" y1="-12" x2="0" y2="12" stroke="rgba(139,92,246,0.25)" strokeWidth="1" />
           </svg>
-
-          {/* Hub */}
-          <div className="orbital-hub">
-            <div className="orbital-hub-ring orbital-hub-ring--1" />
-            <div className="orbital-hub-ring orbital-hub-ring--2" />
-            <div className="orbital-hub-ring orbital-hub-ring--3" />
-            <span className="orbital-hub-logo">ABEL</span>
-          </div>
 
           {/* Nav nodes */}
           {NAV_NODES.map(node => {
-            const rad = (node.angle - 90) * (Math.PI / 180);
-            const x   = Math.cos(rad) * ORBIT_R;
-            const y   = Math.sin(rad) * ORBIT_R;
+            const rad   = (node.angle - 90) * (Math.PI / 180);
+            const x     = Math.cos(rad) * ORBIT_R;
+            const y     = Math.sin(rad) * ORBIT_R;
             const isSel = node.id === selected;
             const isCur = node.id === currentPage;
 
@@ -172,55 +162,75 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
               >
                 <div className="orbital-node-halo" />
                 <div className="orbital-node-dot">
-                  <svg width="28" height="28" viewBox="-14 -14 28 28" className="orbital-node-shape">
-                    <polygon points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5"
-                      fill="rgba(8,8,22,0.85)"
-                      stroke="currentColor" strokeWidth="1"
+                  <svg width="48" height="48" viewBox="-24 -24 48 48" className="orbital-node-shape">
+                    <circle cx="0" cy="0" r="20"
+                      fill={isSel ? 'rgba(139,92,246,0.22)' : 'rgba(14,13,26,0.90)'}
+                      stroke="currentColor" strokeWidth="1.3"
+                    />
+                    <circle cx="0" cy="0" r="16"
+                      fill="none" stroke="currentColor" strokeWidth="0.4" opacity="0.35"
                     />
                   </svg>
                   <span className="orbital-node-glyph">{node.glyph}</span>
                 </div>
-                <span className="orbital-node-label">{node.label}</span>
+                <span className="orbital-node-label">{node.label.toUpperCase()}</span>
               </div>
             );
           })}
 
           {/* Info panel */}
           <div className="orbital-info" key={selected}>
-            <div className="orbital-info-hex">
-              <svg width="44" height="44" viewBox="-22 -22 44 44">
-                <polygon points="0,-18 15.6,-9 15.6,9 0,18 -15.6,9 -15.6,-9"
-                  fill="rgba(139,92,246,0.12)"
-                  stroke="rgba(139,92,246,0.5)" strokeWidth="1"
+            <div className="orbital-info-icon">
+              <svg width="56" height="56" viewBox="-28 -28 56 56">
+                <polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11"
+                  fill="rgba(139,92,246,0.14)"
+                  stroke="rgba(139,92,246,0.65)" strokeWidth="1.4"
                 />
                 <text x="0" y="1" textAnchor="middle" dominantBaseline="central"
-                  fill="rgba(200,175,255,0.9)" fontSize="14"
+                  fill="rgba(200,175,255,0.92)" fontSize="18"
                   fontFamily="var(--font-sans)">
                   {selectedNode.glyph}
                 </text>
               </svg>
             </div>
-            <p className="eyebrow orbital-info-eyebrow">{selectedNode.label}</p>
+            <h2 className="orbital-info-title">{selectedNode.label.toUpperCase()}</h2>
+            <div className="orbital-info-accent" />
             <p className="orbital-info-desc">{selectedNode.description}</p>
             <button className="orbital-open-btn" onClick={() => onNavigate(selected)}>
               <span>OPEN</span>
-              <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-                <path d="M2 5.5h7M6.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
           </div>
 
         </div>
 
-        {/* Bottom hints */}
+        {/* Bottom hints bar */}
         <div className="orbital-hints">
-          <span className="orbital-hint">↑ ↓ Navigate</span>
-          <span className="orbital-hint-sep" />
-          <span className="orbital-hint">Enter Select</span>
-          <span className="orbital-hint-sep" />
-          <span className="orbital-hint">Esc Close</span>
-          <span className="orbital-hint-sep" />
-          <span className="orbital-hint orbital-hint--status">All systems operational</span>
+          <div className="orbital-hints-left">
+            <div className="orbital-hints-orb" />
+            <div className="orbital-hints-left-text">
+              <span className="orbital-hints-tagline">Navigate your universe.</span>
+              <span className="orbital-hints-sub">Everything is connected.</span>
+            </div>
+          </div>
+          <div className="orbital-hints-center">
+            <kbd className="orbital-key">↑ ↓ ← →</kbd>
+            <span className="orbital-hint">Navigate</span>
+            <span className="orbital-hint-sep" />
+            <kbd className="orbital-key">Enter</kbd>
+            <span className="orbital-hint">Select</span>
+            <span className="orbital-hint-sep" />
+            <kbd className="orbital-key">Esc</kbd>
+            <span className="orbital-hint">Back</span>
+          </div>
+          <div className="orbital-hints-right">
+            <span className="orbital-status-dot" />
+            <span className="orbital-hint">Synced</span>
+            <span className="orbital-hint-sep" />
+            <span className="orbital-hint orbital-hint--status">All systems operational</span>
+          </div>
         </div>
 
       </div>

@@ -75,21 +75,29 @@ function buildRimDust(node: WorkspaceNode, count: number) {
   });
 }
 
-function buildFilaments(nodes: WorkspaceNode[]) {
+function buildFilaments(edges: WorkspaceEdge[]) {
   const rng = mkRng(9999);
   const list: {x1:number;y1:number;x2:number;y2:number;x3:number;y3:number;op:number;dur:number;del:number;isMicro?:boolean}[] = [];
-  nodes.forEach(node => {
-    const count = node.depth===0?28:node.depth===1?18:14;
+  edges.forEach(edge => {
+    const count = edge.isSpine ? 28 : 16;
+    const fdx = edge.to.x - edge.from.x;
+    const fdy = edge.to.y - edge.from.y;
+    const flen = Math.sqrt(fdx*fdx + fdy*fdy) || 1;
+    const px = -fdy/flen, py = fdx/flen; // perpendicular unit vector
     for (let i=0; i<count; i++) {
-      const a=i/count*Math.PI*2+(rng()-0.5)*0.7, r1=node.r+2, r2=r1+rng()*60+18, r3=r2+rng()*35+10;
-      const x1=node.x+Math.cos(a)*r1, y1=node.y+Math.sin(a)*r1;
-      const x2=node.x+Math.cos(a+(rng()-0.5)*0.5)*r2, y2=node.y+Math.sin(a+(rng()-0.5)*0.5)*r2;
-      const x3=node.x+Math.cos(a+(rng()-0.5)*0.7)*r3, y3=node.y+Math.sin(a+(rng()-0.5)*0.7)*r3;
-      const op=node.depth===0?rng()*0.32+0.16:rng()*0.20+0.07;
+      const t = (i + rng()*0.8 + 0.1) / count;
+      const mx = edge.from.x + fdx*t, my = edge.from.y + fdy*t;
+      const side = rng()>0.5 ? 1 : -1;
+      const r1 = rng()*10+6, r2 = r1+rng()*42+14, r3 = r2+rng()*28+8;
+      const sp = (rng()-0.5)*0.55;
+      const x1=mx+px*side*r1, y1=my+py*side*r1;
+      const x2=mx+px*side*r2+(rng()-0.5)*10, y2=my+py*side*r2+sp*10;
+      const x3=mx+px*side*r3+(rng()-0.5)*14, y3=my+py*side*r3+sp*16;
+      const op = edge.isSpine ? rng()*0.30+0.12 : rng()*0.18+0.06;
       list.push({ x1,y1,x2,y2,x3,y3, op, dur:2.2+rng()*4, del:rng()*6 });
       if (i%2===0) {
-        const ba=a+(rng()-0.5)*0.8;
-        list.push({ x1:x2,y1:y2, x2:x2+Math.cos(ba)*(rng()*28+8),y2:y2+Math.sin(ba)*(rng()*28+8), x3:x2+(rng()-0.5)*12,y3:y2+rng()*12, op:op*0.5, dur:2.5+rng()*3.5, del:rng()*6, isMicro:true });
+        const ba = Math.atan2(py*side, px*side)+(rng()-0.5)*0.8;
+        list.push({ x1:x2,y1:y2, x2:x2+Math.cos(ba)*(rng()*22+6),y2:y2+Math.sin(ba)*(rng()*22+6), x3:x2+(rng()-0.5)*10,y3:y2+rng()*10, op:op*0.5, dur:2.5+rng()*3.5, del:rng()*6, isMicro:true });
       }
     }
   });
@@ -110,6 +118,7 @@ function cubicDown(from: {x:number;y:number}, to: {x:number;y:number}): string {
   const dy = to.y - from.y;
   return `M ${from.x} ${from.y} C ${from.x} ${from.y+dy*0.42}, ${to.x} ${to.y-dy*0.42}, ${to.x} ${to.y}`;
 }
+
 
 function buildRootHairs(from: {x:number;y:number}, to: {x:number;y:number}, count: number) {
   const hairs: {x1:number;y1:number;x2:number;y2:number}[] = [];
@@ -344,7 +353,7 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
 
   // ── Static geometry ───────────────────────────────────────────────────────
   const stars         = useMemo(() => buildStars(rootNode.x, rootNode.y, canvasW, canvasH), [rootNode.x, rootNode.y, canvasW, canvasH]);
-  const filaments     = useMemo(() => buildFilaments(nodes), [nodes]);
+  const filaments     = useMemo(() => buildFilaments(edges), [edges]);
   const junctionStars = useMemo(() => buildJunctionStars(edges), [edges]);
   const nodeVisuals   = useMemo(() => nodes.map(n => ({
     specks:  buildSpecks(n, n.depth===0?26:n.status==='locked'?7:14),
@@ -435,22 +444,6 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
             </circle>
           ))}
 
-          {/* ── Spine column ─────────────────────────────────────────────── */}
-          {(() => {
-            const x=rootNode.x, y1=rootNode.y-72, y2=rootNode.y+750;
-            return (
-              <g>
-                {/* Wide outer mist */}
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.10)" strokeWidth="80" strokeLinecap="round" filter={`url(#${F.bloom})`} />
-                {/* Medium bloom */}
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.18)" strokeWidth="30" strokeLinecap="round" filter={`url(#${F.bloom})`} />
-                {/* Inner glow band */}
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.32)" strokeWidth="8"  strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
-                {/* Crisp core thread */}
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.65)" strokeWidth="1.1" strokeLinecap="round" />
-              </g>
-            );
-          })()}
 
           {/* ── Decorative filaments ─────────────────────────────────────── */}
           {!prefersReducedMotion && filaments.map((f,i) => (
@@ -475,7 +468,8 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
                 {hairs.map((h,i) => (
                   <line key={`rh-${i}`} x1={h.x1} y1={h.y1} x2={h.x2} y2={h.y2}
                     stroke={e.isSpine?'rgba(255,255,255,0.18)':'rgba(255,255,255,0.14)'}
-                    strokeWidth={e.isSpine?'0.55':'0.45'} strokeLinecap="round">
+                    strokeWidth={e.isSpine?'0.55':'0.45'} strokeLinecap="round"
+                    opacity={0.06}>
                     <animate attributeName="opacity" values="0.06;0.32;0.06" dur={`${2.2+i*0.35}s`} begin={`${i*0.28}s`} repeatCount="indefinite" />
                   </line>
                 ))}
@@ -485,15 +479,16 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
                   <path d={path} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="22" strokeLinecap="round" filter={`url(#${F.bloom})`} />
                 </>}
                 {/* Active/hover path — extra highlight bloom */}
-                {active && (
-                  <path d={path} fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="14" strokeLinecap="round" filter={`url(#${F.hlGlow})`} />
-                )}
+                {active && (<>
+                  <path d={path} fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="22" strokeLinecap="round" filter={`url(#${F.hlGlow})`} />
+                  <path d={path} fill="none" stroke="rgba(255,255,255,0.30)" strokeWidth="8"  strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
+                </>)}
                 {/* Outer mist */}
-                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.28)':'rgba(255,255,255,0.18)'} strokeWidth={e.isSpine?13:9} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
+                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.40)':'rgba(255,255,255,0.18)'} strokeWidth={e.isSpine?13:9} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
                 {/* Inner glow */}
-                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.45)':e.isSpine?'rgba(255,255,255,0.32)':'rgba(255,255,255,0.22)'} strokeWidth={active?3.5:e.isSpine?3.0:2.2} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
+                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.65)':e.isSpine?'rgba(255,255,255,0.32)':'rgba(255,255,255,0.22)'} strokeWidth={active?4.5:e.isSpine?3.0:2.2} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
                 {/* Core filament */}
-                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.92)':e.isSpine?'rgba(255,255,255,0.80)':'rgba(255,255,255,0.68)'} strokeWidth={active?2.0:e.isSpine?1.4:1.05} strokeLinecap="round" />
+                <path d={path} fill="none" stroke={active?'rgba(255,255,255,1.0)':e.isSpine?'rgba(255,255,255,0.80)':'rgba(255,255,255,0.68)'} strokeWidth={active?2.5:e.isSpine?1.4:1.05} strokeLinecap="round" />
                 {/* Flow particle */}
                 {!prefersReducedMotion && (
                   <circle r={e.isSpine?2.0:1.3} fill="rgba(255,255,255,0.85)" filter={`url(#${F.ptGlow})`}>
@@ -553,17 +548,17 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
             const isHovered  = hoveredId===node.id;
             const isActive   = isHovered || isSelected;
             const { specks, rimDust } = nodeVisuals[i];
-            const glowR  = node.r+(isRoot?60:40);
-            const gAlpha = isLocked?0.02:isRoot?0.36:isActive?0.32:0.20;
             const rimOp  = isLocked?0.22:isSelected?0.98:isHovered?0.92:0.72;
             const opacity = nodeOp(node);
             const canDrag = displayMode==='manual' && !isLocked;
+            const act = activeSet();
+            const isPathHighlighted = !isLocked && (act ? act.has(node.id) : false);
 
             return (
               <g
                 key={node.id}
                 className="aw-node"
-                style={{ cursor: isLocked?'default':canDrag?'move':'pointer', opacity, transition:'opacity 0.35s ease', animationDelay:`${0.08+i*0.05}s` } as CSSProperties}
+                style={{ cursor: isLocked?'default':canDrag?'move':'pointer', opacity, transition:'opacity 0.4s ease', animationDelay:`${(node.id.charCodeAt(0)%8)*0.07+0.05}s` } as CSSProperties}
                 onClick={() => { if (!isLocked && !nodeDragId) onNodeClick?.(node.rawNode); }}
                 onMouseDown={(e) => handleNodePointerDown(e, node)}
                 onKeyDown={handleKeyDown(node.rawNode)}
@@ -577,22 +572,22 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
                 {/* Extra active shadow for highlighted nodes */}
                 {isActive && !isLocked && (
                   <circle cx={node.x} cy={node.y} r={node.r+18}
-                    fill="rgba(255,255,255,0.12)" filter={`url(#${F.hlGlow})`} />
+                    fill="rgba(255,255,255,0.06)" filter={`url(#${F.hlGlow})`} />
                 )}
-                {/* Wide outer bloom */}
-                {!isLocked && (
-                  <circle cx={node.x} cy={node.y} r={glowR} fill={`rgba(255,255,255,${gAlpha*0.5})`} filter={`url(#${F.bloom})`}>
+                {/* Soft dissipated glow — path-highlighted nodes only, barely noticeable */}
+                {isPathHighlighted && (
+                  <circle cx={node.x} cy={node.y} r={node.r + 20}
+                    fill="rgba(255,255,255,0.022)" filter={`url(#${F.bloom})`} opacity={0.55} />
+                )}
+                {/* Tight focused thrum ring — path-highlighted nodes only */}
+                {isPathHighlighted && (
+                  <circle cx={node.x} cy={node.y} r={node.r + 3} fill="none"
+                    stroke="rgba(255,255,255,0.14)" strokeWidth={isRoot?4:2.5} filter={`url(#${F.rimGlow})`}
+                    opacity={0.4}>
                     {!prefersReducedMotion && <>
-                      <animate attributeName="r"       values={`${glowR-10};${glowR+10};${glowR-10}`} dur={isRoot?'5s':'8s'} repeatCount="indefinite" />
-                      <animate attributeName="opacity" values={`${gAlpha*0.4};${gAlpha};${gAlpha*0.4}`}  dur={isRoot?'5s':'8s'} repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.20;0.48;0.20" dur={isRoot?'3.5s':'5s'} repeatCount="indefinite" />
+                      <animate attributeName="r" values={`${node.r+2};${node.r+4};${node.r+2}`} dur={isRoot?'3.5s':'5s'} repeatCount="indefinite" />
                     </>}
-                  </circle>
-                )}
-                {/* Inner rim luminance ring */}
-                {!isLocked && (
-                  <circle cx={node.x} cy={node.y} r={node.r+4} fill="none"
-                    stroke="rgba(255,255,255,0.24)" strokeWidth={isRoot?12:8} filter={`url(#${F.rimGlow})`}>
-                    {!prefersReducedMotion && <animate attributeName="opacity" values="0.40;1.0;0.40" dur={isRoot?'4s':'6s'} repeatCount="indefinite" />}
                   </circle>
                 )}
                 {/* Main disc — semi-transparent fill, slightly lighter than bg */}
