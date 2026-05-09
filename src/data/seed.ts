@@ -361,16 +361,16 @@ export const SEED_MEMORIES: MemoryItem[] = [
 
 export const SEED_GRAPH: KnowledgeGraph = {
   nodes: [
-    { id: 'gn1', label: 'Core Purpose', type: 'goal', description: 'Build systems that amplify clarity and reduce friction.', tags: ['goal', 'foundation'], x: 420, y: 240, createdAt: daysAgo(30) },
-    { id: 'gn2', label: 'Projects OS', type: 'concept', description: 'A personal operating system for managing creative projects.', tags: ['system', 'workflow'], x: 640, y: 180, createdAt: daysAgo(28) },
-    { id: 'gn3', label: 'ChatGPT Conversations', type: 'chat', description: 'Ongoing dialogue around design and systems philosophy.', tags: ['ai', 'design'], x: 220, y: 160, createdAt: daysAgo(25) },
-    { id: 'gn4', label: 'Claude Conversations', type: 'chat', description: 'Deep research sessions and synthesis work.', tags: ['ai', 'research'], x: 620, y: 320, createdAt: daysAgo(22) },
-    { id: 'gn5', label: 'Journal: May 12', type: 'journal', description: 'Reflections on creative identity and fear of completion.', tags: ['journal', 'reflection'], x: 200, y: 350, createdAt: daysAgo(18) },
-    { id: 'gn6', label: 'Build Knowledge Graph', type: 'quest', description: 'The quest that generated this very graph.', tags: ['meta', 'quest'], x: 420, y: 400, createdAt: daysAgo(14) },
-    { id: 'gn7', label: 'Systems Thinking', type: 'skill', description: 'The practice of seeing wholes, not parts.', tags: ['skill', 'mental-model'], x: 580, y: 450, createdAt: daysAgo(30) },
-    { id: 'gn8', label: 'Design Principles', type: 'concept', description: 'Core beliefs about craft, clarity, and composition.', tags: ['design', 'principles'], x: 260, y: 480, createdAt: daysAgo(20) },
-    { id: 'gn9', label: 'Focus & Flow', type: 'skill', description: 'The capacity for deep, uninterrupted work.', tags: ['skill', 'flow'], x: 100, y: 280, createdAt: daysAgo(35) },
-    { id: 'gn10', label: 'Long-term Goals', type: 'goal', description: 'Five-year vision for work, craft, and contribution.', tags: ['vision', 'goal'], x: 760, y: 420, createdAt: daysAgo(40) },
+    { id: 'gn1', label: 'Core Purpose', type: 'goal', description: 'Building tools that amplify human creativity and clarity.', tags: ['purpose', 'vision', 'guiding-star'], x: 430, y: 60, createdAt: daysAgo(30) },
+    { id: 'gn2', label: 'Projects OS', type: 'concept', description: 'Designing Abel as a connected memory operating system.', tags: ['Docs', 'v3'], x: 430, y: 310, createdAt: daysAgo(28) },
+    { id: 'gn3', label: 'ChatGPT Conversations', type: 'chat', description: 'Key discussions about projects, ideas, and problem solving.', tags: ['ai', 'design'], x: 160, y: 170, createdAt: daysAgo(25) },
+    { id: 'gn4', label: 'Claude Conversations', type: 'chat', description: 'Deep dives and reflections on philosophy and systems.', tags: ['ai', 'research'], x: 650, y: 260, createdAt: daysAgo(22) },
+    { id: 'gn5', label: 'Journal: May 12', type: 'journal', description: 'Reflection on focus, energy, and the week ahead.', tags: ['journal', 'reflection'], x: 150, y: 400, createdAt: daysAgo(18) },
+    { id: 'gn6', label: 'Build Knowledge Graph', type: 'quest', description: 'Create a visualization of my knowledge base with real-time connections.', tags: ['Quest', 'In Progress'], x: 400, y: 510, createdAt: daysAgo(14) },
+    { id: 'gn7', label: 'Systems Thinking', type: 'skill', description: 'Skill in understanding complex systems and feedback loops.', tags: ['skill', 'mental-model'], x: 650, y: 460, createdAt: daysAgo(30) },
+    { id: 'gn8', label: 'Design Principles', type: 'concept', description: 'Key principles for building intuitive and powerful tools.', tags: ['design', 'principles'], x: 130, y: 600, createdAt: daysAgo(20) },
+    { id: 'gn9', label: 'Focus & Flow', type: 'skill', description: 'Notes on maintaining deep work and creative momentum.', tags: ['skill', 'flow'], x: 620, y: 610, createdAt: daysAgo(35) },
+    { id: 'gn10', label: 'Long-term Goals', type: 'goal', description: 'Five-year vision for work, craft, and contribution.', tags: ['vision', 'goal'], x: 840, y: 490, createdAt: daysAgo(40) },
   ],
   edges: [
     { id: 'ge1', source: 'gn1', target: 'gn2', type: 'part-of' },

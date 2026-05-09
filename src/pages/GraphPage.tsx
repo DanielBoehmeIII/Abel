@@ -1,315 +1,406 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useAbel } from '../state/AbelProvider';
-import type { PageId, GraphNode, GraphNodeType } from '../types/abel';
+import type { PageId, GraphNode, GraphNodeType, GraphEdgeType } from '../types/abel';
 import { makeGraphNode } from '../state/abelStore';
-import GlassPanel from '../components/common/GlassPanel';
-import GlowButton from '../components/common/GlowButton';
 import './GraphPage.css';
+
+// ── Constants ────────────────────────────────────────────────────────────────
+
+const CARD_W = 180;
+const CARD_H = 108;
+
+const NODE_CFG: Record<GraphNodeType, { color: string; icon: string; label: string }> = {
+  goal:              { color: '#7c4dff', icon: '✦', label: 'Goal' },
+  concept:           { color: '#7c4dff', icon: '⬡', label: 'Concept' },
+  chat:              { color: '#00d4ff', icon: '◉', label: 'AI Conversation' },
+  journal:           { color: '#fb923c', icon: '▣', label: 'Journal Entry' },
+  quest:             { color: '#f5c518', icon: '◎', label: 'Quest' },
+  skill:             { color: '#34d399', icon: '⟨⟩', label: 'Skill' },
+  memory:            { color: '#e879a0', icon: '◈', label: 'Memory' },
+  insight:           { color: '#f5c518', icon: '◈', label: 'Insight' },
+  pdf:               { color: '#fb923c', icon: '▤', label: 'Document' },
+  'archetype-trait': { color: '#f472b6', icon: '◆', label: 'Archetype' },
+};
+
+const EDGE_COLORS: Record<GraphEdgeType, string> = {
+  'relates-to':    '#7c4dff',
+  'caused-by':     '#e879a0',
+  'supports':      '#00d4ff',
+  'contradicts':   '#f87171',
+  'unlocks':       '#f5c518',
+  'remembered-in': '#34d399',
+  'part-of':       '#a0a0c0',
+};
+
+const SIDEBAR_TYPES: GraphNodeType[] = ['goal', 'concept', 'chat', 'journal', 'quest', 'skill', 'memory'];
+const SIDEBAR_LINKS: GraphEdgeType[] = ['supports', 'relates-to', 'part-of', 'unlocks'];
+
+// ── Bezier helpers ────────────────────────────────────────────────────────────
+
+function bezierPath(x1: number, y1: number, x2: number, y2: number): string {
+  const dx = (x2 - x1) * 0.5;
+  return `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+}
+
+function bezierPt(t: number, x1: number, y1: number, x2: number, y2: number) {
+  const dx = (x2 - x1) * 0.5;
+  const cx1 = x1 + dx, cy1 = y1, cx2 = x2 - dx, cy2 = y2;
+  const mt = 1 - t;
+  return {
+    x: mt*mt*mt*x1 + 3*mt*mt*t*cx1 + 3*mt*t*t*cx2 + t*t*t*x2,
+    y: mt*mt*mt*y1 + 3*mt*mt*t*cy1 + 3*mt*t*t*cy2 + t*t*t*y2,
+  };
+}
+
+// ── Persistence ───────────────────────────────────────────────────────────────
+
+const VIEW_KEY = 'abel-graph-view-v2';
+function loadView() { try { const r = localStorage.getItem(VIEW_KEY); return r ? JSON.parse(r) : null; } catch { return null; } }
+function saveView(pan: {x:number;y:number}, scale: number) { try { localStorage.setItem(VIEW_KEY, JSON.stringify({ pan, scale })); } catch {} }
+
+// ── Props ─────────────────────────────────────────────────────────────────────
 
 interface Props { onNavigate: (page: PageId) => void; }
 
-const NODE_COLORS: Record<GraphNodeType, string> = {
-  memory: '#e879a0', quest: '#7c4dff', skill: '#00d4ff',
-  insight: '#f5c518', pdf: '#fb923c', chat: '#34d399',
-  journal: '#fb923c', concept: '#a0a0c0', goal: '#f5c518',
-  'archetype-trait': '#f472b6',
-};
+// ── Component ─────────────────────────────────────────────────────────────────
 
-const NODE_SIZE: Record<GraphNodeType, number> = {
-  goal: 14, skill: 12, quest: 11, memory: 10, chat: 10,
-  concept: 9, insight: 10, journal: 9, pdf: 9, 'archetype-trait': 10,
-};
-
-const FILTER_TYPES: Array<GraphNodeType | 'all'> = [
-  'all', 'goal', 'skill', 'quest', 'memory', 'chat', 'concept', 'journal',
-];
-
-export default function GraphPage({ onNavigate }: Props) {
+export default function GraphPage({ onNavigate: _onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { graph } = state;
 
-  const [selected, setSelected] = useState<GraphNode | null>(null);
-  const [filter, setFilter] = useState<GraphNodeType | 'all'>('all');
-  const [search, setSearch] = useState('');
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [newLabel, setNewLabel] = useState('');
-  const [newType, setNewType] = useState<GraphNodeType>('concept');
-  const [newDesc, setNewDesc] = useState('');
-  const [pan, setPan] = useState({ x: 50, y: 50 });
-  const [scale, setScale] = useState(0.9);
+  const saved = loadView();
+  const [selected,  setSelected]  = useState<GraphNode | null>(null);
+  const [filter,    setFilter]    = useState<GraphNodeType | 'all'>('all');
+  const [search,    setSearch]    = useState('');
+  const [addOpen,   setAddOpen]   = useState(false);
+  const [newLabel,  setNewLabel]  = useState('');
+  const [newType,   setNewType]   = useState<GraphNodeType>('concept');
+  const [newDesc,   setNewDesc]   = useState('');
+  const [pan,       setPan]       = useState<{x:number;y:number}>(saved?.pan ?? { x: 60, y: 30 });
+  const [scale,     setScale]     = useState<number>(saved?.scale ?? 0.80);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  const canvasRef  = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
-  const lastPos = useRef({ x: 0, y: 0 });
+  const lastPos    = useRef({ x: 0, y: 0 });
+
+  // ── Filtering ──────────────────────────────────────────────────────────────
 
   const filteredNodes = graph.nodes.filter(n => {
     if (filter !== 'all' && n.type !== filter) return false;
     if (search && !n.label.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
-
-  const visibleIds = new Set(filteredNodes.map(n => n.id));
+  const visibleIds  = new Set(filteredNodes.map(n => n.id));
   const visibleEdges = graph.edges.filter(e => visibleIds.has(e.source) && visibleIds.has(e.target));
+
+  // ── Highlight set ─────────────────────────────────────────────────────────
+
+  const focusId = hoveredId ?? selected?.id ?? null;
+  const hlSet: Set<string> | null = focusId ? (() => {
+    const s = new Set<string>([focusId]);
+    visibleEdges.forEach(e => {
+      if (e.source === focusId) s.add(e.target);
+      if (e.target === focusId) s.add(e.source);
+    });
+    return s;
+  })() : null;
+
+  const nodeOp    = (id: string) => !hlSet || hlSet.has(id) ? 1 : 0.12;
+  const edgeActive = (e: {source:string;target:string}) => !!hlSet && hlSet.has(e.source) && hlSet.has(e.target);
+
+  // ── Pan ───────────────────────────────────────────────────────────────────
+
+  const onMD = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as Element).closest('.gn-card')) return;
+    isDragging.current = true;
+    lastPos.current = { x: e.clientX, y: e.clientY };
+  }, []);
+
+  const onMM = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging.current) return;
+    const dx = e.clientX - lastPos.current.x;
+    const dy = e.clientY - lastPos.current.y;
+    lastPos.current = { x: e.clientX, y: e.clientY };
+    setPan(p => { const np = { x: p.x + dx, y: p.y + dy }; saveView(np, scale); return np; });
+  }, [scale]);
+
+  const onMU = useCallback(() => { isDragging.current = false; }, []);
+
+  // ── Wheel zoom ────────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const handler = (e: WheelEvent) => {
+      e.preventDefault();
+      setScale(s => {
+        const ns = Math.max(0.3, Math.min(2.5, s - e.deltaY * 0.001));
+        setPan(p => { saveView(p, ns); return p; });
+        return ns;
+      });
+    };
+    el.addEventListener('wheel', handler, { passive: false });
+    return () => el.removeEventListener('wheel', handler);
+  }, []);
+
+  // ── Add node ──────────────────────────────────────────────────────────────
 
   function addNode() {
     if (!newLabel.trim()) return;
     const node = makeGraphNode(newLabel.trim(), newType, newDesc.trim());
     dispatch({ type: 'ADD_GRAPH_NODE', node });
-    setShowAddModal(false);
-    setNewLabel(''); setNewDesc(''); setNewType('concept');
+    setAddOpen(false); setNewLabel(''); setNewDesc(''); setNewType('concept');
     setSelected(node);
   }
 
-  const onMouseDown = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
-    if ((e.target as Element).closest('.graph-node-hit')) return;
-    isDragging.current = true;
-    lastPos.current = { x: e.clientX, y: e.clientY };
-  }, []);
+  // ── Card center for edge connections ──────────────────────────────────────
 
-  const onMouseMove = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
-    if (!isDragging.current) return;
-    const dx = e.clientX - lastPos.current.x;
-    const dy = e.clientY - lastPos.current.y;
-    lastPos.current = { x: e.clientX, y: e.clientY };
-    setPan(p => ({ x: p.x + dx, y: p.y + dy }));
-  }, []);
+  const center = (n: GraphNode) => ({ x: n.x + CARD_W / 2, y: n.y + CARD_H / 2 });
 
-  const onMouseUp = useCallback(() => { isDragging.current = false; }, []);
-
-  const onWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault();
-    setScale(s => Math.max(0.4, Math.min(2.5, s - e.deltaY * 0.001)));
-  }, []);
+  // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="graph-page">
-      {/* Sidebar */}
-      <aside className="graph-sidebar">
-        <div className="graph-sidebar-top">
-          <p className="graph-sidebar-title">KNOWLEDGE GRAPH</p>
-          <p className="display-sm" style={{ color: 'var(--text)', marginBottom: '16px', fontWeight: 300, fontStyle: 'italic' }}>Core Graph</p>
+    <div className="gp-page">
 
-          <input
-            className="graph-search"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search nodes…"
-          />
-
-          <div className="graph-filters">
-            {FILTER_TYPES.map(t => (
-              <button
-                key={t}
-                className={`graph-filter-btn ${filter === t ? 'graph-filter-btn--active' : ''}`}
-                style={{ color: t !== 'all' ? NODE_COLORS[t as GraphNodeType] : undefined }}
-                onClick={() => setFilter(t)}
-              >
-                {t}
-              </button>
-            ))}
+      {/* ── Left sidebar */}
+      <aside className="gp-sidebar">
+        <div className="gp-sidebar-header">
+          <span className="gp-sidebar-icon">◈</span>
+          <div>
+            <p className="gp-sidebar-eyebrow">KNOWLEDGE GRAPH</p>
+            <p className="gp-sidebar-name">Core Graph</p>
           </div>
         </div>
 
-        <div className="graph-node-list">
-          {filteredNodes.map(n => (
-            <div
-              key={n.id}
-              className={`graph-node-list-item ${selected?.id === n.id ? 'graph-node-list-item--active' : ''}`}
-              onClick={() => setSelected(n)}
-            >
-              <span className="graph-node-list-dot" style={{ background: NODE_COLORS[n.type] }} />
-              <div style={{ overflow: 'hidden' }}>
-                <p className="graph-node-list-label">{n.label}</p>
-                <p className="caption">{n.type}</p>
-              </div>
+        <div className="gp-sidebar-sect">
+          <p className="gp-sect-label">NODE TYPES</p>
+          {SIDEBAR_TYPES.map(t => {
+            const cfg = NODE_CFG[t];
+            const active = filter === t;
+            return (
+              <button
+                key={t}
+                className={`gp-type-row ${active ? 'gp-type-row--on' : ''}`}
+                onClick={() => setFilter(active ? 'all' : t)}
+              >
+                <span className="gp-type-dot" style={{ background: cfg.color, boxShadow: `0 0 6px ${cfg.color}88` }} />
+                <span className="gp-type-label">{cfg.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="gp-sidebar-sect">
+          <p className="gp-sect-label">LINK TYPES</p>
+          {SIDEBAR_LINKS.map(lt => (
+            <div key={lt} className="gp-link-row">
+              <span className="gp-link-dash" style={{ background: EDGE_COLORS[lt] }} />
+              <span className="gp-link-label">{lt}</span>
             </div>
           ))}
         </div>
 
-        <div className="graph-sidebar-footer">
-          <p className="caption" style={{ marginBottom: '8px' }}>
-            {graph.nodes.length} nodes · {graph.edges.length} edges
-          </p>
-          <GlowButton variant="cyan" size="sm" style={{ width: '100%' }} onClick={() => setShowAddModal(true)}>
-            + ADD NODE
-          </GlowButton>
+        <div className="gp-sidebar-footer">
+          <p className="gp-stat">{graph.nodes.length} nodes · {graph.edges.length} edges</p>
+          <button className="gp-add-btn" onClick={() => setAddOpen(true)}>+ ADD NODE</button>
         </div>
       </aside>
 
-      {/* Main graph canvas */}
-      <div className="graph-canvas-wrap">
-        {/* Atmospheric title overlay */}
-        <div className="graph-canvas-title">
-          <p className="eyebrow" style={{ letterSpacing: '0.22em', color: 'rgba(150,130,210,0.35)', marginBottom: '6px' }}>
-            EVERY INSIGHT CONNECTS
-          </p>
-          <h1 className="graph-big-title">Knowledge<br />Graph</h1>
-          <p className="body-sm graph-big-subtitle">
-            a living map of what<br />you know, feel, and are becoming.
-          </p>
+      {/* ── Main */}
+      <div className="gp-main">
+
+        {/* Top bar */}
+        <div className="gp-topbar">
+          <div className="gp-breadcrumb">
+            <span className="gp-bc-workspace">Workspace</span>
+            <span className="gp-bc-sep">/</span>
+            <span className="gp-bc-page">Core Graph</span>
+          </div>
+          <div className="gp-topbar-right">
+            <input
+              className="gp-search"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search nodes, links, tags…"
+            />
+          </div>
         </div>
-        <svg
-          className="graph-canvas"
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseUp}
-          onWheel={onWheel}
+
+        {/* Canvas */}
+        <div
+          ref={canvasRef}
+          className="gp-canvas"
+          onMouseDown={onMD}
+          onMouseMove={onMM}
+          onMouseUp={onMU}
+          onMouseLeave={onMU}
           style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
         >
-          <defs>
-            <filter id="node-glow" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-            <filter id="node-glow-strong" x="-80%" y="-80%" width="260%" height="260%">
-              <feGaussianBlur stdDeviation="7" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-            <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.12)" />
-            </marker>
-          </defs>
+          {/* Transformed content group */}
+          <div
+            className="gp-world"
+            style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${scale})`, transformOrigin: '0 0' }}
+          >
+            {/* Edge SVG */}
+            <svg className="gp-edges-svg">
+              <defs>
+                <filter id="gpGlow" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="3.5" result="b" />
+                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              {visibleEdges.map(edge => {
+                const src = graph.nodes.find(n => n.id === edge.source);
+                const tgt = graph.nodes.find(n => n.id === edge.target);
+                if (!src || !tgt) return null;
+                const sc = center(src), tc = center(tgt);
+                const path = bezierPath(sc.x, sc.y, tc.x, tc.y);
+                const active = edgeActive(edge);
+                const color = EDGE_COLORS[edge.type] ?? '#7c4dff';
+                const dots = [0.25, 0.5, 0.75].map(t => bezierPt(t, sc.x, sc.y, tc.x, tc.y));
+                return (
+                  <g key={edge.id} style={{ transition: 'opacity 0.3s ease' }} opacity={!hlSet || active ? 1 : 0.05}>
+                    {/* Glow bloom */}
+                    <path d={path} fill="none" stroke={color} strokeWidth={active ? 5 : 3} opacity={active ? 0.30 : 0.10} filter="url(#gpGlow)" />
+                    {/* Core line */}
+                    <path d={path} fill="none" stroke={color} strokeWidth={active ? 1.8 : 1.2} opacity={active ? 0.80 : 0.28} />
+                    {/* Dots */}
+                    {dots.map((pt, i) => (
+                      <circle key={i} cx={pt.x} cy={pt.y} r={active ? 3.5 : 2.5} fill={color} opacity={active ? 0.90 : 0.38} filter="url(#gpGlow)" />
+                    ))}
+                  </g>
+                );
+              })}
+            </svg>
 
-          <g transform={`translate(${pan.x}, ${pan.y}) scale(${scale})`}>
-            {visibleEdges.map(edge => {
-              const src = graph.nodes.find(n => n.id === edge.source);
-              const tgt = graph.nodes.find(n => n.id === edge.target);
-              if (!src || !tgt) return null;
-              const isHighlighted = selected?.id === src.id || selected?.id === tgt.id;
-              const srcColor = NODE_COLORS[src.type];
-              return (
-                <line
-                  key={edge.id}
-                  x1={src.x} y1={src.y} x2={tgt.x} y2={tgt.y}
-                  stroke={isHighlighted ? `${srcColor}88` : 'rgba(255,255,255,0.05)'}
-                  strokeWidth={isHighlighted ? 1.5 : 0.8}
-                  strokeDasharray={isHighlighted ? '' : '3 6'}
-                  markerEnd="url(#arrow)"
-                />
-              );
-            })}
-
+            {/* Node cards */}
             {filteredNodes.map(node => {
-              const r = NODE_SIZE[node.type] ?? 10;
-              const color = NODE_COLORS[node.type];
-              const isSelected = selected?.id === node.id;
+              const cfg = NODE_CFG[node.type];
+              const isSel = selected?.id === node.id;
+              const op = nodeOp(node.id);
               return (
-                <g key={node.id} className="graph-node-hit" onClick={() => setSelected(node)}>
-                  {/* Outer glow ring on selection */}
-                  {isSelected && (
-                    <>
-                      <circle cx={node.x} cy={node.y} r={r + 14}
-                        fill={`${color}08`} stroke={color}
-                        strokeWidth="1" strokeDasharray="4 4" opacity="0.6"
-                      />
-                      <circle cx={node.x} cy={node.y} r={r + 6}
-                        fill={`${color}10`} stroke="none"
-                      />
-                    </>
+                <div
+                  key={node.id}
+                  className={`gn-card ${isSel ? 'gn-card--sel' : ''}`}
+                  style={{
+                    left: node.x, top: node.y,
+                    borderColor: isSel ? `${cfg.color}cc` : hoveredId === node.id ? `${cfg.color}70` : `${cfg.color}2a`,
+                    opacity: op,
+                    transition: 'opacity 0.3s ease, border-color 0.2s ease, box-shadow 0.2s ease',
+                  }}
+                  onClick={() => setSelected(isSel ? null : node)}
+                  onMouseEnter={() => setHoveredId(node.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  <div className="gn-header">
+                    <span className="gn-icon" style={{ color: cfg.color }}>{cfg.icon}</span>
+                    <span className="gn-title">{node.label}</span>
+                  </div>
+                  {node.description && (
+                    <p className="gn-desc">{node.description}</p>
                   )}
-                  <circle
-                    cx={node.x} cy={node.y} r={r}
-                    fill={`${color}${isSelected ? '30' : '18'}`}
-                    stroke={color}
-                    strokeWidth={isSelected ? 1.8 : 0.9}
-                    filter={isSelected ? 'url(#node-glow-strong)' : 'url(#node-glow)'}
-                    style={{ cursor: 'pointer' }}
-                  />
-                  <text
-                    x={node.x} y={node.y + r + 14}
-                    textAnchor="middle" fill={isSelected ? color : 'rgba(180,180,210,0.6)'}
-                    fontSize="10" fontFamily="var(--font-sans)"
-                    style={{ pointerEvents: 'none', userSelect: 'none' }}
-                  >
-                    {node.label}
-                  </text>
-                </g>
+                  <div className="gn-footer">
+                    {node.tags.slice(0, 3).map(tag => (
+                      <span key={tag} className="gn-badge">{tag}</span>
+                    ))}
+                    <span className="gn-type" style={{ color: cfg.color }}>{cfg.label}</span>
+                  </div>
+                </div>
               );
             })}
-          </g>
-        </svg>
+          </div>
 
-        <div className="graph-zoom-controls glass">
-          <button onClick={() => setScale(s => Math.min(2.5, s + 0.15))}>+</button>
-          <span>{Math.round(scale * 100)}%</span>
-          <button onClick={() => setScale(s => Math.max(0.4, s - 0.15))}>−</button>
-          <button onClick={() => { setScale(0.9); setPan({ x: 50, y: 50 }); }}>⊞</button>
+          {/* Zoom controls */}
+          <div className="gp-zoom">
+            <button onClick={() => setScale(s => { const n = Math.min(2.5, s + 0.12); saveView(pan, n); return n; })}>+</button>
+            <span>{Math.round(scale * 100)}%</span>
+            <button onClick={() => setScale(s => { const n = Math.max(0.3, s - 0.12); saveView(pan, n); return n; })}>−</button>
+            <button onClick={() => { const p = {x:60,y:30}; const sc=0.80; setPan(p); setScale(sc); saveView(p,sc); }}>⊞</button>
+          </div>
         </div>
+
+        {/* ── Right detail panel */}
+        {selected && (() => {
+          const cfg = NODE_CFG[selected.type];
+          const conns = graph.edges.filter(e => e.source === selected.id || e.target === selected.id);
+          return (
+            <aside className="gp-detail">
+              <div className="gp-detail-bar">
+                <span className="gp-detail-bar-title">Node Details</span>
+                <button className="gp-detail-close" onClick={() => setSelected(null)}>×</button>
+              </div>
+
+              <div className="gp-detail-hero">
+                <span className="gp-detail-heroicon" style={{ color: cfg.color, borderColor: `${cfg.color}40`, background: `${cfg.color}12` }}>
+                  {cfg.icon}
+                </span>
+                <div>
+                  <p className="gp-detail-heroname">{selected.label}</p>
+                  <p className="gp-detail-herotype" style={{ color: cfg.color }}>{cfg.label}</p>
+                </div>
+              </div>
+
+              {selected.description && (
+                <p className="gp-detail-desc">{selected.description}</p>
+              )}
+
+              <div className="gp-detail-sect">
+                <p className="gp-detail-sect-label">Connections</p>
+                {conns.length === 0
+                  ? <p className="gp-detail-empty">No connections yet</p>
+                  : conns.map(e => {
+                      const otherId = e.source === selected.id ? e.target : e.source;
+                      const other = graph.nodes.find(n => n.id === otherId);
+                      if (!other) return null;
+                      const oc = NODE_CFG[other.type];
+                      return (
+                        <button key={e.id} className="gp-conn-row" onClick={() => setSelected(other)}>
+                          <span className="gp-conn-icon" style={{ color: oc.color }}>{oc.icon}</span>
+                          <div>
+                            <p className="gp-conn-name">{other.label}</p>
+                            <p className="gp-conn-rel">{e.type}</p>
+                          </div>
+                        </button>
+                      );
+                    })
+                }
+              </div>
+
+              <div className="gp-detail-sect">
+                <p className="gp-detail-sect-label">Properties</p>
+                <div className="gp-props">
+                  <div className="gp-prop"><span>Created</span><span>{new Date(selected.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span></div>
+                  <div className="gp-prop"><span>Type</span><span style={{ color: cfg.color }}>{cfg.label}</span></div>
+                </div>
+                {selected.tags.length > 0 && (
+                  <div className="gp-detail-tags">
+                    {selected.tags.map(tag => <span key={tag} className="gp-detail-tag">{tag}</span>)}
+                  </div>
+                )}
+              </div>
+            </aside>
+          );
+        })()}
       </div>
 
-      {/* Node detail panel */}
-      {selected && (
-        <aside className="graph-detail animate-fade-in-scale">
-          <div className="graph-detail-header">
-            <span style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', color: NODE_COLORS[selected.type] }}>
-              {selected.type}
-            </span>
-            <button onClick={() => setSelected(null)} style={{ color: 'var(--text-3)', fontSize: '1.1rem', lineHeight: 1 }}>×</button>
-          </div>
-
-          <h3 className="graph-detail-title">{selected.label}</h3>
-          <p className="body" style={{ marginBottom: '12px' }}>{selected.description}</p>
-          <p className="caption">Created {new Date(selected.createdAt).toLocaleDateString()}</p>
-
-          {selected.tags.length > 0 && (
-            <div style={{ marginTop: '10px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {selected.tags.map(tag => (
-                <span key={tag} className="pill rarity-common">{tag}</span>
-              ))}
-            </div>
-          )}
-
-          <GlassPanel style={{ padding: '14px', marginTop: '16px' }}>
-            <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--text-3)' }}>CONNECTIONS</p>
-            {graph.edges
-              .filter(e => e.source === selected.id || e.target === selected.id)
-              .map(e => {
-                const otherId = e.source === selected.id ? e.target : e.source;
-                const other = graph.nodes.find(n => n.id === otherId);
-                return other ? (
-                  <div key={e.id} className="graph-conn-item" onClick={() => setSelected(other)}>
-                    <span className="caption" style={{ color: 'var(--text-4)' }}>{e.type}</span>
-                    <span className="graph-conn-label">{other.label}</span>
-                  </div>
-                ) : null;
-              })}
-          </GlassPanel>
-
-          <div className="graph-detail-actions">
-            <GlowButton variant="purple" size="sm" onClick={() => onNavigate('quests')}>
-              Create Quest
-            </GlowButton>
-            <GlowButton variant="cyan" size="sm" onClick={() => onNavigate('skillweb')}>
-              Link Skill
-            </GlowButton>
-          </div>
-        </aside>
-      )}
-
-      {showAddModal && (
-        <div className="graph-modal-overlay" onClick={() => setShowAddModal(false)}>
-          <GlassPanel
-            variant="raised"
-            style={{ padding: '24px', width: '360px', borderRadius: 'var(--radius-xl)' }}
-            onClick={e => e.stopPropagation()}
-          >
-            <p className="heading" style={{ marginBottom: '12px' }}>ADD GRAPH NODE</p>
-            <input className="graph-input" value={newLabel} onChange={e => setNewLabel(e.target.value)} placeholder="Node label" />
-            <select className="graph-input" value={newType} onChange={e => setNewType(e.target.value as GraphNodeType)} style={{ marginTop: '8px' }}>
-              {(['concept', 'goal', 'insight', 'memory', 'skill', 'quest', 'journal', 'chat'] as const).map(t => (
+      {/* ── Add modal */}
+      {addOpen && (
+        <div className="gp-overlay" onClick={() => setAddOpen(false)}>
+          <div className="gp-modal" onClick={e => e.stopPropagation()}>
+            <p className="gp-modal-title">ADD NODE</p>
+            <input className="gp-modal-inp" value={newLabel} onChange={e => setNewLabel(e.target.value)} placeholder="Node label" autoFocus />
+            <select className="gp-modal-inp" value={newType} onChange={e => setNewType(e.target.value as GraphNodeType)}>
+              {(['concept','goal','insight','memory','skill','quest','journal','chat'] as const).map(t => (
                 <option key={t} value={t}>{t}</option>
               ))}
             </select>
-            <textarea
-              className="graph-input" value={newDesc}
-              onChange={e => setNewDesc(e.target.value)}
-              placeholder="Description (optional)" rows={2}
-              style={{ marginTop: '8px', resize: 'none' }}
-            />
-            <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-              <GlowButton variant="purple" onClick={addNode}>ADD</GlowButton>
-              <GlowButton variant="ghost" onClick={() => setShowAddModal(false)}>CANCEL</GlowButton>
+            <textarea className="gp-modal-inp" value={newDesc} onChange={e => setNewDesc(e.target.value)} placeholder="Description (optional)" rows={2} style={{ resize: 'none' }} />
+            <div className="gp-modal-actions">
+              <button className="gp-modal-btn gp-modal-btn--primary" onClick={addNode}>ADD</button>
+              <button className="gp-modal-btn" onClick={() => setAddOpen(false)}>CANCEL</button>
             </div>
-          </GlassPanel>
+          </div>
         </div>
       )}
     </div>

@@ -1,0 +1,92 @@
+- region "Cinematic transition to Trophy Vault" [ref=e5]:
+  - generic [ref=e6]:
+    - generic [ref=e8]:
+      - generic:
+        - img:
+          - generic [ref=e9] [cursor=pointer]:
+            - generic: ◈
+            - generic: ARCHIVE
+          - generic [ref=e12] [cursor=pointer]:
+            - generic: ⊕
+            - generic: QUESTS
+          - generic [ref=e15] [cursor=pointer]:
+            - generic: ◇
+            - generic: GRAPH
+          - generic [ref=e18] [cursor=pointer]:
+            - generic: ▣
+            - generic: EXHIBITION
+          - generic [ref=e21] [cursor=pointer]:
+            - generic: ⬡
+            - generic: FOCUS
+          - generic [ref=e24] [cursor=pointer]:
+            - generic: ⟁
+            - generic: SKILLS
+          - generic: ABEL
+          - generic: OS
+      - generic [ref=e27]:
+        - generic [ref=e30]: ABEL
+        - navigation [ref=e31]:
+          - button "ARCHIVE" [ref=e32] [cursor=pointer]
+          - button "QUESTS" [ref=e33] [cursor=pointer]
+          - button "GRAPH" [ref=e34] [cursor=pointer]
+          - button "EXHIBITION" [ref=e35] [cursor=pointer]
+        - button "Navigator (Esc)" [ref=e36] [cursor=pointer]:
+          - img [ref=e37]
+      - main [ref=e41]:
+        - paragraph [ref=e42]: ABEL OS
+        - heading "A living system that remembers, dreams, and becomes." [level=1] [ref=e43]:
+          - text: A living system
+          - text: that remembers,
+          - emphasis [ref=e44]: dreams,
+          - text: and becomes.
+        - button "ENTER THE DREAM" [ref=e45] [cursor=pointer]:
+          - generic [ref=e46]: ENTER THE DREAM
+          - img [ref=e47]
+      - complementary [ref=e49]:
+        - generic [ref=e50]:
+          - paragraph [ref=e52]: SYSTEM STATUS
+          - paragraph [ref=e54]: HARMONIC
+          - paragraph [ref=e76]: The Architect
+        - generic [ref=e77] [cursor=pointer]:
+          - generic [ref=e78]:
+            - paragraph [ref=e79]: RECENT MEMORY
+            - generic [ref=e80]: ▣
+          - paragraph [ref=e81]: Gratitude Moment
+          - paragraph [ref=e82]: Paused mid-session to notice how much had changed in the last six we…
+          - text: VIEW →
+        - generic [ref=e83] [cursor=pointer]:
+          - generic [ref=e84]:
+            - paragraph [ref=e85]: ACTIVE QUEST
+            - generic [ref=e86]: ⊕
+          - paragraph [ref=e87]: Synthesize Three Insights
+          - paragraph [ref=e88]: Take three separate learnings and write a short synthesis conn…
+          - text: VIEW →
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e92]: A
+          - generic [ref=e93]:
+            - paragraph [ref=e94]: Abel
+            - paragraph [ref=e95]: Seeker of Clarity
+        - generic [ref=e96]:
+          - button "45% MASTERY" [ref=e97] [cursor=pointer]:
+            - generic [ref=e98]: 45%
+            - generic [ref=e99]: MASTERY
+          - button "3 QUESTS" [ref=e100] [cursor=pointer]:
+            - generic [ref=e101]: "3"
+            - generic [ref=e102]: QUESTS
+          - button "10 GRAPH NODES" [ref=e103] [cursor=pointer]:
+            - generic [ref=e104]: "10"
+            - generic [ref=e105]: GRAPH NODES
+          - button "6 MEMORIES" [ref=e106] [cursor=pointer]:
+            - generic [ref=e107]: "6"
+            - generic [ref=e108]: MEMORIES
+        - generic [ref=e109]:
+          - paragraph [ref=e110]: LATEST
+          - paragraph [ref=e111]: Obsidian Compass earned
+    - img [ref=e112]
+    - generic:
+      - generic: TROPHY VAULT
+      - heading [level=2]: Artifacts of Your Journey
+      - paragraph: What you earn becomes visible.
+      - paragraph: 4 collected
+      - button [ref=e114] [cursor=pointer]: Enter Vault →
