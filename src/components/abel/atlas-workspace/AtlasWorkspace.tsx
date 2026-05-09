@@ -85,7 +85,7 @@ function buildFilaments(nodes: WorkspaceNode[]) {
       const x1=node.x+Math.cos(a)*r1, y1=node.y+Math.sin(a)*r1;
       const x2=node.x+Math.cos(a+(rng()-0.5)*0.5)*r2, y2=node.y+Math.sin(a+(rng()-0.5)*0.5)*r2;
       const x3=node.x+Math.cos(a+(rng()-0.5)*0.7)*r3, y3=node.y+Math.sin(a+(rng()-0.5)*0.7)*r3;
-      const op=node.depth===0?rng()*0.25+0.12:rng()*0.14+0.04;
+      const op=node.depth===0?rng()*0.32+0.16:rng()*0.20+0.07;
       list.push({ x1,y1,x2,y2,x3,y3, op, dur:2.2+rng()*4, del:rng()*6 });
       if (i%2===0) {
         const ba=a+(rng()-0.5)*0.8;
@@ -405,16 +405,16 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
             <feGaussianBlur stdDeviation="9"  result="b2" in="SourceGraphic" />
             <feMerge><feMergeNode in="b1"/><feMergeNode in="b2"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
-          <filter id={F.wireGlow} x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="5.5" result="b" />
+          <filter id={F.wireGlow} x="-120%" y="-120%" width="340%" height="340%">
+            <feGaussianBlur stdDeviation="7.5" result="b" />
             <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
           <filter id={F.ptGlow}  x="-250%" y="-250%" width="600%" height="600%">
             <feGaussianBlur stdDeviation="3.5" result="b" />
             <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
-          <filter id={F.rimGlow} x="-60%"  y="-60%"  width="220%" height="220%">
-            <feGaussianBlur stdDeviation="4" result="b" />
+          <filter id={F.rimGlow} x="-80%"  y="-80%"  width="260%" height="260%">
+            <feGaussianBlur stdDeviation="6" result="b" />
             <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
           {/* Highlight glow — warmer, wider bloom for active path */}
@@ -437,12 +437,17 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
 
           {/* ── Spine column ─────────────────────────────────────────────── */}
           {(() => {
-            const x=rootNode.x, y1=rootNode.y-55, y2=rootNode.y+730;
+            const x=rootNode.x, y1=rootNode.y-72, y2=rootNode.y+750;
             return (
               <g>
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.04)" strokeWidth="60" strokeLinecap="round" filter={`url(#${F.bloom})`} />
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.07)" strokeWidth="22" strokeLinecap="round" filter={`url(#${F.bloom})`} />
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.12)" strokeWidth="6"  strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
+                {/* Wide outer mist */}
+                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.10)" strokeWidth="80" strokeLinecap="round" filter={`url(#${F.bloom})`} />
+                {/* Medium bloom */}
+                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.18)" strokeWidth="30" strokeLinecap="round" filter={`url(#${F.bloom})`} />
+                {/* Inner glow band */}
+                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.32)" strokeWidth="8"  strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
+                {/* Crisp core thread */}
+                <line x1={x} y1={y1} x2={x} y2={y2} stroke="rgba(255,255,255,0.65)" strokeWidth="1.1" strokeLinecap="round" />
               </g>
             );
           })()}
@@ -460,7 +465,7 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
           {/* ── Wires ────────────────────────────────────────────────────── */}
           {edges.map((e, idx) => {
             const path   = cubicDown({x:e.from.x,y:e.from.y},{x:e.to.x,y:e.to.y});
-            const hairs  = !prefersReducedMotion ? buildRootHairs({x:e.from.x,y:e.from.y},{x:e.to.x,y:e.to.y}, e.isSpine?14:8) : [];
+            const hairs  = !prefersReducedMotion ? buildRootHairs({x:e.from.x,y:e.from.y},{x:e.to.x,y:e.to.y}, e.isSpine?22:13) : [];
             const op     = edgeOp(e);
             const active = isEdgeActive(e);
             const pDur   = `${1.4+idx*0.2}s`;
@@ -469,26 +474,26 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
                 {/* Root hairs */}
                 {hairs.map((h,i) => (
                   <line key={`rh-${i}`} x1={h.x1} y1={h.y1} x2={h.x2} y2={h.y2}
-                    stroke={e.isSpine?'rgba(255,255,255,0.11)':'rgba(255,255,255,0.08)'}
-                    strokeWidth={e.isSpine?'0.45':'0.4'} strokeLinecap="round">
-                    <animate attributeName="opacity" values="0.03;0.19;0.03" dur={`${2.2+i*0.35}s`} begin={`${i*0.28}s`} repeatCount="indefinite" />
+                    stroke={e.isSpine?'rgba(255,255,255,0.18)':'rgba(255,255,255,0.14)'}
+                    strokeWidth={e.isSpine?'0.55':'0.45'} strokeLinecap="round">
+                    <animate attributeName="opacity" values="0.06;0.32;0.06" dur={`${2.2+i*0.35}s`} begin={`${i*0.28}s`} repeatCount="indefinite" />
                   </line>
                 ))}
                 {/* Spine bloom */}
                 {e.isSpine && <>
-                  <path d={path} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="38" strokeLinecap="round" filter={`url(#${F.bloom})`} />
-                  <path d={path} fill="none" stroke="rgba(255,255,255,0.09)" strokeWidth="16" strokeLinecap="round" filter={`url(#${F.bloom})`} />
+                  <path d={path} fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="56" strokeLinecap="round" filter={`url(#${F.bloom})`} />
+                  <path d={path} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="22" strokeLinecap="round" filter={`url(#${F.bloom})`} />
                 </>}
                 {/* Active/hover path — extra highlight bloom */}
                 {active && (
-                  <path d={path} fill="none" stroke="rgba(255,255,255,0.40)" strokeWidth="14" strokeLinecap="round" filter={`url(#${F.hlGlow})`} />
+                  <path d={path} fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="14" strokeLinecap="round" filter={`url(#${F.hlGlow})`} />
                 )}
                 {/* Outer mist */}
-                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.18)':'rgba(255,255,255,0.06)'} strokeWidth={e.isSpine?9:5} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
+                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.28)':'rgba(255,255,255,0.18)'} strokeWidth={e.isSpine?13:9} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
                 {/* Inner glow */}
-                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.32)':e.isSpine?'rgba(255,255,255,0.18)':'rgba(255,255,255,0.10)'} strokeWidth={active?3:e.isSpine?2.5:1.5} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
+                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.45)':e.isSpine?'rgba(255,255,255,0.32)':'rgba(255,255,255,0.22)'} strokeWidth={active?3.5:e.isSpine?3.0:2.2} strokeLinecap="round" filter={`url(#${F.wireGlow})`} />
                 {/* Core filament */}
-                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.80)':e.isSpine?'rgba(255,255,255,0.55)':'rgba(255,255,255,0.45)'} strokeWidth={active?1.6:e.isSpine?1.1:0.75} strokeLinecap="round" />
+                <path d={path} fill="none" stroke={active?'rgba(255,255,255,0.92)':e.isSpine?'rgba(255,255,255,0.80)':'rgba(255,255,255,0.68)'} strokeWidth={active?2.0:e.isSpine?1.4:1.05} strokeLinecap="round" />
                 {/* Flow particle */}
                 {!prefersReducedMotion && (
                   <circle r={e.isSpine?2.0:1.3} fill="rgba(255,255,255,0.85)" filter={`url(#${F.ptGlow})`}>
@@ -516,21 +521,25 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
 
           {/* ── Spine cap ────────────────────────────────────────────────── */}
           {!prefersReducedMotion && (() => {
-            const cx=rootNode.x, cy=rootNode.y-66;
+            const cx=rootNode.x, cy=rootNode.y-80;
             return (
               <g>
-                <circle cx={cx} cy={cy} r="28" fill="rgba(255,255,255,0.08)" filter={`url(#${F.bloom})`}>
-                  <animate attributeName="r"       values="20;34;20"       dur="4s" repeatCount="indefinite" />
-                  <animate attributeName="opacity" values="0.05;0.15;0.05" dur="4s" repeatCount="indefinite" />
+                {/* Wide halo */}
+                <circle cx={cx} cy={cy} r="42" fill="rgba(255,255,255,0.10)" filter={`url(#${F.bloom})`}>
+                  <animate attributeName="r"       values="28;48;28"       dur="4s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.06;0.18;0.06" dur="4s" repeatCount="indefinite" />
                 </circle>
-                <line x1={cx} y1={cy+10} x2={cx} y2={rootNode.y-rootNode.r} stroke="rgba(255,255,255,0.35)" strokeWidth="0.8" strokeLinecap="round" />
-                <circle cx={cx} cy={cy} r="3.2" fill="white" filter={`url(#${F.ptGlow})`}>
-                  <animate attributeName="opacity" values="0.55;1;0.55"  dur="2.8s" repeatCount="indefinite" />
-                  <animate attributeName="r"       values="2.2;4;2.2"    dur="2.8s" repeatCount="indefinite" />
+                {/* Connector thread */}
+                <line x1={cx} y1={cy+14} x2={cx} y2={rootNode.y-rootNode.r} stroke="rgba(255,255,255,0.45)" strokeWidth="0.9" strokeLinecap="round" />
+                {/* Bright center point */}
+                <circle cx={cx} cy={cy} r="4.0" fill="white" filter={`url(#${F.ptGlow})`}>
+                  <animate attributeName="opacity" values="0.65;1;0.65"  dur="2.8s" repeatCount="indefinite" />
+                  <animate attributeName="r"       values="2.8;5.2;2.8"  dur="2.8s" repeatCount="indefinite" />
                 </circle>
+                {/* 4-ray cross flares — longer for the reference star look */}
                 {[0,90,45,135].map((deg,fi) => {
-                  const rad=deg*Math.PI/180, len=fi<2?13:8;
-                  return <line key={fi} x1={cx+Math.cos(rad)*3.5} y1={cy+Math.sin(rad)*3.5} x2={cx+Math.cos(rad)*len} y2={cy+Math.sin(rad)*len} stroke="rgba(255,255,255,0.55)" strokeWidth="0.7" strokeLinecap="round"><animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.8s" begin={`${fi*0.3}s`} repeatCount="indefinite" /></line>;
+                  const rad=deg*Math.PI/180, len=fi<2?18:11;
+                  return <line key={fi} x1={cx+Math.cos(rad)*4.5} y1={cy+Math.sin(rad)*4.5} x2={cx+Math.cos(rad)*len} y2={cy+Math.sin(rad)*len} stroke="rgba(255,255,255,0.70)" strokeWidth="0.8" strokeLinecap="round"><animate attributeName="opacity" values="0.25;0.92;0.25" dur="2.8s" begin={`${fi*0.3}s`} repeatCount="indefinite" /></line>;
                 })}
               </g>
             );
@@ -544,9 +553,9 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
             const isHovered  = hoveredId===node.id;
             const isActive   = isHovered || isSelected;
             const { specks, rimDust } = nodeVisuals[i];
-            const glowR  = node.r+(isRoot?42:26);
-            const gAlpha = isLocked?0.02:isRoot?0.22:isActive?0.22:0.10;
-            const rimOp  = isLocked?0.16:isSelected?0.90:isHovered?0.82:0.50;
+            const glowR  = node.r+(isRoot?60:40);
+            const gAlpha = isLocked?0.02:isRoot?0.36:isActive?0.32:0.20;
+            const rimOp  = isLocked?0.22:isSelected?0.98:isHovered?0.92:0.72;
             const opacity = nodeOp(node);
             const canDrag = displayMode==='manual' && !isLocked;
 
@@ -581,16 +590,16 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
                 )}
                 {/* Inner rim luminance ring */}
                 {!isLocked && (
-                  <circle cx={node.x} cy={node.y} r={node.r+5} fill="none"
-                    stroke="rgba(255,255,255,0.16)" strokeWidth={isRoot?10:6} filter={`url(#${F.rimGlow})`}>
-                    {!prefersReducedMotion && <animate attributeName="opacity" values="0.35;0.95;0.35" dur={isRoot?'4s':'6s'} repeatCount="indefinite" />}
+                  <circle cx={node.x} cy={node.y} r={node.r+4} fill="none"
+                    stroke="rgba(255,255,255,0.24)" strokeWidth={isRoot?12:8} filter={`url(#${F.rimGlow})`}>
+                    {!prefersReducedMotion && <animate attributeName="opacity" values="0.40;1.0;0.40" dur={isRoot?'4s':'6s'} repeatCount="indefinite" />}
                   </circle>
                 )}
-                {/* Main disc */}
+                {/* Main disc — semi-transparent fill, slightly lighter than bg */}
                 <circle cx={node.x} cy={node.y} r={node.r}
-                  fill="rgba(14,17,26,0.88)"
+                  fill={isLocked?'rgba(18,17,18,0.85)':'rgba(24,23,24,0.70)'}
                   stroke={`rgba(255,255,255,${rimOp})`}
-                  strokeWidth={isRoot?1.6:isLocked?0.55:isActive?1.5:1.1}
+                  strokeWidth={isRoot?2.0:isLocked?0.7:isActive?1.8:1.4}
                   style={{ transition:'stroke-opacity 0.25s ease, stroke-width 0.25s ease' }}
                 />
                 {/* Inset depth ring */}
