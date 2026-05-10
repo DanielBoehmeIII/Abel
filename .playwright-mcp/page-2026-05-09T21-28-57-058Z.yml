@@ -1,0 +1,131 @@
+- generic [ref=e200]:
+  - banner [ref=e201]:
+    - generic [ref=e202]:
+      - paragraph [ref=e203]: EVERY SKILL CONNECTS · EVERY CONNECTION TRANSFORMS
+      - heading "Skill Web" [level=1] [ref=e204]:
+        - text: Skill
+        - text: Web
+    - paragraph [ref=e206]:
+      - text: A living map of what
+      - text: you know and are becoming.
+    - generic [ref=e207]:
+      - generic [ref=e208]:
+        - generic [ref=e209]: "6"
+        - generic [ref=e210]: ACTIVE SKILLS
+      - generic [ref=e211]:
+        - generic [ref=e212]: +56%
+        - generic [ref=e213]: MASTERY RANGE
+  - generic [ref=e214]:
+    - generic [ref=e216]:
+      - generic [ref=e217]:
+        - button "MANUAL" [ref=e218] [cursor=pointer]
+        - button "HIERARCHY" [active] [ref=e219] [cursor=pointer]
+        - button "RADIAL" [ref=e220] [cursor=pointer]
+      - generic [ref=e221]:
+        - button "↺ RESET" [ref=e222] [cursor=pointer]
+        - button "EXPLORER" [ref=e223] [cursor=pointer]
+      - generic [ref=e224]:
+        - button "Zoom in" [ref=e225] [cursor=pointer]: +
+        - button "Zoom out" [ref=e226] [cursor=pointer]: −
+      - img [ref=e227]:
+        - generic [ref=e228]:
+          - button "core" [ref=e1611] [cursor=pointer]:
+            - generic: core
+            - generic: core
+            - generic: Creative Expression
+          - button "focus" [ref=e1666] [cursor=pointer]:
+            - generic: focus
+            - generic: focus
+            - generic: Spark
+          - button "memory" [ref=e1694] [cursor=pointer]:
+            - generic: memory
+            - generic: memory
+            - generic: Wisdom
+          - button "expression" [ref=e1722] [cursor=pointer]:
+            - generic: expression
+            - generic: expression
+            - generic: Mastery
+          - button "mastery" [ref=e1750] [cursor=pointer]:
+            - generic: mastery
+            - generic: mastery
+            - generic: "& Flow"
+          - button "social" [ref=e1778] [cursor=pointer]:
+            - generic: social
+            - generic: social
+            - generic: Legacy
+          - button "world" [ref=e1806] [cursor=pointer]:
+            - generic: world
+            - generic: world
+            - generic: Evolution
+      - generic:
+        - button "+ ADD NODE" [ref=e1834] [cursor=pointer]:
+          - generic [ref=e1835]: +
+          - text: ADD NODE
+        - generic: scroll to zoom · drag to pan
+    - generic:
+      - generic:
+        - generic: "6"
+        - generic: ACTIVE PATHS
+      - generic:
+        - generic: "25"
+        - generic: MASTERY POINTS
+    - complementary [ref=e1869]:
+      - generic [ref=e1870]:
+        - img [ref=e1871]:
+          - generic [ref=e1874]: 42%
+        - generic [ref=e1875]:
+          - paragraph [ref=e1876]: Systems Thinking
+          - heading "Systems Thinking" [level=3] [ref=e1877]
+      - paragraph [ref=e1878]: See patterns, feedback loops, and emergent structure in complex domains.
+      - generic [ref=e1879]:
+        - paragraph [ref=e1880]: MILESTONES
+        - generic [ref=e1881]:
+          - generic [ref=e1883]: 20% Mastery
+          - generic [ref=e1884]: ✓ HATCHED
+        - generic [ref=e1885]:
+          - generic [ref=e1887]: 40% Mastery
+          - generic [ref=e1888] [cursor=pointer]: HATCH
+        - generic [ref=e1889]:
+          - generic [ref=e1891]: 60% Mastery
+          - generic [ref=e1892]: locked
+        - generic [ref=e1893]:
+          - generic [ref=e1895]: 80% Mastery
+          - generic [ref=e1896]: locked
+        - generic [ref=e1897]:
+          - generic [ref=e1899]: 100% Mastery
+          - generic [ref=e1900]: locked
+      - generic [ref=e1901]:
+        - paragraph [ref=e1902]: LINKED QUESTS
+        - generic [ref=e1903] [cursor=pointer]:
+          - generic [ref=e1904]: completed
+          - generic [ref=e1905]: Build Knowledge Graph
+        - generic [ref=e1906] [cursor=pointer]:
+          - generic [ref=e1907]: active
+          - generic [ref=e1908]: Synthesize Three Insights
+        - generic [ref=e1909] [cursor=pointer]:
+          - generic [ref=e1910]: locked
+          - generic [ref=e1911]: Design Your Systems Architecture
+      - generic [ref=e1912]:
+        - button "+ BOOST MASTERY" [ref=e1913] [cursor=pointer]
+        - button "VIEW EGGS →" [ref=e1914] [cursor=pointer]
+  - contentinfo [ref=e1836]:
+    - generic [ref=e1837]:
+      - generic [ref=e1838] [cursor=pointer]:
+        - generic [ref=e1839]: Systems Thinking
+        - generic [ref=e1842]: 42%
+      - generic [ref=e1843] [cursor=pointer]:
+        - generic [ref=e1844]: Emotional Clarity
+        - generic [ref=e1847]: 28%
+      - generic [ref=e1848] [cursor=pointer]:
+        - generic [ref=e1849]: Creative Direction
+        - generic [ref=e1852]: 61%
+      - generic [ref=e1853] [cursor=pointer]:
+        - generic [ref=e1854]: Technical Craft
+        - generic [ref=e1857]: 36%
+      - generic [ref=e1858] [cursor=pointer]:
+        - generic [ref=e1859]: Discipline & Flow
+        - generic [ref=e1862]: 80%
+      - generic [ref=e1863] [cursor=pointer]:
+        - generic [ref=e1864]: Knowledge Synthesis
+        - generic [ref=e1867]: 24%
+    - paragraph [ref=e1868]: Ask your skill web anything.

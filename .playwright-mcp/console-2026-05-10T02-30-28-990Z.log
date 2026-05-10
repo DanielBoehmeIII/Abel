@@ -1,0 +1,15 @@
+[     108ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=718ed4df:14336
+[   43985ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[   43985ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[   44029ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   44029ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   51097ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   51097ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   58187ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   58187ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   65255ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   65255ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   72341ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   72341ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   79406ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[   79406ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
