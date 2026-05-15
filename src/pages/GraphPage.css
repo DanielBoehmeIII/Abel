@@ -159,6 +159,7 @@
 .gp-world {
   position: absolute; left: 0; top: 0;
   width: 1800px; height: 1400px;
+  will-change: transform;
 }
 
 /* Unified SVG canvas — nodes + edges in one layer */
@@ -187,10 +188,10 @@
   position: absolute; bottom: 14px; right: 14px;
   display: flex; align-items: center; gap: 5px;
   padding: 5px 10px;
-  background: rgba(8,8,20,0.90);
+  background: rgba(8,8,20,0.92);
   border: 1px solid rgba(255,255,255,0.09);
   border-radius: 10px;
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(8px);
   font-size: 0.73rem; color: rgba(155,148,200,0.75);
   z-index: 5;
 }
@@ -209,10 +210,10 @@
   position: absolute;
   width: 210px;
   min-height: 118px;
-  background: rgba(10,8,24,0.90);
+  background: rgba(10,8,24,0.92);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 12px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(8px);
   box-shadow: 0 4px 20px rgba(0,0,0,0.45);
   cursor: pointer;
   display: flex; flex-direction: column;
@@ -394,7 +395,7 @@
 .gp-overlay {
   position: fixed; inset: 0; z-index: 100;
   background: rgba(4,4,12,0.88);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(10px);
   display: flex; align-items: center; justify-content: center;
 }
 .gp-modal {

@@ -59,7 +59,9 @@
 .atmo-nebula {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
+  /* filter: blur(60px) removed — forces GPU rasterize+composite on every animation frame.
+     The radial-gradient already renders as a soft feathered cloud without it. */
+  will-change: transform;
 }
 
 .atmo-nebula-1 {
@@ -134,4 +136,14 @@
   background: rgba(139,92,246,0.7);
   animation: particle-rise var(--dur, 10s) ease-in-out infinite;
   box-shadow: 0 0 4px rgba(139,92,246,0.5);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atmo-nebula-1,
+  .atmo-nebula-2,
+  .atmo-nebula-3,
+  .atmo-nebula-4 { animation: none; }
+  .atmo-star     { animation: none; }
+  .atmo-particle { animation: none; }
 }

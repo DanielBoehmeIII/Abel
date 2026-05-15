@@ -21,7 +21,8 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  /* opacity managed by rAF loop; no CSS transition */
+  /* opacity managed by rAF loop; will-change promotes to compositor layer */
+  will-change: opacity;
 }
 
 /* ── Idle post-processing overlay — z-index 1 ───────────────── */
@@ -71,6 +72,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 5;
+  will-change: opacity;
 }
 
 /* ── Transition video fallback — z-index 5 ──────────────────── */
@@ -82,7 +84,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 5;
-  /* no CSS transition — rAF writes opacity directly each frame */
+  will-change: opacity;
 }
 
 /* ── Destination idle video (Trophy) — z-index 6 ───────────── */
@@ -93,6 +95,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 6;
+  will-change: opacity;
 }
 
 /* ── Cinematic veil above destination video — z-index 7 ─────── */

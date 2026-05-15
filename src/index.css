@@ -214,8 +214,9 @@ input, textarea, select { font-family: inherit; }
   50%       { opacity: 1; }
 }
 @keyframes glow-breathe {
-  0%, 100% { box-shadow: 0 0 20px var(--purple-glow); }
-  50%       { box-shadow: 0 0 50px var(--purple-glow), 0 0 100px var(--purple-bloom); }
+  /* opacity pulse is GPU-compositable; keep box-shadow in static CSS for the base glow */
+  0%, 100% { opacity: 0.75; }
+  50%       { opacity: 1.0; }
 }
 @keyframes spin-slow    { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes spin-reverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
@@ -303,12 +304,12 @@ input, textarea, select { font-family: inherit; }
 .animate-fade-in        { animation: fadeIn 0.45s var(--ease-out-expo) both; }
 .animate-fade-in-scale  { animation: fadeInScale 0.4s var(--ease-out-expo) both; }
 .animate-fade-in-up     { animation: fadeInUp 0.5s var(--ease-out-expo) both; }
-.animate-float          { animation: float 8s ease-in-out infinite; }
-.animate-float-slow     { animation: floatSlow 12s ease-in-out infinite; }
-.animate-pulse-glow     { animation: pulse-glow 3s ease-in-out infinite; }
-.animate-glow-breathe   { animation: glow-breathe 4s ease-in-out infinite; }
-.animate-spin-slow      { animation: spin-slow 24s linear infinite; }
-.animate-spin-reverse   { animation: spin-reverse 18s linear infinite; }
+.animate-float          { animation: float 8s ease-in-out infinite; will-change: transform; }
+.animate-float-slow     { animation: floatSlow 12s ease-in-out infinite; will-change: transform; }
+.animate-pulse-glow     { animation: pulse-glow 3s ease-in-out infinite; will-change: opacity; }
+.animate-glow-breathe   { animation: glow-breathe 4s ease-in-out infinite; will-change: opacity; }
+.animate-spin-slow      { animation: spin-slow 24s linear infinite; will-change: transform; }
+.animate-spin-reverse   { animation: spin-reverse 18s linear infinite; will-change: transform; }
 .animate-bounce-in      { animation: bounce-in 0.5s var(--ease-out-expo) both; }
 .animate-shimmer        { animation: shimmer 2.5s linear infinite; }
 

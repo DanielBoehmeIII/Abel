@@ -164,12 +164,7 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
     setSelected(node);
   }
 
-  // ── SVG filter IDs ─────────────────────────────────────────────────────────
-
-  const idMist   = `gp_em_${safe}`;
-  const idStream = `gp_es_${safe}`;
-  const idBlur   = `gp_eb_${safe}`;
-  const idDot    = `gp_dt_${safe}`;
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   // ── Render ─────────────────────────────────────────────────────────────────
 
@@ -240,26 +235,12 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
           style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}>
 
           <div className="gp-world"
-            style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${scale})`, transformOrigin: '0 0' }}>
+            style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${scale})`, transformOrigin: '0 0', willChange: 'transform' }}>
 
             {/* ── SVG edge layer ── */}
             <svg className="gp-edges-svg" style={{ position: 'absolute', inset: 0, width: '1800px', height: '1400px', pointerEvents: 'none', overflow: 'visible' }}>
               <defs>
-                <filter id={idMist} x="-250%" y="-250%" width="600%" height="600%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-                </filter>
-                <filter id={idStream} x="-130%" y="-130%" width="360%" height="360%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" />
-                </filter>
-                <filter id={idBlur} x="-80%" y="-80%" width="260%" height="260%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
-                </filter>
-                <filter id={idDot} x="-250%" y="-250%" width="600%" height="600%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b" />
-                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-
-                {/* Per-edge gradients */}
+                {/* Per-edge gradients — no blur filters; gradient alone creates the glow */}
                 {visibleEdges.map(e => {
                   const src = graph.nodes.find(n => n.id === e.source);
                   const tgt = graph.nodes.find(n => n.id === e.target);
@@ -279,24 +260,24 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
                 })}
               </defs>
 
-              {/* Layer 1: outer mist */}
+              {/* Layer 1: wide glow aura — simple wide stroke, no filter needed */}
               {visibleEdges.map(e => {
                 const src = graph.nodes.find(n => n.id === e.source);
                 const tgt = graph.nodes.find(n => n.id === e.target);
                 if (!src || !tgt) return null;
                 const active = edgeActive(e);
                 return (
-                  <path key={`em_${e.id}`}
+                  <path key={`ea_${e.id}`}
                     d={bezierPath(cx(src), cy(src), cx(tgt), cy(tgt))}
                     fill="none" stroke={`url(#lg_${safeId(e.id)}_${safe})`}
-                    strokeWidth="16" filter={`url(#${idMist})`}
-                    opacity={!hlSet || active ? 0.55 : 0.03}
+                    strokeWidth="8"
+                    opacity={!hlSet || active ? 0.18 : 0.02}
                     style={{ transition: 'opacity 0.3s ease' }}
                   />
                 );
               })}
 
-              {/* Layer 2: stream glow */}
+              {/* Layer 2: soft mid glow */}
               {visibleEdges.map(e => {
                 const src = graph.nodes.find(n => n.id === e.source);
                 const tgt = graph.nodes.find(n => n.id === e.target);
@@ -306,8 +287,8 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
                   <path key={`es_${e.id}`}
                     d={bezierPath(cx(src), cy(src), cx(tgt), cy(tgt))}
                     fill="none" stroke={`url(#lg_${safeId(e.id)}_${safe})`}
-                    strokeWidth="3.5" filter={`url(#${idStream})`}
-                    opacity={!hlSet || active ? 0.80 : 0.03}
+                    strokeWidth="3.5"
+                    opacity={!hlSet || active ? 0.65 : 0.03}
                     style={{ transition: 'opacity 0.3s ease' }}
                   />
                 );
@@ -326,30 +307,28 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
                     fill="none" stroke={color}
                     strokeWidth={active ? 1.4 : 0.9}
                     opacity={!hlSet || active ? (active ? 1 : 0.50) : 0.04}
-                    style={{ transition: 'opacity 0.3s ease, stroke-width 0.2s ease' }}
+                    style={{ transition: 'opacity 0.3s ease' }}
                   />
                 );
               })}
 
-              {/* Dot markers at 25%, 50%, 75% along each edge */}
+              {/* Dot markers at 33%, 67% — no blur filter, fixed radius */}
               {visibleEdges.map(e => {
                 const src = graph.nodes.find(n => n.id === e.source);
                 const tgt = graph.nodes.find(n => n.id === e.target);
                 if (!src || !tgt) return null;
                 const active = edgeActive(e);
                 const color  = EDGE_COLORS[e.type] ?? '#7c4dff';
-                const dots   = [0.25, 0.5, 0.75].map(t => bezierPt(t, cx(src), cy(src), cx(tgt), cy(tgt)));
+                const dots   = [0.33, 0.67].map(t => bezierPt(t, cx(src), cy(src), cx(tgt), cy(tgt)));
                 return (
                   <g key={`dots_${e.id}`}
                     opacity={!hlSet || active ? 1 : 0.03}
                     style={{ transition: 'opacity 0.3s ease' }}>
                     {dots.map((pt, i) => (
                       <circle key={i} cx={pt.x} cy={pt.y}
-                        r={active ? 3.2 : 2.2}
+                        r={2}
                         fill={color}
-                        filter={`url(#${idDot})`}
-                        opacity={active ? 0.95 : 0.55}
-                        style={{ transition: 'r 0.2s ease, opacity 0.2s ease' }}
+                        opacity={active ? 0.9 : 0.45}
                       />
                     ))}
                   </g>
