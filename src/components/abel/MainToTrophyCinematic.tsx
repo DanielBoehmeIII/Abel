@@ -80,12 +80,8 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
       return;
     }
 
-    function onIdleEnded() {
-      if (!idle || isScrollActiveRef.current) return;
-      idle.currentTime = 0;
-      idle.play().catch(() => {});
-    }
-    idle.addEventListener('ended', onIdleEnded);
+    // `loop` attribute on the element handles seamless looping without JS gaps.
+    // We only call play() here; pause/play during scroll is managed in the rAF loop.
     idle.play().catch(() => {});
 
     // Log idle metadata in dev
@@ -251,7 +247,6 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
     return () => {
       cancelAnimationFrame(rafIdRef.current);
       if (idleCbId) cancelIdleCallback(idleCbId);
-      idle.removeEventListener('ended', onIdleEnded);
       if (scrollContainer) {
         scrollContainer.removeEventListener('scroll', readProgress);
       }
@@ -269,6 +264,7 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
             className="mtc-idle"
             src={IDLE_SRC}
             muted
+            loop
             playsInline
             preload="auto"
             disablePictureInPicture
