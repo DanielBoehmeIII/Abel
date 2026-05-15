@@ -1,8 +1,7 @@
-import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import type { PageId } from '../../types/abel';
 import './MainToTrophyCinematic.css';
 
-const LERP_FACTOR = 0.08;
 const IDLE_SRC    = '/scene/main/main.mp4';
 const TRANS_SRC   = '/scene/main/main-to-trophy.mp4';
 const DEST_SRC    = '/scene/trophy/trophy.mp4';
@@ -40,14 +39,14 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
   const imgRef      = useRef<HTMLImageElement>(null);
   const trophyUiRef = useRef<HTMLDivElement>(null);
 
-  const targetProgressRef    = useRef(0);
-  const displayedProgressRef = useRef(0);
-  const rafIdRef             = useRef(0);
-  const frameCountRef        = useRef(0);
-  const prevFrameRef         = useRef(0);
-  const preloadedRef         = useRef<Set<number>>(new Set());
-  const framesErrorRef       = useRef(false);
-  const destErrorRef         = useRef(false);
+  const progressRef      = useRef(0);
+  const prevProgressRef  = useRef(0);
+  const rafIdRef         = useRef(0);
+  const frameCountRef    = useRef(0);
+  const prevFrameRef     = useRef(0);
+  const preloadedRef     = useRef<Set<number>>(new Set());
+  const framesErrorRef   = useRef(false);
+  const destErrorRef     = useRef(false);
 
   const isScrollActiveRef        = useRef(false);
   const idleTimeAtScrollStartRef = useRef(0);
@@ -63,14 +62,6 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
   const reducedMotion = typeof window !== 'undefined'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const readProgress = useCallback(() => {
-    const rect = sectionRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const scrollRange = rect.height - window.innerHeight;
-    if (scrollRange <= 0) return;
-    targetProgressRef.current = clamp(-rect.top / scrollRange, 0, 1);
-  }, []);
-
   useEffect(() => {
     const idle = idleRef.current;
     if (!idle) return;
@@ -80,11 +71,8 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
       return;
     }
 
-    // `loop` attribute on the element handles seamless looping without JS gaps.
-    // We only call play() here; pause/play during scroll is managed in the rAF loop.
     idle.play().catch(() => {});
 
-    // Log idle metadata in dev
     function onIdleMeta() {
       if (import.meta.env.DEV && idle) {
         console.debug('[MTC] idle loadedmetadata — duration:', idle.duration.toFixed(2));
@@ -92,7 +80,6 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
     }
     idle.addEventListener('loadedmetadata', onIdleMeta, { once: true });
 
-    // Start destination idle video early so it's warm when it fades in at p≈0.82
     const dest = destRef.current;
     if (dest && !destErrorRef.current) {
       if (import.meta.env.DEV) {
@@ -108,21 +95,25 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
       });
     }
 
-    const scrollContainer = sectionRef.current?.parentElement;
-    if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', readProgress, { passive: true });
-    }
-
     function loop() {
       const trans = transRef.current;
       const img   = imgRef.current;
 
-      const dp   = displayedProgressRef.current;
-      const tp   = targetProgressRef.current;
-      const diff = tp - dp;
-      const newDp = Math.abs(diff) < 0.0001 ? tp : dp + diff * LERP_FACTOR;
-      displayedProgressRef.current = newDp;
-      const p = newDp;
+      // Read progress fresh every frame — perfectly in sync with rendering,
+      // no lerp lag regardless of scroll speed.
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const scrollRange = rect.height - window.innerHeight;
+        if (scrollRange > 0) {
+          progressRef.current = clamp(-rect.top / scrollRange, 0, 1);
+        }
+      }
+
+      const p = progressRef.current;
+
+      // Scroll velocity: how many progress-units moved since last frame.
+      const vel = Math.abs(p - prevProgressRef.current);
+      prevProgressRef.current = p;
 
       const idleDuration = idle && idle.duration > 0 ? idle.duration : 0;
 
@@ -150,7 +141,6 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
       if (idle) idle.style.opacity = String(clamp(1 - (p - 0.12) / 0.14, 0, 1));
 
       // Frame sequence: fade IN p 0.12→0.26, hold, fade OUT p 0.88→1.00
-      // If dest failed, skip fade-out so last frame stays as fallback
       const frameIn  = clamp((p - 0.12) / 0.14, 0, 1);
       const frameOut = destErrorRef.current ? 1 : clamp(1 - (p - 0.88) / 0.12, 0, 1);
       const frameOpacity = String(Math.min(frameIn, frameOut));
@@ -182,10 +172,13 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
           if (fi !== prevFrameRef.current) {
             img.src = frameUrl(fi);
             prevFrameRef.current = fi;
-            for (let j = Math.max(1, fi - 6); j <= Math.min(FRAME_COUNT, fi + 6); j++) {
+            // Adaptive lookahead: at high scroll velocity, widen the preload window
+            // so fast scrubs don't outrun cached frames.
+            const radius = Math.max(10, Math.min(40, Math.round(vel * FRAME_COUNT * 5)));
+            for (let j = Math.max(1, fi - radius); j <= Math.min(FRAME_COUNT, fi + radius); j++) {
               if (!preloadedRef.current.has(j)) {
-                const p2 = new Image();
-                p2.src = frameUrl(j);
+                const pImg = new Image();
+                pImg.src = frameUrl(j);
                 preloadedRef.current.add(j);
               }
             }
@@ -215,6 +208,7 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
           '[MTC] idleDur', idleDuration.toFixed(2),
           '| p', p.toFixed(3),
           '| frameIdx', prevFrameRef.current,
+          '| vel', vel.toFixed(4),
           '| framesErr', framesErrorRef.current,
           '| scrollActive', isScrollActiveRef.current,
         );
@@ -228,14 +222,14 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
     // Preload frame 1 immediately
     { const p1 = new Image(); p1.src = frameUrl(1); preloadedRef.current.add(1); }
 
-    // Background preload remaining frames
+    // Background preload all remaining frames during idle time
     let bgIdx = 2;
     let idleCbId = 0;
     function preloadNext(deadline: IdleDeadline) {
       while (deadline.timeRemaining() > 0 && bgIdx <= FRAME_COUNT) {
         if (!preloadedRef.current.has(bgIdx)) {
-          const p2 = new Image();
-          p2.src = frameUrl(bgIdx);
+          const pImg = new Image();
+          pImg.src = frameUrl(bgIdx);
           preloadedRef.current.add(bgIdx);
         }
         bgIdx++;
@@ -247,11 +241,8 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
     return () => {
       cancelAnimationFrame(rafIdRef.current);
       if (idleCbId) cancelIdleCallback(idleCbId);
-      if (scrollContainer) {
-        scrollContainer.removeEventListener('scroll', readProgress);
-      }
     };
-  }, [reducedMotion, readProgress]);
+  }, [reducedMotion]);
 
   return (
     <section ref={sectionRef} className="mtc-section" aria-label="Cinematic transition to Trophy Vault">
