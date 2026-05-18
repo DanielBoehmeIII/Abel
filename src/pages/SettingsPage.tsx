@@ -5,6 +5,7 @@ import { LLM_PROVIDERS } from '../config/llmProviders';
 import { SEED_STATE } from '../data/seed';
 import { userService, DEMO_USER_ID, aiConfigService, memoryService } from '../db';
 import type { AIConfigRecord } from '../db';
+import { buildSystemPrompt } from '../lib/aiPipeline';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
@@ -277,6 +278,13 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
                   onChange={e => setAiCfg(c => ({ ...c, customInstructions: e.target.value }))}
                   style={{ resize: 'vertical', minHeight: '90px' }}
                 />
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '18px', marginBottom: '20px' }}>
+                <p className="heading" style={{ marginBottom: '10px', color: 'var(--text-3)' }}>GENERATED PROMPT CONTEXT</p>
+                <pre style={{ fontSize: '10px', lineHeight: 1.6, color: 'rgba(200,190,255,0.55)', whiteSpace: 'pre-wrap', wordBreak: 'break-word', margin: 0 }}>
+                  {buildSystemPrompt(aiCfg as AIConfigRecord)}
+                </pre>
               </GlassPanel>
 
               <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>

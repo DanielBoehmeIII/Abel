@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId } from '../types/abel';
-import { LLM_PROVIDERS, getMockAbelResponse, mockGenerateQuests } from '../config/llmProviders';
-import { chatService, memoryService, DEMO_USER_ID } from '../db';
-import type { ChatThreadRecord, ChatMessageRecord } from '../db';
+import { LLM_PROVIDERS, mockGenerateQuests } from '../config/llmProviders';
+import { chatService, memoryService, aiConfigService, DEMO_USER_ID } from '../db';
+import type { ChatThreadRecord, ChatMessageRecord, AIConfigRecord } from '../db';
+import { generateResponse } from '../lib/aiPipeline';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './ArchivePage.css';
@@ -40,6 +41,7 @@ export default function ArchivePage({ onNavigate }: Props) {
   const [renamingId,     setRenamingId]     = useState<string | null>(null);
   const [renameVal,      setRenameVal]      = useState('');
   const [summarized,     setSummarized]     = useState<string | null>(null);
+  const aiCfgRef = useRef<AIConfigRecord | null>(null);
 
   // ── UI state ───────────────────────────────────────────────────────────────
   const [input,            setInput]            = useState('');
@@ -64,7 +66,10 @@ export default function ArchivePage({ onNavigate }: Props) {
     });
   }, [activeThreadId]);
 
-  useEffect(() => { loadThreads(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    loadThreads();
+    aiConfigService.get(DEMO_USER_ID).then(cfg => { if (cfg) aiCfgRef.current = cfg; });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Load messages when thread changes ──────────────────────────────────────
   useEffect(() => {
@@ -93,7 +98,10 @@ export default function ArchivePage({ onNavigate }: Props) {
     setIsTyping(true);
 
     setTimeout(async () => {
-      const resp = getMockAbelResponse(text);
+      const cfg = aiCfgRef.current;
+      const resp = cfg
+        ? generateResponse(text, cfg, { journeyTitle: activeJourney?.title, projectFocus: cfg.projectFocus })
+        : generateResponse(text, { tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate', memoryUsageLevel: 'standard', responseFormat: 'narrative', id: '', userId: '', createdAt: '', updatedAt: '' });
       const abelMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'abel', resp);
       setMessages(m => [...m, abelMsg]);
       setIsTyping(false);
