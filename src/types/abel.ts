@@ -3,7 +3,7 @@
 export type PageId =
   | 'main' | 'nav' | 'archive' | 'quests' | 'focus'
   | 'graph' | 'skillweb' | 'egg-hatch' | 'trophies'
-  | 'exhibition' | 'settings';
+  | 'exhibition' | 'settings' | 'memory';
 
 // ─── User ─────────────────────────────────────────────────────────────────────
 

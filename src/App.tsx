@@ -13,6 +13,7 @@ import EggHatchPage from './pages/EggHatchPage';
 import TrophiesPage from './pages/TrophiesPage';
 import ExhibitionPage from './pages/ExhibitionPage';
 import SettingsPage from './pages/SettingsPage';
+import MemoryPage from './pages/MemoryPage';
 
 function AppInner() {
   const [page, setPage]       = useState<PageId>('main');
@@ -42,7 +43,7 @@ function AppInner() {
   return (
     <>
       <PageTransition pageId={page}>
-        {page === 'main'       && <MainPage     {...shared} onOpenNav={openNav} />}
+        {page === 'main'       && <MainPage     {...shared} />}
         {page === 'archive'    && <ArchivePage  {...shared} />}
         {page === 'quests'     && <QuestsPage   {...shared} />}
         {page === 'focus'      && <FocusPage    {...shared} />}
@@ -52,6 +53,7 @@ function AppInner() {
         {page === 'trophies'   && <TrophiesPage {...shared} />}
         {page === 'exhibition' && <ExhibitionPage {...shared} />}
         {page === 'settings'   && <SettingsPage {...shared} />}
+        {page === 'memory'     && <MemoryPage   {...shared} />}
       </PageTransition>
 
       {navOpen && (
@@ -61,6 +63,21 @@ function AppInner() {
           onClose={closeNav}
         />
       )}
+
+      <div className="global-nav">
+        <button className="global-nav-btn" onClick={openNav} title="Navigator (Esc)">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1" strokeOpacity="0.6" />
+            <circle cx="9" cy="9" r="3" stroke="currentColor" strokeWidth="1" />
+            <circle cx="9" cy="9" r="1" fill="currentColor" />
+            <line x1="9" y1="2" x2="9" y2="0" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
+            <line x1="9" y1="16" x2="9" y2="18" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
+            <line x1="2" y1="9" x2="0" y2="9" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
+            <line x1="16" y1="9" x2="18" y2="9" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
+          </svg>
+        </button>
+        <span className="global-nav-label">Nav</span>
+      </div>
     </>
   );
 }

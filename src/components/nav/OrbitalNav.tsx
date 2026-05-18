@@ -18,10 +18,11 @@ const NAV_NODES: NavNode[] = [
   { id: 'focus',      label: 'Focus',      glyph: '⬡', tier: 1, description: 'Deep work sessions. Enter flow state.',         angle: 108 },
   { id: 'graph',      label: 'Graph',      glyph: '◇', tier: 1, description: 'Knowledge graph. Nodes and insight clusters.',  angle: 144 },
   { id: 'skillweb',   label: 'Skillweb',   glyph: '⟁', tier: 2, description: 'Skill web. Mastery milestones and eggs.',       angle: 180 },
-  { id: 'egg-hatch',  label: 'Eggs',       glyph: '◌', tier: 2, description: 'Hatch earned eggs into collectible trophies.',  angle: 216 },
-  { id: 'trophies',   label: 'Trophies',   glyph: '⬙', tier: 2, description: 'Collectible vault. Artifacts of your journey.', angle: 252 },
-  { id: 'exhibition', label: 'Exhibition', glyph: '▣', tier: 2, description: 'Memory museum. Who you are becoming.',          angle: 288 },
-  { id: 'settings',   label: 'Settings',   glyph: '⊞', tier: 2, description: 'Configure Abel. Providers and preferences.',    angle: 324 },
+  { id: 'memory',     label: 'Memory',     glyph: '◐', tier: 2, description: 'Persistent memory store. Facts, goals, and durable context.', angle: 210 },
+  { id: 'egg-hatch',  label: 'Eggs',       glyph: '◌', tier: 2, description: 'Hatch earned eggs into collectible trophies.',  angle: 240 },
+  { id: 'trophies',   label: 'Trophies',   glyph: '⬙', tier: 2, description: 'Collectible vault. Artifacts of your journey.', angle: 270 },
+  { id: 'exhibition', label: 'Exhibition', glyph: '▣', tier: 2, description: 'Memory museum. Who you are becoming.',          angle: 300 },
+  { id: 'settings',   label: 'Settings',   glyph: '⊞', tier: 2, description: 'Configure Abel. Providers and preferences.',    angle: 330 },
 ];
 
 const ORBIT_R = 240;
