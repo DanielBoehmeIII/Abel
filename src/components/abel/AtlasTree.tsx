@@ -724,7 +724,7 @@ export default function AtlasTree({
       {/* ═══ Edges — 5 pearl layers each ═════════════════════════════════════ */}
 
       {/* Layer 1: Outer mist */}
-      {edges.map((e, i) => (
+      {edges.map((e) => (
         <path
           key={`em_${e.id}`}
           d={bPath(e.from, e.to)}
@@ -733,12 +733,11 @@ export default function AtlasTree({
           strokeWidth="20"
           filter={`url(#${edgeMistId})`}
           className={`atlas-path--mist ${edgeClass(e)}`}
-          style={{ '--draw-delay': `${i * 0.055}s` } as CSSProperties}
         />
       ))}
 
       {/* Layer 2: Stream */}
-      {edges.map((e, i) => (
+      {edges.map((e) => (
         <path
           key={`es_${e.id}`}
           d={bPath(e.from, e.to)}
@@ -747,12 +746,11 @@ export default function AtlasTree({
           strokeWidth="5"
           filter={`url(#${edgeStreamId})`}
           className={`atlas-path--stream ${edgeClass(e)}`}
-          style={{ '--draw-delay': `${i * 0.055}s` } as CSSProperties}
         />
       ))}
 
       {/* Layer 3: Inner soft glow */}
-      {edges.map((e, i) => (
+      {edges.map((e) => (
         <path
           key={`eg_${e.id}`}
           d={bPath(e.from, e.to)}
@@ -761,12 +759,11 @@ export default function AtlasTree({
           strokeWidth="1.7"
           filter={`url(#${edgeBlurId})`}
           className={`atlas-path--glow ${edgeClass(e)}`}
-          style={{ '--draw-delay': `${i * 0.055}s` } as CSSProperties}
         />
       ))}
 
       {/* Layer 4: Crisp thread */}
-      {edges.map((e, i) => (
+      {edges.map((e) => (
         <path
           key={`ec_${e.id}`}
           d={bPath(e.from, e.to)}
@@ -775,12 +772,11 @@ export default function AtlasTree({
           strokeWidth="0.50"
           pathLength={1}
           className={`atlas-path--crisp ${edgeClass(e)}`}
-          style={{ '--draw-delay': `${i * 0.055}s` } as CSSProperties}
         />
       ))}
 
       {/* Layer 5: Highlight strand */}
-      {edges.map((e, i) => (
+      {edges.map((e) => (
         <path
           key={`eh_${e.id}`}
           d={hlPath(e.from, e.to)}
@@ -789,7 +785,6 @@ export default function AtlasTree({
           strokeWidth="0.20"
           pathLength={1}
           className={`atlas-path--highlight ${edgeClass(e)}`}
-          style={{ '--draw-delay': `${i * 0.055}s` } as CSSProperties}
         />
       ))}
 

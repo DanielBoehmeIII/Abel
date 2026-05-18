@@ -558,7 +558,7 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
               <g
                 key={node.id}
                 className="aw-node"
-                style={{ cursor: isLocked?'default':canDrag?'move':'pointer', opacity, transition:'opacity 0.4s ease', animationDelay:`${(node.id.charCodeAt(0)%8)*0.07+0.05}s` } as CSSProperties}
+                style={{ cursor: isLocked?'default':canDrag?'move':'pointer', opacity, transition:'opacity 0.4s ease', animationDelay:'0.04s' } as CSSProperties}
                 onClick={() => { if (!isLocked && !nodeDragId) onNodeClick?.(node.rawNode); }}
                 onMouseDown={(e) => handleNodePointerDown(e, node)}
                 onKeyDown={handleKeyDown(node.rawNode)}

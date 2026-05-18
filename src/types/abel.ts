@@ -8,9 +8,23 @@ export type PageId =
 // ─── User ─────────────────────────────────────────────────────────────────────
 
 export interface UserProfile {
+  id?: string;       // set after DB init; 'demo' for local single-user
   name: string;
+  email?: string;
   title: string;
   createdAt: string;
+  updatedAt?: string;
+}
+
+// ─── Workspace ────────────────────────────────────────────────────────────────
+
+export interface Workspace {
+  id: string;
+  userId: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ─── Settings ─────────────────────────────────────────────────────────────────
@@ -172,6 +186,8 @@ export type MemorySubtype =
   | 'breakthrough' | 'connection' | 'grief' | 'confidence'
   | 'creativity' | 'flow' | 'fear' | 'resilience';
 
+export type MemoryType = 'fact' | 'preference' | 'goal' | 'project' | 'skill' | 'document' | 'system';
+
 export interface MemoryItem {
   id: string;
   title: string;
@@ -182,6 +198,14 @@ export interface MemoryItem {
   relatedGraphNodeIds: string[];
   relatedTrophyIds: string[];
   createdAt: string;
+  // Extended fields for persistent DB layer (optional for backwards compat)
+  userId?: string;
+  type?: MemoryType;
+  tags?: string[];
+  confidence?: number;  // 0–1
+  archived?: boolean;
+  updatedAt?: string;
+  deletedAt?: string;
 }
 
 // ─── Archive ──────────────────────────────────────────────────────────────────
@@ -224,6 +248,55 @@ export interface ActivityItem {
   description: string;
   relatedId?: string;
   createdAt: string;
+}
+
+// ─── AI Config ────────────────────────────────────────────────────────────────
+
+export type AITone = 'formal' | 'casual' | 'philosophical' | 'direct';
+export type AIVerbosity = 'concise' | 'balanced' | 'verbose';
+export type AIExpertiseLevel = 'beginner' | 'intermediate' | 'expert';
+export type MemoryUsageLevel = 'minimal' | 'standard' | 'deep';
+export type ResponseFormat = 'structured' | 'narrative' | 'hybrid';
+
+export interface AIConfig {
+  id: string;
+  userId: string;
+  tone: AITone;
+  verbosity: AIVerbosity;
+  expertiseLevel: AIExpertiseLevel;
+  codingStyle?: string;
+  projectFocus?: string;
+  memoryUsageLevel: MemoryUsageLevel;
+  responseFormat: ResponseFormat;
+  providerPreference?: LLMProvider;
+  customInstructions?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// ─── Sync Jobs ────────────────────────────────────────────────────────────────
+
+export type SyncJobType =
+  | 'memory_import'
+  | 'chat_summary'
+  | 'graph_refresh'
+  | 'embedding_refresh';
+
+export type SyncJobStatus = 'pending' | 'running' | 'succeeded' | 'failed' | 'canceled';
+
+export interface SyncJob {
+  id: string;
+  userId: string;
+  type: SyncJobType;
+  status: SyncJobStatus;
+  payload?: Record<string, unknown>;
+  result?: Record<string, unknown>;
+  error?: string;
+  retryCount: number;
+  createdAt: string;
+  updatedAt: string;
+  startedAt?: string;
+  finishedAt?: string;
 }
 
 // ─── Root State ───────────────────────────────────────────────────────────────

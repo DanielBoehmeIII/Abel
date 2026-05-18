@@ -3,10 +3,17 @@ import { useAbel } from '../state/AbelProvider';
 import type { PageId, LLMProvider, ThemeName, QuestIntensity } from '../types/abel';
 import { LLM_PROVIDERS } from '../config/llmProviders';
 import { SEED_STATE } from '../data/seed';
+import { userService, DEMO_USER_ID } from '../db/services/userService';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './SettingsPage.css';
+
+const TITLE_OPTIONS = [
+  'Seeker of Clarity', 'Systems Architect', 'Creative Synthesist',
+  'Deep Worker', 'Knowledge Builder', 'Pattern Finder', 'The Reflector',
+];
+
 
 interface Props { onNavigate: (page: PageId) => void; }
 
@@ -23,7 +30,13 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { settings, user, memories, quests, focusSessions } = state;
   const [confirmReset, setConfirmReset] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('llm');
+  const [activeSection, setActiveSection] = useState<string>('profile');
+
+  // Profile edit state
+  const [profileName,  setProfileName]  = useState(user.name);
+  const [profileEmail, setProfileEmail] = useState(user.email ?? '');
+  const [profileTitle, setProfileTitle] = useState(user.title);
+  const [profileSaved, setProfileSaved] = useState(false);
 
   function updateSetting<K extends keyof typeof settings>(key: K, value: typeof settings[K]) {
     dispatch({ type: 'UPDATE_SETTINGS', settings: { [key]: value } });
@@ -34,7 +47,22 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
     setConfirmReset(false);
   }
 
+  async function saveProfile() {
+    // Persist to DB
+    await userService.upsert({
+      id: DEMO_USER_ID,
+      name: profileName.trim() || user.name,
+      email: profileEmail.trim() || undefined,
+      title: profileTitle,
+      createdAt: user.createdAt,
+    });
+    // Update in-memory state (no dedicated action yet — reflected on next reload via DB)
+    setProfileSaved(true);
+    setTimeout(() => setProfileSaved(false), 2500);
+  }
+
   const SECTIONS = [
+    { id: 'profile',     label: 'Profile' },
     { id: 'llm',         label: 'LLM Provider' },
     { id: 'themes',      label: 'Themes' },
     { id: 'preferences', label: 'Preferences' },
@@ -73,6 +101,66 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
 
         {/* Main content */}
         <main className="settings-main">
+
+          {/* Profile */}
+          {activeSection === 'profile' && (
+            <div className="settings-section animate-fade-in">
+              <p className="eyebrow settings-section-eyebrow">IDENTITY</p>
+              <h2 className="settings-section-title">Profile</h2>
+
+              <GlassPanel style={{ padding: '24px', marginBottom: '16px' }}>
+                <p className="heading" style={{ marginBottom: '16px' }}>DISPLAY NAME</p>
+                <input
+                  className="settings-text-input"
+                  value={profileName}
+                  onChange={e => setProfileName(e.target.value)}
+                  placeholder="Your name"
+                  maxLength={60}
+                />
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '24px', marginBottom: '16px' }}>
+                <p className="heading" style={{ marginBottom: '16px' }}>EMAIL</p>
+                <input
+                  className="settings-text-input"
+                  type="email"
+                  value={profileEmail}
+                  onChange={e => setProfileEmail(e.target.value)}
+                  placeholder="your@email.com (optional)"
+                />
+                <p className="caption" style={{ marginTop: '8px' }}>Used for future sync and account recovery.</p>
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '24px', marginBottom: '24px' }}>
+                <p className="heading" style={{ marginBottom: '16px' }}>TITLE</p>
+                <div className="settings-radio-group" style={{ flexWrap: 'wrap', gap: '8px' }}>
+                  {TITLE_OPTIONS.map(t => (
+                    <label key={t} className="settings-radio-item">
+                      <input
+                        type="radio"
+                        name="title"
+                        checked={profileTitle === t}
+                        onChange={() => setProfileTitle(t)}
+                      />
+                      <span className="settings-radio-label">{t}</span>
+                    </label>
+                  ))}
+                </div>
+              </GlassPanel>
+
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <GlowButton variant="cyan" onClick={saveProfile}>
+                  Save Profile
+                </GlowButton>
+                {profileSaved && (
+                  <span className="caption" style={{ color: 'var(--cyan, #00d4ff)' }}>
+                    ✓ Saved
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* LLM Provider */}
           {activeSection === 'llm' && (
             <div className="settings-section animate-fade-in">
