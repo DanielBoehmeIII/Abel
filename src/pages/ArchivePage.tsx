@@ -5,6 +5,8 @@ import { LLM_PROVIDERS, mockGenerateQuests } from '../config/llmProviders';
 import { chatService, memoryService, aiConfigService, DEMO_USER_ID } from '../db';
 import type { ChatThreadRecord, ChatMessageRecord, AIConfigRecord } from '../db';
 import { generateResponse } from '../lib/aiPipeline';
+import { retrieveContext } from '../lib/contextEngine';
+import type { RetrievedContext } from '../lib/contextEngine';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
 import './ArchivePage.css';
@@ -41,6 +43,8 @@ export default function ArchivePage({ onNavigate }: Props) {
   const [renamingId,     setRenamingId]     = useState<string | null>(null);
   const [renameVal,      setRenameVal]      = useState('');
   const [summarized,     setSummarized]     = useState<string | null>(null);
+  const [debugMode,      setDebugMode]      = useState(() => localStorage.getItem('abel_debug') === '1');
+  const [debugCtx,       setDebugCtx]       = useState<RetrievedContext | null>(null);
   const aiCfgRef = useRef<AIConfigRecord | null>(null);
 
   // ── UI state ───────────────────────────────────────────────────────────────
@@ -99,9 +103,12 @@ export default function ArchivePage({ onNavigate }: Props) {
 
     setTimeout(async () => {
       const cfg = aiCfgRef.current;
+      const memLevel = cfg?.memoryUsageLevel ?? 'standard';
+      const ctx = await retrieveContext(DEMO_USER_ID, text, { memoryUsageLevel: memLevel });
+      setDebugCtx(ctx);
       const resp = cfg
-        ? generateResponse(text, cfg, { journeyTitle: activeJourney?.title, projectFocus: cfg.projectFocus })
-        : generateResponse(text, { tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate', memoryUsageLevel: 'standard', responseFormat: 'narrative', id: '', userId: '', createdAt: '', updatedAt: '' });
+        ? generateResponse(text, cfg, { journeyTitle: activeJourney?.title, projectFocus: cfg.projectFocus, retrievedContext: ctx.compressed })
+        : generateResponse(text, { tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate', memoryUsageLevel: 'standard', responseFormat: 'narrative', id: '', userId: '', createdAt: '', updatedAt: '' }, { retrievedContext: ctx.compressed });
       const abelMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'abel', resp);
       setMessages(m => [...m, abelMsg]);
       setIsTyping(false);
@@ -167,6 +174,21 @@ export default function ArchivePage({ onNavigate }: Props) {
       ).then(msg => setMessages(m => [...m, msg]));
     }
   }
+
+  // Ctrl+Shift+D toggles debug panel
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+        setDebugMode(v => {
+          const next = !v;
+          localStorage.setItem('abel_debug', next ? '1' : '0');
+          return next;
+        });
+      }
+    };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
+  }, []);
 
   return (
     <div className="archive-page">
@@ -385,6 +407,56 @@ export default function ArchivePage({ onNavigate }: Props) {
           </p>
         </div>
       </main>
+
+      {/* ── Debug panel (Ctrl+Shift+D) ───────────────────────────────────── */}
+      {debugMode && debugCtx && (
+        <div className="archive-debug-panel">
+          <div className="archive-debug-header">
+            <span className="archive-debug-title">CONTEXT DEBUG</span>
+            <span className="archive-debug-meta">{debugCtx.durationMs}ms · {debugCtx.topSources.length}/{debugCtx.sources.length} sources · {debugCtx.conflicts.length} conflicts</span>
+            <button className="archive-debug-close" onClick={() => setDebugMode(false)}>✕</button>
+          </div>
+
+          <div className="archive-debug-query">Query: <em>{debugCtx.query}</em></div>
+
+          <div className="archive-debug-section">TOP SOURCES</div>
+          <div className="archive-debug-sources">
+            {debugCtx.topSources.map((s, i) => (
+              <div key={s.id} className="archive-debug-source">
+                <div className="archive-debug-source-top">
+                  <span className="archive-debug-rank">#{i + 1}</span>
+                  <span className="archive-debug-type">{s.type}</span>
+                  <span className="archive-debug-score">{(s.score * 100).toFixed(0)}%</span>
+                  <span className="archive-debug-src-title">{s.title}</span>
+                </div>
+                <div className="archive-debug-breakdown">
+                  kw:{(s.breakdown.keyword*100).toFixed(0)}
+                  {' '} tag:{(s.breakdown.tag*100).toFixed(0)}
+                  {' '} rec:{(s.breakdown.recency*100).toFixed(0)}
+                  {' '} conf:{(s.breakdown.confidence*100).toFixed(0)}
+                  {s.breakdown.typeBoost > 0 ? ` +tb:${(s.breakdown.typeBoost*100).toFixed(0)}` : ''}
+                </div>
+                <div className="archive-debug-content">{s.content.slice(0, 120)}{s.content.length > 120 ? '…' : ''}</div>
+              </div>
+            ))}
+          </div>
+
+          {debugCtx.conflicts.length > 0 && (
+            <>
+              <div className="archive-debug-section archive-debug-section--warn">CONFLICTS</div>
+              {debugCtx.conflicts.map((c, i) => (
+                <div key={i} className="archive-debug-conflict">
+                  <strong>{c.a.title}</strong> ↔ <strong>{c.b.title}</strong>
+                  <span className="archive-debug-conflict-reason"> — {c.reason}</span>
+                </div>
+              ))}
+            </>
+          )}
+
+          <div className="archive-debug-section">COMPRESSED CONTEXT</div>
+          <pre className="archive-debug-compressed">{debugCtx.compressed || '(empty)'}</pre>
+        </div>
+      )}
     </div>
   );
 }

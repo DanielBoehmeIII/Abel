@@ -14,7 +14,8 @@ export interface AIRequestContext {
   journeyTitle?:       string;
   projectFocus?:       string;
   recentMemoryTitles?: string[];
-  useAsContextIds?:    string[];  // thread IDs flagged for retrieval
+  useAsContextIds?:    string[];   // thread IDs flagged for retrieval
+  retrievedContext?:   string;     // compressed context from contextEngine
 }
 
 // ── System prompt builder ─────────────────────────────────────────────────────
@@ -70,6 +71,9 @@ export function buildSystemPrompt(cfg: AIConfigRecord, ctx: AIRequestContext = {
   }
   if (cfg.customInstructions?.trim()) {
     lines.push(`## Custom instructions\n${cfg.customInstructions}`);
+  }
+  if (ctx.retrievedContext) {
+    lines.push(`## Retrieved context\n${ctx.retrievedContext}`);
   }
 
   return lines.join('\n');
