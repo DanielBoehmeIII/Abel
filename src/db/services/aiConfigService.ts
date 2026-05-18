@@ -1,5 +1,7 @@
 import { db } from '../db';
 import type { AIConfigRecord } from '../schema';
+import { auditLogService } from './auditLogService';
+import { checkRateLimit } from '../../lib/rateLimit';
 
 const now = () => new Date().toISOString();
 
@@ -17,10 +19,19 @@ export const aiConfigService = {
   },
 
   async upsert(userId: string, patch: Partial<AIConfigRecord>): Promise<AIConfigRecord> {
+    checkRateLimit(`ai-config:upsert:${userId}`, { limit: 20, windowMs: 60_000 });
     const existing = await db.aiConfigs.where('userId').equals(userId).first();
     if (existing) {
       const updated = { ...existing, ...patch, userId, updatedAt: now() };
       await db.aiConfigs.put(updated);
+      await auditLogService.record({
+        userId,
+        action: 'ai_config_change',
+        resourceType: 'ai-config',
+        resourceId: updated.id,
+        status: 'succeeded',
+        metadata: { changedKeys: Object.keys(patch).filter(k => !['customInstructions'].includes(k)) },
+      });
       return updated;
     }
     const record: AIConfigRecord = {
@@ -32,6 +43,14 @@ export const aiConfigService = {
       updatedAt: now(),
     };
     await db.aiConfigs.add(record);
+    await auditLogService.record({
+      userId,
+      action: 'ai_config_change',
+      resourceType: 'ai-config',
+      resourceId: record.id,
+      status: 'succeeded',
+      metadata: { changedKeys: Object.keys(patch).filter(k => !['customInstructions'].includes(k)) },
+    });
     return record;
   },
 

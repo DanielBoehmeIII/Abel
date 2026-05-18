@@ -3,9 +3,12 @@ import { useAbel } from '../state/AbelProvider';
 import type { PageId, LLMProvider, ThemeName, QuestIntensity } from '../types/abel';
 import { LLM_PROVIDERS } from '../config/llmProviders';
 import { SEED_STATE } from '../data/seed';
-import { userService, DEMO_USER_ID, aiConfigService, memoryService } from '../db';
-import type { AIConfigRecord } from '../db';
+import { userService, DEMO_USER_ID, aiConfigService, privacyService, auditLogService, adminService } from '../db';
+import type { AIConfigRecord, AuditLogRecord } from '../db';
+import type { AdminSummary } from '../db/services/adminService';
 import { buildSystemPrompt } from '../lib/aiPipeline';
+import { syncJobService } from '../db/services/syncJobService';
+import SyncJobsPanel from '../components/sync/SyncJobsPanel';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
@@ -28,11 +31,17 @@ const THEMES: { id: ThemeName; label: string; preview: string }[] = [
   { id: 'light',     label: 'Light',     preview: '#f0f0f8' },
 ];
 
-export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
+export default function SettingsPage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { settings, user, memories, quests, focusSessions } = state;
   const [confirmReset, setConfirmReset] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('profile');
+  const [syncRefresh, setSyncRefresh] = useState(0);
+  const [privacyNotice, setPrivacyNotice] = useState<string | null>(null);
+  const [privacyError, setPrivacyError] = useState<string | null>(null);
+  const [confirmDeleteData, setConfirmDeleteData] = useState(false);
+  const [auditLogs, setAuditLogs] = useState<AuditLogRecord[]>([]);
+  const [adminSummary, setAdminSummary] = useState<AdminSummary | null>(null);
 
   // Profile edit state
   const [profileName,  setProfileName]  = useState(user.name);
@@ -53,6 +62,15 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
       if (cfg) setAiCfg(cfg);
     });
   }, []);
+
+  useEffect(() => {
+    if (activeSection === 'data') {
+      auditLogService.list(DEMO_USER_ID, 12).then(setAuditLogs).catch(() => setAuditLogs([]));
+    }
+    if (activeSection === 'admin') {
+      adminService.summary().then(setAdminSummary).catch(() => setAdminSummary(null));
+    }
+  }, [activeSection, syncRefresh]);
 
   function updateSetting<K extends keyof typeof settings>(key: K, value: typeof settings[K]) {
     dispatch({ type: 'UPDATE_SETTINGS', settings: { [key]: value } });
@@ -77,17 +95,60 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
 
   async function saveAiConfig() {
     await aiConfigService.upsert(DEMO_USER_ID, aiCfg);
+    auditLogService.list(DEMO_USER_ID, 12).then(setAuditLogs).catch(() => undefined);
     setAiCfgSaved(true);
     setTimeout(() => setAiCfgSaved(false), 2500);
   }
 
-  async function exportMemories() {
-    const records = await memoryService.list(DEMO_USER_ID, {});
+  async function exportData() {
+    setPrivacyError(null);
+    const records = await privacyService.exportUserData(DEMO_USER_ID);
     const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
-    a.href = url; a.download = 'abel-memories.json'; a.click();
+    a.href = url; a.download = 'abel-data-export.json'; a.click();
     URL.revokeObjectURL(url);
+    setPrivacyNotice('Data export prepared.');
+    auditLogService.list(DEMO_USER_ID, 12).then(setAuditLogs).catch(() => undefined);
+    setTimeout(() => setPrivacyNotice(null), 2600);
+  }
+
+  async function deleteAllUserData() {
+    setPrivacyError(null);
+    try {
+      await privacyService.deleteUserData(DEMO_USER_ID);
+      dispatch({
+        type: 'RESET_TO_SEED',
+        seed: {
+          ...state,
+          archiveThreads: [],
+          memories: [],
+          quests: [],
+          focusSessions: [],
+          graph: { nodes: [], edges: [] },
+          skills: [],
+          eggs: [],
+          trophies: [],
+          recentActivity: [],
+        },
+      });
+      setConfirmDeleteData(false);
+      setPrivacyNotice('Local user data deleted. Audit log retained.');
+      auditLogService.list(DEMO_USER_ID, 12).then(setAuditLogs).catch(() => undefined);
+      setTimeout(() => setPrivacyNotice(null), 3200);
+    } catch (err) {
+      setPrivacyError(err instanceof Error ? err.message : String(err));
+    }
+  }
+
+  async function enqueueJob(type: Parameters<typeof syncJobService.create>[1], payload: Record<string, unknown> = {}) {
+    await syncJobService.create(DEMO_USER_ID, type, payload);
+    setSyncRefresh(r => r + 1);
+  }
+
+  async function enqueueTestJob(shouldFail = false) {
+    await syncJobService.createTestJob(DEMO_USER_ID, shouldFail);
+    setSyncRefresh(r => r + 1);
   }
 
   const SECTIONS = [
@@ -97,7 +158,9 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
     { id: 'themes',      label: 'Themes' },
     { id: 'preferences', label: 'Preferences' },
     { id: 'memory',      label: 'Memory' },
+    { id: 'sync',        label: 'Sync Jobs' },
     { id: 'data',        label: 'Data & Privacy' },
+    { id: 'admin',       label: 'Admin' },
     { id: 'access',      label: 'Accessibility' },
   ];
 
@@ -439,7 +502,7 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
               <GlassPanel style={{ padding: '20px', marginTop: '16px' }}>
                 <p className="heading" style={{ marginBottom: '12px' }}>CONTROLS</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  <GlowButton variant="ghost" size="sm" onClick={exportMemories}>Export Memories (JSON)</GlowButton>
+                  <GlowButton variant="ghost" size="sm" onClick={() => onNavigate('memory')}>Manage Memories</GlowButton>
                   <GlowButton variant="danger" size="sm">Clear All Memories</GlowButton>
                 </div>
                 <p className="caption" style={{ marginTop: '10px' }}>Export downloads all memories from IndexedDB as JSON.</p>
@@ -451,12 +514,54 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
           {activeSection === 'data' && (
             <div className="settings-section animate-fade-in">
               <h2 className="settings-section-title">Data & Privacy</h2>
+              {privacyNotice && (
+                <GlassPanel style={{ padding: '14px', marginBottom: '16px', borderColor: 'rgba(52,211,153,0.28)' }}>
+                  <p className="caption" style={{ color: 'rgba(165,255,215,0.82)' }}>{privacyNotice}</p>
+                </GlassPanel>
+              )}
+              {privacyError && (
+                <GlassPanel style={{ padding: '14px', marginBottom: '16px', borderColor: 'rgba(239,68,68,0.30)' }}>
+                  <p className="caption" style={{ color: 'rgba(255,190,190,0.86)' }}>{privacyError}</p>
+                </GlassPanel>
+              )}
               <GlassPanel style={{ padding: '20px', marginBottom: '16px' }}>
                 <p className="heading" style={{ marginBottom: '8px' }}>LOCAL STORAGE</p>
                 <p className="body">
                   All data is stored locally in your browser's localStorage under the key <code>abel_v3</code>.
                   No data is sent to any server. Abel operates entirely offline.
                 </p>
+              </GlassPanel>
+              <GlassPanel style={{ padding: '20px', marginBottom: '16px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>USER DATA CONTROLS</p>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  <GlowButton variant="cyan" size="sm" onClick={exportData}>Export My Data</GlowButton>
+                  <GlowButton variant="ghost" size="sm" onClick={() => onNavigate('memory')}>Memory Controls</GlowButton>
+                  <GlowButton variant="ghost" size="sm" onClick={() => onNavigate('archive')}>Chat Controls</GlowButton>
+                  <GlowButton variant="danger" size="sm" onClick={() => setConfirmDeleteData(true)}>Delete My Data</GlowButton>
+                </div>
+                {confirmDeleteData && (
+                  <div style={{ marginTop: '14px', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <p className="caption">This clears your local memories, chats, graph, jobs, AI config, and progress. Audit entries are retained.</p>
+                    <GlowButton variant="danger" size="sm" onClick={deleteAllUserData}>CONFIRM DELETE</GlowButton>
+                    <GlowButton variant="ghost" size="sm" onClick={() => setConfirmDeleteData(false)}>CANCEL</GlowButton>
+                  </div>
+                )}
+              </GlassPanel>
+              <GlassPanel style={{ padding: '20px', marginBottom: '16px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>AUDIT LOG</p>
+                {auditLogs.length === 0 ? (
+                  <p className="caption">No sensitive actions recorded yet.</p>
+                ) : (
+                  <div className="settings-audit-list">
+                    {auditLogs.map(log => (
+                      <div key={log.id} className="settings-audit-row">
+                        <span>{log.action}</span>
+                        <span>{log.status}</span>
+                        <span>{new Date(log.createdAt).toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </GlassPanel>
               <GlassPanel style={{ padding: '20px', marginBottom: '16px' }}>
                 <p className="heading" style={{ marginBottom: '12px' }}>RESET DATA</p>
@@ -475,7 +580,121 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
             </div>
           )}
 
+          {activeSection === 'admin' && (
+            <div className="settings-section animate-fade-in">
+              <p className="eyebrow settings-section-eyebrow">BETA ADMIN</p>
+              <h2 className="settings-section-title">Admin Dashboard</h2>
+              <p className="body" style={{ marginBottom: '20px' }}>
+                Operational counts only. Private memory and chat contents are intentionally not shown here.
+              </p>
+              <div className="settings-stats-row">
+                <GlassPanel style={{ padding: '20px', flex: 1 }}>
+                  <p className="heading" style={{ marginBottom: '6px' }}>USERS</p>
+                  <p className="settings-stat-big">{adminSummary?.userCount ?? '–'}</p>
+                </GlassPanel>
+                <GlassPanel style={{ padding: '20px', flex: 1 }}>
+                  <p className="heading" style={{ marginBottom: '6px' }}>MEMORIES</p>
+                  <p className="settings-stat-big">{adminSummary?.memoryCount ?? '–'}</p>
+                </GlassPanel>
+                <GlassPanel style={{ padding: '20px', flex: 1 }}>
+                  <p className="heading" style={{ marginBottom: '6px' }}>CHATS</p>
+                  <p className="settings-stat-big">{adminSummary?.chatCount ?? '–'}</p>
+                </GlassPanel>
+              </div>
+              <GlassPanel style={{ padding: '20px', marginTop: '16px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>SYNC JOB STATUS</p>
+                <div className="settings-admin-grid">
+                  {adminSummary && Object.entries(adminSummary.syncJobStatus).map(([status, count]) => (
+                    <div key={status} className="settings-admin-cell">
+                      <span>{status}</span>
+                      <strong>{count}</strong>
+                    </div>
+                  ))}
+                </div>
+              </GlassPanel>
+              <GlassPanel style={{ padding: '20px', marginTop: '16px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>RECENT ERRORS</p>
+                {!adminSummary?.recentErrors.length ? (
+                  <p className="caption">No recent blocked or failed sensitive actions.</p>
+                ) : (
+                  <div className="settings-audit-list">
+                    {adminSummary.recentErrors.map(error => (
+                      <div key={error.id} className="settings-audit-row">
+                        <span>{error.action}</span>
+                        <span>{error.status}</span>
+                        <span>{error.error ?? error.resourceType}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </GlassPanel>
+            </div>
+          )}
+
           {/* Accessibility */}
+          {activeSection === 'sync' && (
+            <div className="settings-section animate-fade-in">
+              <p className="eyebrow settings-section-eyebrow">BACKGROUND PROCESSING</p>
+              <h2 className="settings-section-title">Sync Jobs</h2>
+              <GlassPanel style={{ padding: '20px', marginBottom: '16px' }}>
+                <p className="heading" style={{ marginBottom: '12px', color: 'var(--text-3)' }}>ENQUEUE JOB</p>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  <GlowButton
+                    variant="cyan"
+                    size="sm"
+                    onClick={() => enqueueTestJob(false)}
+                  >
+                    Test Success
+                  </GlowButton>
+                  <GlowButton
+                    variant="danger"
+                    size="sm"
+                    onClick={() => enqueueTestJob(true)}
+                  >
+                    Test Failure
+                  </GlowButton>
+                  <GlowButton
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => enqueueJob('memory_import', {
+                      title: 'Manual memory import',
+                      text: 'This memory was imported by a background sync job.',
+                    })}
+                  >
+                    Memory Import
+                  </GlowButton>
+                  <GlowButton
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => enqueueJob('chat_summary')}
+                  >
+                    Chat Summary
+                  </GlowButton>
+                  <GlowButton
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => enqueueJob('graph_refresh')}
+                  >
+                    Graph Refresh
+                  </GlowButton>
+                  <GlowButton
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => enqueueJob('embedding_refresh')}
+                  >
+                    Embed Refresh
+                  </GlowButton>
+                </div>
+                <p className="caption" style={{ marginTop: '10px' }}>
+                  The local browser worker polls IndexedDB and runs pending jobs automatically.
+                </p>
+              </GlassPanel>
+              <GlassPanel style={{ padding: '20px' }}>
+                <SyncJobsPanel refreshSignal={syncRefresh} />
+              </GlassPanel>
+            </div>
+          )}
+
           {activeSection === 'access' && (
             <div className="settings-section animate-fade-in">
               <h2 className="settings-section-title">Accessibility</h2>

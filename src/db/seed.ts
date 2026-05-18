@@ -14,7 +14,7 @@ export async function seedDatabaseFromState(state: AbelState): Promise<void> {
   await db.transaction('rw',
     [db.users, db.workspaces, db.memories, db.chatThreads,
      db.chatMessages, db.graphNodes, db.graphEdges,
-     db.aiConfigs, db.syncJobs],
+     db.aiConfigs, db.syncJobs, db.auditLogs],
     async () => {
       // User
       await db.users.put({
@@ -55,11 +55,12 @@ export async function seedDatabaseFromState(state: AbelState): Promise<void> {
         tags: m.subtypes ?? [],
         source: m.source,
         confidence: 0.8,
+        visibility: 'private',
         archived: false,
         createdAt: m.createdAt,
         updatedAt: m.createdAt,
       }));
-      if (memoryRecords.length) await db.memories.bulkAdd(memoryRecords);
+      if (memoryRecords.length) await db.memories.bulkPut(memoryRecords);
 
       // Chat threads + messages from archive
       const threadRecords: ChatThreadRecord[] = state.archiveThreads.map(t => ({
@@ -72,7 +73,7 @@ export async function seedDatabaseFromState(state: AbelState): Promise<void> {
         createdAt: t.createdAt,
         updatedAt: t.createdAt,
       }));
-      if (threadRecords.length) await db.chatThreads.bulkAdd(threadRecords);
+      if (threadRecords.length) await db.chatThreads.bulkPut(threadRecords);
 
       const msgRecords: ChatMessageRecord[] = state.archiveThreads.flatMap(t =>
         t.messages.map(m => ({
@@ -84,7 +85,7 @@ export async function seedDatabaseFromState(state: AbelState): Promise<void> {
           createdAt: m.createdAt,
         }))
       );
-      if (msgRecords.length) await db.chatMessages.bulkAdd(msgRecords);
+      if (msgRecords.length) await db.chatMessages.bulkPut(msgRecords);
 
       // Graph nodes + edges
       const nodeRecords: GraphNodeRecord[] = state.graph.nodes.map(n => ({
@@ -99,7 +100,7 @@ export async function seedDatabaseFromState(state: AbelState): Promise<void> {
         createdAt: n.createdAt,
         updatedAt: n.createdAt,
       }));
-      if (nodeRecords.length) await db.graphNodes.bulkAdd(nodeRecords);
+      if (nodeRecords.length) await db.graphNodes.bulkPut(nodeRecords);
 
       const edgeRecords: GraphEdgeRecord[] = state.graph.edges.map(e => ({
         id: e.id,
@@ -108,7 +109,7 @@ export async function seedDatabaseFromState(state: AbelState): Promise<void> {
         target: e.target,
         type: e.type,
       }));
-      if (edgeRecords.length) await db.graphEdges.bulkAdd(edgeRecords);
+      if (edgeRecords.length) await db.graphEdges.bulkPut(edgeRecords);
     }
   );
 }

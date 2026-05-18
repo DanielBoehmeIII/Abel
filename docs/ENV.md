@@ -1,37 +1,43 @@
 # Environment Variables
 
-Abel is a client-side Vite app. All data is stored locally in IndexedDB (Dexie).
-No backend or environment variables are required for local development.
+Abel works locally without environment variables. All Vite-exposed variables must
+use the `VITE_` prefix because they are bundled into the client.
 
-## Current Variables
-
-None required. Run `npm run dev` and Abel works out of the box.
-
-## Future Variables (for backend / AI integration)
-
-These will be needed when real AI providers and server-side sync are added.
-Prefix all Vite client-side variables with `VITE_` so they are bundled into the build.
+## Supported Variables
 
 ```env
-# AI provider keys (client-side — use a proxy in production to keep these secret)
-VITE_ANTHROPIC_API_KEY=sk-ant-...
-VITE_OPENAI_API_KEY=sk-...
+# deployment identity
+VITE_ABEL_APP_ENV=development          # development | preview | production
+VITE_ABEL_RELEASE=local                # commit SHA or release label
 
-# Backend API (future — when Abel gets a server)
-VITE_API_URL=https://api.abel.app
+# controlled beta gate
+VITE_ABEL_BETA_ENABLED=false           # true | false
+VITE_ABEL_INVITE_CODES=                # comma-separated invite codes
 
-# Feature flags
-VITE_ENABLE_VECTOR_SEARCH=false
-VITE_ENABLE_CLOUD_SYNC=false
+# local hooks
+VITE_ABEL_ANALYTICS_ENABLED=false      # true | false
+VITE_ABEL_FEEDBACK_ENABLED=true        # true | false
 
-# Analytics (optional)
-VITE_POSTHOG_KEY=phc_...
+# static health metadata
+VITE_ABEL_HEALTH_VERSION=1
 ```
+
+## Validation Rules
+
+- Boolean variables must be exactly `true` or `false`.
+- `VITE_ABEL_APP_ENV` must be `development`, `preview`, or `production`.
+- In production, `VITE_ABEL_BETA_ENABLED=true` requires
+  `VITE_ABEL_INVITE_CODES`.
+
+## Security Notes
+
+All `VITE_` values are visible to users in the built JavaScript. Do not put
+private provider API keys in these variables for production. Add a server proxy
+before using real paid AI providers.
 
 ## Local Setup
 
 ```bash
-cp docs/ENV.md .env.local   # not needed yet; here for reference
 npm install
 npm run dev
 ```
@@ -40,13 +46,5 @@ npm run dev
 
 ```bash
 npm run build
-npm run preview
+npm run smoke
 ```
-
-## Database
-
-Abel uses IndexedDB via Dexie. On first load it seeds demo data automatically.
-To reset: open Settings → Data & Privacy → Reset to Demo Data.
-
-Schema is defined in `src/db/schema.ts`.
-Services are in `src/db/services/`.

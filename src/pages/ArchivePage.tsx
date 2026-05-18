@@ -45,6 +45,9 @@ export default function ArchivePage({ onNavigate }: Props) {
   const [summarized,     setSummarized]     = useState<string | null>(null);
   const [debugMode,      setDebugMode]      = useState(() => localStorage.getItem('abel_debug') === '1');
   const [debugCtx,       setDebugCtx]       = useState<RetrievedContext | null>(null);
+  const [loadingThreads, setLoadingThreads] = useState(true);
+  const [loadError,      setLoadError]      = useState<string | null>(null);
+  const [sendError,      setSendError]      = useState<string | null>(null);
   const aiCfgRef = useRef<AIConfigRecord | null>(null);
 
   // ── UI state ───────────────────────────────────────────────────────────────
@@ -64,21 +67,26 @@ export default function ArchivePage({ onNavigate }: Props) {
 
   // ── Load threads from IndexedDB ────────────────────────────────────────────
   const loadThreads = useCallback(() => {
-    chatService.listThreads(DEMO_USER_ID).then(ts => {
-      setThreads(ts);
-      if (!activeThreadId && ts.length > 0) setActiveThreadId(ts[0].id);
-    });
+    setLoadingThreads(true);
+    setLoadError(null);
+    chatService.listThreads(DEMO_USER_ID)
+      .then(ts => {
+        setThreads(ts);
+        if (!activeThreadId && ts.length > 0) setActiveThreadId(ts[0].id);
+      })
+      .catch(err => setLoadError(err instanceof Error ? err.message : String(err)))
+      .finally(() => setLoadingThreads(false));
   }, [activeThreadId]);
 
   useEffect(() => {
-    loadThreads();
+    void Promise.resolve().then(loadThreads);
     aiConfigService.get(DEMO_USER_ID).then(cfg => { if (cfg) aiCfgRef.current = cfg; });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Load messages when thread changes ──────────────────────────────────────
   useEffect(() => {
     const id = activeThreadId;
-    (id ? chatService.getMessages(id) : Promise.resolve<ChatMessageRecord[]>([])).then(setMessages);
+    (id ? chatService.getMessages(DEMO_USER_ID, id) : Promise.resolve<ChatMessageRecord[]>([])).then(setMessages);
   }, [activeThreadId]);
 
   // ── Auto-scroll ────────────────────────────────────────────────────────────
@@ -96,42 +104,58 @@ export default function ArchivePage({ onNavigate }: Props) {
     if (!input.trim() || !activeThreadId) return;
     const text = input.trim();
     setInput('');
+    setSendError(null);
 
-    const userMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'user', text);
-    setMessages(m => [...m, userMsg]);
-    setIsTyping(true);
+    try {
+      const userMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'user', text);
+      setMessages(m => [...m, userMsg]);
+      setIsTyping(true);
 
-    setTimeout(async () => {
-      const cfg = aiCfgRef.current;
-      const memLevel = cfg?.memoryUsageLevel ?? 'standard';
-      const ctx = await retrieveContext(DEMO_USER_ID, text, { memoryUsageLevel: memLevel });
-      setDebugCtx(ctx);
-      const resp = cfg
-        ? generateResponse(text, cfg, { journeyTitle: activeJourney?.title, projectFocus: cfg.projectFocus, retrievedContext: ctx.compressed })
-        : generateResponse(text, { tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate', memoryUsageLevel: 'standard', responseFormat: 'narrative', id: '', userId: '', createdAt: '', updatedAt: '' }, { retrievedContext: ctx.compressed });
-      const abelMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'abel', resp);
-      setMessages(m => [...m, abelMsg]);
+      setTimeout(async () => {
+        try {
+          const cfg = aiCfgRef.current;
+          const memLevel = cfg?.memoryUsageLevel ?? 'standard';
+          const ctx = await retrieveContext(DEMO_USER_ID, text, { memoryUsageLevel: memLevel });
+          setDebugCtx(ctx);
+          const resp = cfg
+            ? generateResponse(text, cfg, { journeyTitle: activeJourney?.title, projectFocus: cfg.projectFocus, retrievedContext: ctx.compressed })
+            : generateResponse(text, { tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate', memoryUsageLevel: 'standard', responseFormat: 'narrative', id: '', userId: '', createdAt: '', updatedAt: '' }, { retrievedContext: ctx.compressed });
+          const abelMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'abel', resp);
+          setMessages(m => [...m, abelMsg]);
+        } catch (err) {
+          setSendError(err instanceof Error ? err.message : String(err));
+        } finally {
+          setIsTyping(false);
+        }
+      }, 900 + Math.random() * 600);
+    } catch (err) {
+      setSendError(err instanceof Error ? err.message : String(err));
       setIsTyping(false);
-    }, 900 + Math.random() * 600);
+    }
   }
 
   async function newThread() {
     const n = threads.length + 1;
-    const thread = await chatService.createThread(DEMO_USER_ID, `Session ${n}`, activeJourney?.id);
-    setThreads(ts => [thread, ...ts]);
-    setActiveThreadId(thread.id);
-    setMessages([]);
+    setSendError(null);
+    try {
+      const thread = await chatService.createThread(DEMO_USER_ID, `Session ${n}`, activeJourney?.id);
+      setThreads(ts => [thread, ...ts]);
+      setActiveThreadId(thread.id);
+      setMessages([]);
+    } catch (err) {
+      setSendError(err instanceof Error ? err.message : String(err));
+    }
   }
 
   async function commitRename() {
     if (!renamingId || !renameVal.trim()) { setRenamingId(null); return; }
-    await chatService.renameThread(renamingId, renameVal.trim());
+    await chatService.renameThread(DEMO_USER_ID, renamingId, renameVal.trim());
     setThreads(ts => ts.map(t => t.id === renamingId ? { ...t, title: renameVal.trim() } : t));
     setRenamingId(null);
   }
 
   async function archiveThread(id: string) {
-    await chatService.archiveThread(id);
+    await chatService.archiveThread(DEMO_USER_ID, id);
     setThreads(ts => ts.filter(t => t.id !== id));
     if (activeThreadId === id) {
       const remaining = threads.filter(t => t.id !== id);
@@ -139,8 +163,18 @@ export default function ArchivePage({ onNavigate }: Props) {
     }
   }
 
+  async function deleteThread(id: string) {
+    await chatService.deleteThread(DEMO_USER_ID, id);
+    setThreads(ts => ts.filter(t => t.id !== id));
+    if (activeThreadId === id) {
+      const remaining = threads.filter(t => t.id !== id);
+      setActiveThreadId(remaining[0]?.id ?? null);
+      setMessages([]);
+    }
+  }
+
   async function toggleContext(t: ChatThreadRecord) {
-    await chatService.setThreadContext(t.id, !t.useAsContext);
+    await chatService.setThreadContext(DEMO_USER_ID, t.id, !t.useAsContext);
     setThreads(ts => ts.map(x => x.id === t.id ? { ...x, useAsContext: !x.useAsContext } : x));
   }
 
@@ -215,12 +249,26 @@ export default function ArchivePage({ onNavigate }: Props) {
         </div>
 
         <div className="archive-threads">
-          {visibleThreads.length === 0 && (
+          {loadingThreads && (
+            <div className="archive-threads-state">
+              <span className="archive-spinner" />
+              Loading sessions…
+            </div>
+          )}
+          {loadError && (
+            <div className="archive-threads-state archive-threads-state--error">
+              <strong>Archive unavailable.</strong>
+              <span>{loadError}</span>
+              <button onClick={loadThreads}>Retry</button>
+            </div>
+          )}
+          {!loadingThreads && !loadError && visibleThreads.length === 0 && (
             <p className="archive-threads-empty">
-              {search ? 'No matching sessions.' : 'No sessions yet.'}
+              {search ? 'No matching sessions.' : 'No chat history yet.'}
+              {!search && <button onClick={newThread}>Start first chat</button>}
             </p>
           )}
-          {visibleThreads.map(t => (
+          {!loadingThreads && !loadError && visibleThreads.map(t => (
             <div
               key={t.id}
               className={`archive-thread-item ${t.id === activeThreadId ? 'archive-thread-item--active' : ''}`}
@@ -253,6 +301,7 @@ export default function ArchivePage({ onNavigate }: Props) {
                     {t.useAsContext ? '◉' : '○'}
                   </button>
                   <button title="Archive" onClick={() => archiveThread(t.id)}>⌫</button>
+                  <button title="Delete" onClick={() => deleteThread(t.id)}>×</button>
                 </div>
               )}
             </div>
@@ -273,9 +322,11 @@ export default function ArchivePage({ onNavigate }: Props) {
             </p>
           </div>
           <div className="archive-sidebar-actions">
+            <button className="archive-action-btn" onClick={() => onNavigate('memory')}>Memory</button>
             <button className="archive-action-btn" onClick={generateQuests}>Generate Quests</button>
             <button className="archive-action-btn" onClick={() => onNavigate('quests')}>View Quests</button>
             <button className="archive-action-btn" onClick={() => onNavigate('graph')}>Open Graph</button>
+            <button className="archive-action-btn" onClick={() => onNavigate('settings')}>Settings</button>
           </div>
         </div>
       </aside>
@@ -354,8 +405,10 @@ export default function ArchivePage({ onNavigate }: Props) {
           {(!activeThread || messages.length === 0) && (
             <div className="archive-empty">
               <div className="archive-empty-glyph">◈</div>
-              <p className="archive-empty-text">Begin a reflection</p>
-              <p className="caption">Share a goal, insight, or question with Abel.</p>
+              <p className="archive-empty-text">{activeThread ? 'Begin a reflection' : 'No session selected'}</p>
+              <p className="caption">{activeThread ? 'Share a goal, insight, or question with Abel.' : 'Create a session to start your first chat.'}</p>
+              {!activeThread && <button className="archive-empty-btn" onClick={newThread}>Start first chat</button>}
+              {activeThread && <button className="archive-empty-btn" onClick={() => setInput('Help me choose the next concrete step.')}>Use starter prompt</button>}
             </div>
           )}
 
@@ -388,6 +441,12 @@ export default function ArchivePage({ onNavigate }: Props) {
 
         {/* Input */}
         <div className="archive-input-wrap">
+          {sendError && (
+            <div className="archive-error-banner">
+              <strong>Archive action failed.</strong>
+              <span>{sendError}</span>
+            </div>
+          )}
           <div className="archive-input-inner">
             <textarea
               className="archive-textarea"

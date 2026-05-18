@@ -129,7 +129,24 @@
 .gp-bc-sep       { color: rgba(130,122,180,0.30); }
 .gp-bc-page      { color: rgba(205,200,240,0.88); font-weight: 500; }
 
-.gp-topbar-right { display: flex; align-items: center; }
+.gp-topbar-right { display: flex; align-items: center; gap: 8px; }
+
+.gp-nav-btn {
+  padding: 6px 9px;
+  border: 1px solid rgba(124,77,255,0.18);
+  border-radius: 7px;
+  background: rgba(124,77,255,0.07);
+  color: rgba(175,148,255,0.72);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gp-nav-btn:hover {
+  border-color: rgba(34,211,238,0.34);
+  color: rgba(34,211,238,0.84);
+}
 .gp-search {
   width: 230px; padding: 6px 14px;
   background: rgba(255,255,255,0.04);
@@ -153,6 +170,64 @@
     radial-gradient(ellipse 65% 55% at 52% 42%, rgba(35,18,80,0.22) 0%, transparent 70%),
     radial-gradient(ellipse 40% 40% at 18% 75%, rgba(0,60,120,0.10) 0%, transparent 60%),
     #09091a;
+}
+
+.gp-empty-state {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  pointer-events: none;
+}
+
+.gp-empty-state--small {
+  background: rgba(9,9,26,0.32);
+}
+
+.gp-empty-glyph {
+  font-size: 2.5rem;
+  color: rgba(124,77,255,0.36);
+  margin-bottom: 12px;
+}
+
+.gp-empty-state h2 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: rgba(230,225,255,0.88);
+  margin: 0 0 8px;
+}
+
+.gp-empty-state p {
+  max-width: 460px;
+  color: rgba(180,174,220,0.58);
+  line-height: 1.65;
+  font-size: 0.86rem;
+  margin: 0;
+}
+
+.gp-empty-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  pointer-events: auto;
+}
+
+.gp-empty-actions button {
+  padding: 8px 12px;
+  border: 1px solid rgba(124,77,255,0.28);
+  border-radius: 7px;
+  background: rgba(124,77,255,0.11);
+  color: rgba(200,180,255,0.86);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* The transformed world */

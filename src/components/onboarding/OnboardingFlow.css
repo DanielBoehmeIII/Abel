@@ -1,0 +1,313 @@
+.onb-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background:
+    radial-gradient(circle at 52% 36%, rgba(139,92,246,0.20), transparent 42%),
+    rgba(3,3,10,0.78);
+  backdrop-filter: blur(18px);
+}
+
+.onb-panel {
+  width: min(920px, 100%);
+  min-height: 560px;
+  max-height: calc(100vh - 64px);
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(12,10,28,0.96), rgba(5,5,14,0.97));
+  border: 1px solid rgba(139,92,246,0.28);
+  border-radius: 16px;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.62), 0 0 80px rgba(139,92,246,0.10);
+}
+
+.onb-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 28px 22px;
+  border-right: 1px solid rgba(139,92,246,0.16);
+  background:
+    linear-gradient(180deg, rgba(139,92,246,0.08), transparent 42%),
+    rgba(5,5,16,0.72);
+}
+
+.onb-mark {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  color: rgba(205,185,255,0.76);
+}
+
+.onb-progress-track {
+  width: 2px;
+  height: 88px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.onb-progress-fill {
+  width: 100%;
+  background: linear-gradient(180deg, #22d3ee, #8b5cf6);
+  border-radius: 999px;
+  transition: height 0.25s ease;
+}
+
+.onb-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.onb-step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: rgba(200,190,255,0.42);
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.onb-step--active {
+  color: rgba(230,220,255,0.92);
+  background: rgba(139,92,246,0.12);
+  border-color: rgba(139,92,246,0.28);
+}
+
+.onb-step--done {
+  color: rgba(52,211,153,0.72);
+}
+
+.onb-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 42px 48px 30px;
+  overflow-y: auto;
+}
+
+.onb-topline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: rgba(34,211,238,0.72);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.onb-section {
+  max-width: 610px;
+}
+
+.onb-section h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1.05;
+  font-weight: 300;
+  color: var(--text);
+  margin: 0 0 14px;
+}
+
+.onb-section p {
+  max-width: 560px;
+  color: rgba(205,198,238,0.62);
+  line-height: 1.65;
+  font-size: 0.92rem;
+  margin: 0 0 24px;
+}
+
+.onb-section label {
+  display: block;
+  margin: 16px 0 7px;
+  color: rgba(180,155,230,0.56);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.onb-section input,
+.onb-section textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(139,92,246,0.20);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(235,230,255,0.92);
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  padding: 11px 13px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.onb-section textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.onb-section input:focus,
+.onb-section textarea:focus {
+  border-color: rgba(34,211,238,0.42);
+  box-shadow: 0 0 0 3px rgba(34,211,238,0.07);
+}
+
+.onb-section input::placeholder,
+.onb-section textarea::placeholder {
+  color: rgba(205,198,238,0.28);
+}
+
+.onb-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.onb-choice {
+  padding: 8px 12px;
+  border: 1px solid rgba(139,92,246,0.16);
+  border-radius: 7px;
+  color: rgba(205,198,238,0.52);
+  background: rgba(255,255,255,0.025);
+  font-size: 0.78rem;
+  text-transform: capitalize;
+}
+
+.onb-choice--on {
+  color: rgba(220,245,255,0.92);
+  border-color: rgba(34,211,238,0.36);
+  background: rgba(34,211,238,0.09);
+}
+
+.onb-atlas-map {
+  position: relative;
+  height: 190px;
+  margin: 4px 0 24px;
+  border: 1px solid rgba(139,92,246,0.16);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 32% 48%, rgba(34,211,238,0.10), transparent 30%),
+    radial-gradient(circle at 68% 42%, rgba(139,92,246,0.16), transparent 34%),
+    rgba(255,255,255,0.025);
+  overflow: hidden;
+}
+
+.onb-node {
+  position: absolute;
+  z-index: 2;
+  padding: 9px 13px;
+  border-radius: 8px;
+  background: rgba(9,8,24,0.88);
+  border: 1px solid rgba(139,92,246,0.26);
+  color: rgba(230,225,255,0.88);
+  font-size: 0.76rem;
+}
+
+.onb-node--memory { left: 52px; top: 70px; }
+.onb-node--goal { right: 70px; top: 46px; }
+.onb-node--chat { right: 154px; bottom: 38px; }
+
+.onb-thread {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(34,211,238,0.72), rgba(139,92,246,0.18));
+  transform-origin: left center;
+}
+
+.onb-thread--a {
+  left: 136px;
+  top: 88px;
+  width: 270px;
+  transform: rotate(-9deg);
+}
+
+.onb-thread--b {
+  left: 294px;
+  top: 110px;
+  width: 132px;
+  transform: rotate(31deg);
+}
+
+.onb-prompt {
+  padding: 18px 20px;
+  border-left: 2px solid rgba(34,211,238,0.45);
+  background: rgba(34,211,238,0.06);
+  color: rgba(220,245,255,0.82);
+  border-radius: 0 8px 8px 0;
+  line-height: 1.65;
+}
+
+.onb-status {
+  margin-top: auto;
+  padding: 10px 12px;
+  border: 1px solid rgba(52,211,153,0.24);
+  border-radius: 8px;
+  background: rgba(52,211,153,0.07);
+  color: rgba(165,255,215,0.80);
+  font-size: 0.78rem;
+}
+
+.onb-status--error {
+  border-color: rgba(239,68,68,0.28);
+  background: rgba(239,68,68,0.08);
+  color: rgba(255,180,180,0.86);
+}
+
+.onb-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.onb-skip,
+.onb-back {
+  color: rgba(205,198,238,0.48);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+}
+
+.onb-skip {
+  margin-right: auto;
+}
+
+.onb-skip:hover,
+.onb-back:hover {
+  color: rgba(235,230,255,0.85);
+}
+
+@media (max-width: 760px) {
+  .onb-shell { padding: 14px; }
+  .onb-panel {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .onb-rail {
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid rgba(139,92,246,0.16);
+  }
+  .onb-progress-track { display: none; }
+  .onb-steps {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .onb-step {
+    flex-shrink: 0;
+  }
+  .onb-main { padding: 28px 22px 24px; }
+}

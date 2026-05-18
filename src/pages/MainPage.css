@@ -131,6 +131,34 @@
 }
 .main-cta:hover::before { opacity: 1; }
 
+.main-quick-path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  color: rgba(200,190,255,0.34);
+}
+
+.main-quick-path button {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(180,155,255,0.58);
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.main-quick-path button:hover {
+  color: rgba(34,211,238,0.86);
+}
+
+.main-quick-path span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(139,92,246,0.35);
+}
+
 /* ── Right instrument panels ────────────────────────────────── */
 .main-info-right {
   position: absolute;

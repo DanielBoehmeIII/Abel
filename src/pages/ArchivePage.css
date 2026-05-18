@@ -206,6 +206,18 @@
   color: var(--text-2); margin-bottom: 6px;
 }
 
+.archive-empty-btn {
+  margin-top: 14px;
+  border: 1px solid rgba(139,92,246,0.28);
+  border-radius: 6px;
+  background: rgba(139,92,246,0.10);
+  color: rgba(200,175,255,0.82);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  text-transform: uppercase;
+}
+
 /* Message rows */
 .archive-msg {
   display: flex; align-items: flex-start; gap: 12px;
@@ -281,6 +293,23 @@
   backdrop-filter: blur(10px);
 }
 
+.archive-error-banner {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(239,68,68,0.26);
+  border-radius: 8px;
+  background: rgba(239,68,68,0.08);
+  color: rgba(255,190,190,0.82);
+  font-size: 0.74rem;
+}
+
+.archive-error-banner strong {
+  color: rgba(255,220,220,0.92);
+}
+
 .archive-input-inner {
   display: flex; align-items: flex-end; gap: 10px;
   background: rgba(255,255,255,0.03);
@@ -341,6 +370,54 @@
   color: rgba(255,255,255,0.22);
   padding: 16px 4px;
   letter-spacing: 0.04em;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.archive-threads-empty button,
+.archive-threads-state button {
+  border: 1px solid rgba(139,92,246,0.28);
+  border-radius: 6px;
+  background: rgba(139,92,246,0.10);
+  color: rgba(200,175,255,0.82);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  text-transform: uppercase;
+}
+
+.archive-threads-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 18px 8px;
+  color: rgba(200,190,255,0.38);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.archive-threads-state--error {
+  color: rgba(255,185,185,0.78);
+}
+
+.archive-threads-state strong {
+  color: rgba(235,228,255,0.78);
+}
+
+.archive-spinner {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(139,92,246,0.18);
+  border-top-color: rgba(34,211,238,0.72);
+  border-radius: 50%;
+  animation: archiveSpin 0.9s linear infinite;
+}
+
+@keyframes archiveSpin {
+  to { transform: rotate(360deg); }
 }
 
 .archive-thread-body { flex: 1; min-width: 0; }

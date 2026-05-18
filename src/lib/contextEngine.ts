@@ -201,7 +201,7 @@ export async function retrieveContext(
   if (includeThreads) {
     const threads = await chatService.listThreads(userId);
     for (const thread of threads) {
-      const msgs = await chatService.getMessages(thread.id);
+      const msgs = await chatService.getMessages(userId, thread.id);
       const kw      = keywordScore(queryTokens, thread.title);
       const msgKw   = msgs.length ? Math.max(...msgs.map(m => keywordScore(queryTokens, m.content))) : 0;
       const rec     = recencyScore(thread.updatedAt);

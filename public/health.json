@@ -1,0 +1,7 @@
+{
+  "status": "ok",
+  "app": "abel",
+  "mode": "static",
+  "database": "indexeddb",
+  "healthVersion": "1"
+}

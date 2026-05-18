@@ -60,7 +60,7 @@ function safeId(raw: string): string {
 
 const VIEW_KEY = 'abel-graph-view-v2';
 function loadView() { try { const r = localStorage.getItem(VIEW_KEY); return r ? JSON.parse(r) : null; } catch { return null; } }
-function saveView(pan: {x:number;y:number}, scale: number) { try { localStorage.setItem(VIEW_KEY, JSON.stringify({ pan, scale })); } catch {} }
+function saveView(pan: {x:number;y:number}, scale: number) { try { localStorage.setItem(VIEW_KEY, JSON.stringify({ pan, scale })); } catch { return; } }
 
 // ── Props ─────────────────────────────────────────────────────────────────────
 
@@ -68,7 +68,7 @@ interface Props { onNavigate: (page: PageId) => void; }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function GraphPage({ onNavigate: _onNavigate }: Props) {
+export default function GraphPage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { graph } = state;
   const uid  = useId();
@@ -85,6 +85,7 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
   const [pan,       setPan]       = useState<{x:number;y:number}>(saved?.pan ?? { x: 60, y: 30 });
   const [scale,     setScale]     = useState<number>(saved?.scale ?? 0.80);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [dragging,  setDragging]  = useState(false);
 
   const canvasRef  = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -99,6 +100,7 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
   });
   const visibleIds   = new Set(filteredNodes.map(n => n.id));
   const visibleEdges = graph.edges.filter(e => visibleIds.has(e.source) && visibleIds.has(e.target));
+  const hasGraphProgress = graph.nodes.length > 0;
 
   // ── Highlight set ──────────────────────────────────────────────────────────
 
@@ -124,6 +126,7 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
   const onMD = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as Element).closest('.gn-card')) return;
     isDragging.current = true;
+    setDragging(true);
     lastPos.current = { x: e.clientX, y: e.clientY };
   }, []);
 
@@ -135,7 +138,7 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
     setPan(p => { const np = { x: p.x + dx, y: p.y + dy }; saveView(np, scale); return np; });
   }, [scale]);
 
-  const onMU = useCallback(() => { isDragging.current = false; }, []);
+  const onMU = useCallback(() => { isDragging.current = false; setDragging(false); }, []);
 
   // ── Wheel zoom ─────────────────────────────────────────────────────────────
 
@@ -223,6 +226,9 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
             <span className="gp-bc-page">Core Graph</span>
           </div>
           <div className="gp-topbar-right">
+            <button className="gp-nav-btn" onClick={() => onNavigate('memory')}>Memory</button>
+            <button className="gp-nav-btn" onClick={() => onNavigate('archive')}>Chat</button>
+            <button className="gp-nav-btn" onClick={() => onNavigate('settings')}>Settings</button>
             <input className="gp-search" value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search nodes, links, tags…" />
@@ -232,7 +238,7 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
         {/* Canvas */}
         <div ref={canvasRef} className="gp-canvas"
           onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU} onMouseLeave={onMU}
-          style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}>
+          style={{ cursor: dragging ? 'grabbing' : 'grab' }}>
 
           <div className="gp-world"
             style={{ transform: `translate(${pan.x}px,${pan.y}px) scale(${scale})`, transformOrigin: '0 0', willChange: 'transform' }}>
@@ -383,6 +389,30 @@ export default function GraphPage({ onNavigate: _onNavigate }: Props) {
               );
             })}
           </div>
+
+          {!hasGraphProgress && (
+            <div className="gp-empty-state">
+              <div className="gp-empty-glyph">◇</div>
+              <h2>No graph progress yet</h2>
+              <p>Import a memory, start a chat, or add a node. Abel’s atlas becomes useful once there are real concepts to connect.</p>
+              <div className="gp-empty-actions">
+                <button onClick={() => onNavigate('memory')}>Import memory</button>
+                <button onClick={() => onNavigate('archive')}>Start chat</button>
+                <button onClick={() => setAddOpen(true)}>Add node</button>
+              </div>
+            </div>
+          )}
+
+          {hasGraphProgress && filteredNodes.length === 0 && (
+            <div className="gp-empty-state gp-empty-state--small">
+              <div className="gp-empty-glyph">◇</div>
+              <h2>No matching nodes</h2>
+              <p>Clear the search or loosen the active node-type filter.</p>
+              <div className="gp-empty-actions">
+                <button onClick={() => { setSearch(''); setFilter('all'); }}>Clear filters</button>
+              </div>
+            </div>
+          )}
 
           {/* Zoom controls */}
           <div className="gp-zoom">

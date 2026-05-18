@@ -196,3 +196,50 @@
 }
 .settings-text-input::placeholder { color: var(--text-4); }
 .settings-text-input:focus { border-color: rgba(0,212,255,0.4); }
+
+.settings-audit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-audit-row {
+  display: grid;
+  grid-template-columns: 1fr auto minmax(120px, auto);
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid rgba(139,92,246,0.12);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  color: rgba(210,200,245,0.58);
+  font-size: 0.72rem;
+}
+
+.settings-audit-row span:first-child {
+  color: rgba(220,210,255,0.78);
+}
+
+.settings-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.settings-admin-cell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(139,92,246,0.14);
+  border-radius: 7px;
+  background: rgba(255,255,255,0.03);
+  color: rgba(200,190,255,0.52);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.settings-admin-cell strong {
+  color: rgba(34,211,238,0.86);
+  font-variant-numeric: tabular-nums;
+}

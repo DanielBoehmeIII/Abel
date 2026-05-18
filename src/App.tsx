@@ -14,12 +14,17 @@ import TrophiesPage from './pages/TrophiesPage';
 import ExhibitionPage from './pages/ExhibitionPage';
 import SettingsPage from './pages/SettingsPage';
 import MemoryPage from './pages/MemoryPage';
+import OnboardingFlow from './components/onboarding/OnboardingFlow';
+import BetaAccessGate from './components/system/BetaAccessGate';
+import FeedbackWidget from './components/system/FeedbackWidget';
+import { trackEvent } from './lib/analytics';
 
 function AppInner() {
   const [page, setPage]       = useState<PageId>('main');
   const [navOpen, setNavOpen] = useState(false);
 
   const navigate = useCallback((id: PageId) => {
+    trackEvent('navigate', { page: id });
     setPage(id);
     setNavOpen(false);
   }, []);
@@ -41,7 +46,7 @@ function AppInner() {
   const shared = { onNavigate: navigate };
 
   return (
-    <>
+    <BetaAccessGate>
       <PageTransition pageId={page}>
         {page === 'main'       && <MainPage     {...shared} />}
         {page === 'archive'    && <ArchivePage  {...shared} />}
@@ -78,7 +83,10 @@ function AppInner() {
         </button>
         <span className="global-nav-label">Nav</span>
       </div>
-    </>
+
+      <OnboardingFlow onNavigate={navigate} />
+      <FeedbackWidget />
+    </BetaAccessGate>
   );
 }
 

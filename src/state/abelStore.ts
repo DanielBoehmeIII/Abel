@@ -1,4 +1,4 @@
-import type { AbelState, Quest, FocusSession, MemoryItem, ArchiveThread, ArchiveMessage, GraphNode, AbelSettings } from '../types/abel';
+import type { AbelState, Quest, FocusSession, MemoryItem, ArchiveThread, ArchiveMessage, GraphNode, AbelSettings, UserProfile } from '../types/abel';
 import {
   completeQuest, increaseSkillMastery, hatchEgg,
   createMemoryFromFocusSession, updateArchetypeFromEvidence,
@@ -22,6 +22,7 @@ export type AbelAction =
   | { type: 'CREATE_ARCHIVE_THREAD'; thread: ArchiveThread }
   | { type: 'ADD_QUEST'; quest: Quest }
   | { type: 'SET_QUEST_ACTIVE'; questId: string }
+  | { type: 'UPDATE_USER'; user: Partial<UserProfile> }
   | { type: 'UPDATE_SETTINGS'; settings: Partial<AbelSettings> }
   | { type: 'UPDATE_ARCHETYPE' }
   | { type: 'RESET_TO_SEED'; seed: AbelState };
@@ -92,6 +93,9 @@ export function abelReducer(state: AbelState, action: AbelAction): AbelState {
             : q
         ),
       };
+
+    case 'UPDATE_USER':
+      return { ...state, user: { ...state.user, ...action.user, updatedAt: iso() } };
 
     case 'UPDATE_SETTINGS':
       return { ...state, settings: { ...state.settings, ...action.settings } };

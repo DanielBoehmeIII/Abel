@@ -172,9 +172,9 @@ export default function MainPage({ onNavigate }: Props) {
         </div>
 
         <nav className="main-nav-strip">
-          {(['archive', 'quests', 'graph', 'exhibition'] as PageId[]).map(id => (
+          {(['archive', 'memory', 'graph', 'settings'] as PageId[]).map(id => (
             <button key={id} className="main-nav-item" onClick={() => onNavigate(id)}>
-              {id.toUpperCase()}
+              {id === 'archive' ? 'CHAT' : id.toUpperCase()}
             </button>
           ))}
         </nav>
@@ -195,11 +195,18 @@ export default function MainPage({ onNavigate }: Props) {
           style={{ animationDelay: '0.15s' }}
           onClick={() => onNavigate('archive')}
         >
-          <span>ENTER THE DREAM</span>
+          <span>START A CHAT</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
+        <div className="main-quick-path animate-fade-in" style={{ animationDelay: '0.21s' }}>
+          <button onClick={() => onNavigate('memory')}>Import memory</button>
+          <span />
+          <button onClick={() => onNavigate('graph')}>View atlas</button>
+          <span />
+          <button onClick={() => onNavigate('settings')}>Tune Abel</button>
+        </div>
       </main>
 
       {/* ── Right instrument panels ── */}
@@ -278,7 +285,7 @@ export default function MainPage({ onNavigate }: Props) {
             { val: `${totalMastery}%`, label: 'MASTERY',     page: 'skillweb'  as PageId },
             { val: completedCount,      label: 'QUESTS',      page: 'quests'    as PageId },
             { val: graph.nodes.length,  label: 'GRAPH NODES', page: 'graph'     as PageId },
-            { val: memories.length,     label: 'MEMORIES',    page: 'exhibition' as PageId },
+            { val: memories.length,     label: 'MEMORIES',    page: 'memory'    as PageId },
           ].map((s, i) => (
             <button key={i} className="main-stat" onClick={() => onNavigate(s.page)}>
               <span className="main-stat-value">{s.val}</span>

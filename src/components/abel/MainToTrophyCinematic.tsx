@@ -5,9 +5,10 @@ import './MainToTrophyCinematic.css';
 const IDLE_SRC    = '/scene/main/main.mp4';
 const TRANS_SRC   = '/scene/main/main-to-trophy.mp4';
 const DEST_SRC    = '/scene/trophy/trophy.mp4';
+// 145 frames @ 24fps. For smoother scrubbing re-export at 60fps → 360 frames and bump FRAME_COUNT.
+// For video-currentTime scrubbing: export main-to-trophy-intra.mp4 with -g 1 (all-I-frame).
 const FRAME_COUNT = 145;
 const FRAMES_BASE = '/scene/main/main-to-trophy-frames/';
-
 function frameUrl(i: number) {
   return `${FRAMES_BASE}frame-${String(i).padStart(4, '0')}.jpg`;
 }

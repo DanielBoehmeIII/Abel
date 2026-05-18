@@ -21,6 +21,7 @@ export interface WorkspaceRecord {
 }
 
 export type MemoryType = 'fact' | 'preference' | 'goal' | 'project' | 'skill' | 'document' | 'system';
+export type MemoryVisibility = 'private' | 'project-only' | 'system';
 
 export interface MemoryRecord {
   id: string;
@@ -31,6 +32,7 @@ export interface MemoryRecord {
   tags: string[];        // multi-valued index
   source: string;        // 'journal' | 'focus' | 'archive' | 'import' | 'quest'
   confidence: number;    // 0–1
+  visibility: MemoryVisibility;
   archived: boolean;
   createdAt: string;
   updatedAt: string;
@@ -123,4 +125,27 @@ export interface SyncJobRecord {
   updatedAt: string;
   startedAt?: string;
   finishedAt?: string;
+}
+
+export type AuditAction =
+  | 'memory_import'
+  | 'memory_archive'
+  | 'memory_delete'
+  | 'chat_archive'
+  | 'chat_delete'
+  | 'ai_config_change'
+  | 'data_export'
+  | 'data_delete'
+  | 'unauthorized_access';
+
+export interface AuditLogRecord {
+  id: string;
+  userId: string;
+  action: AuditAction;
+  resourceType: 'memory' | 'chat' | 'ai-config' | 'data' | 'sync-job' | 'auth';
+  resourceId?: string;
+  status: 'succeeded' | 'failed' | 'blocked';
+  metadata?: Record<string, unknown>;
+  error?: string;
+  createdAt: string;
 }
