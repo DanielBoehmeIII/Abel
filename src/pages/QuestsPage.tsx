@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, Quest, QuestType } from '../types/abel';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';

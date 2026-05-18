@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, MemoryItem, MemorySubtype } from '../types/abel';
 import { makeMemory } from '../state/abelStore';
 import GlassPanel from '../components/common/GlassPanel';

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, FocusMode } from '../types/abel';
 import { makeFocusSession } from '../state/abelStore';
 import GlassPanel from '../components/common/GlassPanel';

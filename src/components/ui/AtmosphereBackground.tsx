@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import './AtmosphereBackground.css';
 
+function createRng(seed: number) {
+  let s = seed;
+  return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+}
+
 interface Props {
   variant?: 'default' | 'violet' | 'navy' | 'deep' | 'archive' | 'focus' | 'exhibition';
   stars?: number;
@@ -12,29 +17,32 @@ export default function AtmosphereBackground({
   stars = 70,
   particles = false,
 }: Props) {
-  const starData = useMemo(() =>
-    Array.from({ length: stars }, (_, i) => ({
+  const starData = useMemo(() => {
+    const rng = createRng(137);
+    return Array.from({ length: stars }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 0.8 + Math.random() * 1.8,
-      delay: Math.random() * 6,
-      duration: 2.5 + Math.random() * 4,
-      opacity: 0.15 + Math.random() * 0.6,
-    })),
-  [stars]);
+      x: rng() * 100,
+      y: rng() * 100,
+      size: 0.8 + rng() * 1.8,
+      delay: rng() * 6,
+      duration: 2.5 + rng() * 4,
+      opacity: 0.15 + rng() * 0.6,
+    }));
+  }, [stars]);
 
-  const particleData = useMemo(() =>
-    !particles ? [] : Array.from({ length: 18 }, (_, i) => ({
+  const particleData = useMemo(() => {
+    if (!particles) return [];
+    const rng = createRng(271);
+    return Array.from({ length: 18 }, (_, i) => ({
       id: i,
-      x: 10 + Math.random() * 80,
-      y: 20 + Math.random() * 70,
-      dx: (Math.random() - 0.5) * 40,
-      delay: Math.random() * 8,
-      duration: 6 + Math.random() * 8,
-      size: 1 + Math.random() * 2,
-    })),
-  [particles]);
+      x: 10 + rng() * 80,
+      y: 20 + rng() * 70,
+      dx: (rng() - 0.5) * 40,
+      delay: rng() * 8,
+      duration: 6 + rng() * 8,
+      size: 1 + rng() * 2,
+    }));
+  }, [particles]);
 
   return (
     <div className={`atmo atmo--${variant}`} aria-hidden>

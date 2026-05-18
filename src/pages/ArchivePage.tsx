@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { useAbel } from '../state/AbelProvider';
-import type { PageId } from '../types/abel';
-import { LLM_PROVIDERS, mockGenerateQuests } from '../config/llmProviders';
+import { useAbel } from '../state/useAbel';
+import type { PageId, Quest } from '../types/abel';
+import { LLM_PROVIDERS, mockGenerateQuests, getProviderStatus } from '../config/llmProviders';
 import { chatService, memoryService, aiConfigService, DEMO_USER_ID } from '../db';
 import type { ChatThreadRecord, ChatMessageRecord, AIConfigRecord } from '../db';
 import { generateResponse } from '../lib/aiPipeline';
@@ -13,13 +13,54 @@ import './ArchivePage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
 
-function parseAbelText(text: string): React.ReactNode {
-  const parts = text.split(/(\*\*[^*\n]+\*\*)/g);
-  return parts.map((part, i) =>
-    part.startsWith('**') && part.endsWith('**')
-      ? <strong key={i} style={{ color: 'rgba(210,185,255,0.95)', fontWeight: 500 }}>{part.slice(2, -2)}</strong>
-      : part
+// ── Quest action chip component ───────────────────────────────────────────────
+
+interface ActionChipProps {
+  label: string;
+  quests: Quest[];
+  onNavigate: (page: PageId) => void;
+  onSendMessage: (text: string) => void;
+}
+
+function ActionChip({ label, quests, onNavigate, onSendMessage }: ActionChipProps) {
+  const exists = quests.some(q => q.title.toLowerCase() === label.toLowerCase());
+  const handleClick = () => {
+    if (exists) {
+      onNavigate('quests');
+    } else {
+      onSendMessage(`Help me begin: ${label}`);
+    }
+  };
+  return (
+    <span className="archive-action-chip" onClick={handleClick} title={exists ? 'Open Quests' : 'Send starter message'}>
+      <span className="archive-action-chip-icon">◇</span>
+      {label}
+    </span>
   );
+}
+
+// ── Message content renderer (bold + action markers) ─────────────────────────
+
+function MessageContent({ text, quests, onNavigate, onSendMessage }: {
+  text: string;
+  quests: Quest[];
+  onNavigate: (page: PageId) => void;
+  onSendMessage: (text: string) => void;
+}): React.ReactNode {
+  // Split on [quest: ...] markers AND **bold** markers
+  const segments = text.split(/(\[quest:[^\]]+\]|\*\*[^*\n]+\*\*)/g);
+  return segments.map((seg, i) => {
+    if (seg.startsWith('[quest:') && seg.endsWith(']')) {
+      const label = seg.slice(7, -1).trim();
+      return label ? (
+        <ActionChip key={i} label={label} quests={quests} onNavigate={onNavigate} onSendMessage={onSendMessage} />
+      ) : null;
+    }
+    if (seg.startsWith('**') && seg.endsWith('**')) {
+      return <strong key={i} style={{ color: 'rgba(210,185,255,0.95)', fontWeight: 500 }}>{seg.slice(2, -2)}</strong>;
+    }
+    return seg;
+  });
 }
 
 function buildSummary(thread: ChatThreadRecord, messages: ChatMessageRecord[]): string {
@@ -48,7 +89,7 @@ export default function ArchivePage({ onNavigate }: Props) {
   const [loadingThreads, setLoadingThreads] = useState(true);
   const [loadError,      setLoadError]      = useState<string | null>(null);
   const [sendError,      setSendError]      = useState<string | null>(null);
-  const aiCfgRef = useRef<AIConfigRecord | null>(null);
+  const [aiCfg, setAiCfg] = useState<AIConfigRecord | null>(null);
 
   // ── UI state ───────────────────────────────────────────────────────────────
   const [input,            setInput]            = useState('');
@@ -80,7 +121,7 @@ export default function ArchivePage({ onNavigate }: Props) {
 
   useEffect(() => {
     void Promise.resolve().then(loadThreads);
-    aiConfigService.get(DEMO_USER_ID).then(cfg => { if (cfg) aiCfgRef.current = cfg; });
+    aiConfigService.get(DEMO_USER_ID).then(cfg => { if (cfg) setAiCfg(cfg); });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Load messages when thread changes ──────────────────────────────────────
@@ -111,28 +152,39 @@ export default function ArchivePage({ onNavigate }: Props) {
       setMessages(m => [...m, userMsg]);
       setIsTyping(true);
 
-      setTimeout(async () => {
-        try {
-          const cfg = aiCfgRef.current;
-          const memLevel = cfg?.memoryUsageLevel ?? 'standard';
-          const ctx = await retrieveContext(DEMO_USER_ID, text, { memoryUsageLevel: memLevel });
-          setDebugCtx(ctx);
-          const resp = cfg
-            ? generateResponse(text, cfg, { journeyTitle: activeJourney?.title, projectFocus: cfg.projectFocus, retrievedContext: ctx.compressed })
-            : generateResponse(text, { tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate', memoryUsageLevel: 'standard', responseFormat: 'narrative', id: '', userId: '', createdAt: '', updatedAt: '' }, { retrievedContext: ctx.compressed });
-          const abelMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'abel', resp);
-          setMessages(m => [...m, abelMsg]);
-        } catch (err) {
-          setSendError(err instanceof Error ? err.message : String(err));
-        } finally {
-          setIsTyping(false);
-        }
-      }, 900 + Math.random() * 600);
+      try {
+        const cfg = aiCfg ?? {
+          tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate',
+          memoryUsageLevel: 'standard', responseFormat: 'narrative',
+          apiKeyConfigured: false,
+          id: '', userId: '', createdAt: '', updatedAt: '',
+        };
+        const memLevel = cfg.memoryUsageLevel ?? 'standard';
+        const ctx = await retrieveContext(DEMO_USER_ID, text, { memoryUsageLevel: memLevel });
+        setDebugCtx(ctx);
+        const resp = await generateResponse(text, cfg, {
+          journeyTitle: activeJourney?.title,
+          projectFocus: cfg.projectFocus,
+          retrievedContext: ctx.compressed,
+        });
+        const abelMsg = await chatService.appendMessage(activeThreadId, DEMO_USER_ID, 'abel', resp);
+        setMessages(m => [...m, abelMsg]);
+      } catch (err) {
+        setSendError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setIsTyping(false);
+      }
     } catch (err) {
       setSendError(err instanceof Error ? err.message : String(err));
       setIsTyping(false);
     }
   }
+
+  // ── Programmatic send (for action chips) ──────────────────────────────────
+  const handleActionSend = useCallback((text: string) => {
+    setInput(text);
+    setTimeout(() => sendMessage(), 50);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function newThread() {
     const n = threads.length + 1;
@@ -224,6 +276,8 @@ export default function ArchivePage({ onNavigate }: Props) {
     return () => window.removeEventListener('keydown', h);
   }, []);
 
+  const isMockProvider = settings.llmProvider === 'mock';
+
   return (
     <div className="archive-page">
       <CinematicIdleBackplate src="/scene/archive/archive.mp4" pingPong={false} className="cib-archive" />
@@ -250,9 +304,11 @@ export default function ArchivePage({ onNavigate }: Props) {
 
         <div className="archive-threads">
           {loadingThreads && (
-            <div className="archive-threads-state">
-              <span className="archive-spinner" />
-              Loading sessions…
+            <div className="archive-skeleton-threads">
+              <div className="archive-skeleton-item" />
+              <div className="archive-skeleton-item" />
+              <div className="archive-skeleton-item" />
+              <div className="archive-skeleton-item" />
             </div>
           )}
           {loadError && (
@@ -356,12 +412,20 @@ export default function ArchivePage({ onNavigate }: Props) {
             <h2 className="archive-chamber-title">
               {activeThread?.title ?? 'Select a Session'}
             </h2>
-            <p className="caption" style={{ marginTop: '3px', color: 'var(--text-4)' }}>
-              {messages.length} entries · {new Date().toLocaleDateString([], { month: 'long', day: 'numeric' })}
-            </p>
-          </div>
+              <p className="caption" style={{ marginTop: '3px', color: 'var(--text-4)' }}>
+                {messages.length} entries · {new Date().toLocaleDateString([], { month: 'long', day: 'numeric' })}
+              </p>
+            </div>
 
           <div className="archive-header-right">
+              {/* Provider badge for real providers */}
+              {!isMockProvider && (
+                <span className="archive-provider-badge">
+                  <span>{currentProvider.icon}</span>
+                  <span>{currentProvider.name}</span>
+                </span>
+              )}
+
             {/* Summarize to memory */}
             {activeThread && messages.length > 0 && (
               <button
@@ -377,36 +441,54 @@ export default function ArchivePage({ onNavigate }: Props) {
               <button className="archive-provider-btn" onClick={() => setShowProviderMenu(v => !v)}>
                 <span className="archive-provider-icon">{currentProvider.icon}</span>
                 <span>{currentProvider.name}</span>
-                <span className={`archive-provider-dot ${currentProvider.status}`} />
+                <span className={`archive-provider-dot ${getProviderStatus(currentProvider.id, aiCfg)}`} />
               </button>
               {showProviderMenu && (
                 <div className="archive-provider-menu">
-                  {LLM_PROVIDERS.map(p => (
-                    <div
-                      key={p.id}
-                      className={`archive-provider-item ${p.id === settings.llmProvider ? 'archive-provider-item--active' : ''}`}
-                      onClick={() => {
-                        dispatch({ type: 'UPDATE_SETTINGS', settings: { llmProvider: p.id } });
-                        setShowProviderMenu(false);
-                      }}
-                    >
-                      <span>{p.icon} {p.name}</span>
-                      <span className={`archive-provider-dot ${p.status}`} />
-                    </div>
-                  ))}
+                  {LLM_PROVIDERS.map(p => {
+                    const status = getProviderStatus(p.id, aiCfg);
+                    return (
+                      <div
+                        key={p.id}
+                        className={`archive-provider-item ${p.id === settings.llmProvider ? 'archive-provider-item--active' : ''}`}
+                        onClick={() => {
+                          dispatch({ type: 'UPDATE_SETTINGS', settings: { llmProvider: p.id } });
+                          setShowProviderMenu(false);
+                        }}
+                      >
+                        <span>{p.icon} {p.name}</span>
+                        <span className={`archive-provider-dot ${status}`} />
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
           </div>
         </div>
 
+        {/* Mock warning */}
+        {isMockProvider && (
+          <div className="archive-mock-warning" role="alert">
+            <span className="archive-mock-warning-icon">◈</span>
+            <span>Offline simulation mode — responses are generated locally. Switch to a real provider in Settings.</span>
+          </div>
+        )}
+
         {/* Messages */}
         <div className="archive-messages">
           {(!activeThread || messages.length === 0) && (
             <div className="archive-empty">
-              <div className="archive-empty-glyph">◈</div>
+              <div className="archive-empty-glyph">{isMockProvider ? '◈' : '◉'}</div>
               <p className="archive-empty-text">{activeThread ? 'Begin a reflection' : 'No session selected'}</p>
-              <p className="caption">{activeThread ? 'Share a goal, insight, or question with Abel.' : 'Create a session to start your first chat.'}</p>
+              <p className="caption archive-empty-caption">
+                {activeThread
+                  ? 'Share a goal, insight, or question with Abel.'
+                  : 'Create a session to start your first chat.'}
+                {isMockProvider && activeThread && (
+                  <span className="archive-empty-mock"> Responses will be simulated in offline mode.</span>
+                )}
+              </p>
               {!activeThread && <button className="archive-empty-btn" onClick={newThread}>Start first chat</button>}
               {activeThread && <button className="archive-empty-btn" onClick={() => setInput('Help me choose the next concrete step.')}>Use starter prompt</button>}
             </div>
@@ -421,7 +503,9 @@ export default function ArchivePage({ onNavigate }: Props) {
               {msg.role === 'abel' && <div className="archive-abel-mark">◈</div>}
               <div className={`archive-msg-content ${msg.role === 'user' ? 'archive-msg-content--user' : ''}`}>
                 <p className="archive-msg-text">
-                  {msg.role === 'abel' ? parseAbelText(msg.content) : msg.content}
+                  {msg.role === 'abel' ? (
+                    <MessageContent text={msg.content} quests={quests} onNavigate={onNavigate} onSendMessage={handleActionSend} />
+                  ) : msg.content}
                 </p>
                 <p className="archive-msg-time">
                   {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, SkillNode } from '../types/abel';
 import GlowButton from '../components/common/GlowButton';
 import './SkillwebPage.css';

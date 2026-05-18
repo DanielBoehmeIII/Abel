@@ -5,6 +5,7 @@ export { memoryService } from './services/memoryService';
 export { chatService } from './services/chatService';
 export { graphService } from './services/graphService';
 export { aiConfigService, DEFAULT_AI_CONFIG } from './services/aiConfigService';
+export { providerConfigService } from './services/providerConfigService';
 export { syncJobService } from './services/syncJobService';
 export { auditLogService } from './services/auditLogService';
 export { privacyService } from './services/privacyService';

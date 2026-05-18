@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useReducer, useEffect, useRef } from 'react';
+import React, { useReducer, useEffect, useRef } from 'react';
 import type { AbelState } from '../types/abel';
-import { abelReducer, type AbelAction } from './abelStore';
+import { abelReducer } from './abelStore';
 import { SEED_STATE } from '../data/seed';
-import { db } from '../db/db';
 import { userService, DEMO_USER_ID } from '../db/services/userService';
 import { graphService } from '../db/services/graphService';
 import { seedDatabaseFromState } from '../db/seed';
+import { AbelContext } from './useAbel';
 
 const STORAGE_KEY = 'abel_v3';
 
@@ -41,18 +41,6 @@ async function initDatabase(state: AbelState): Promise<void> {
   }
 }
 
-// Export db for dev tooling / future admin views
-export { db };
-
-// ─── Context ──────────────────────────────────────────────────────────────────
-
-interface AbelContextValue {
-  state: AbelState;
-  dispatch: React.Dispatch<AbelAction>;
-}
-
-const AbelContext = createContext<AbelContextValue | null>(null);
-
 export function AbelProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(abelReducer, undefined, loadState);
   const isFirstRender = useRef(true);
@@ -64,7 +52,7 @@ export function AbelProvider({ children }: { children: React.ReactNode }) {
   // One-time DB bootstrap — seeds IndexedDB from localStorage state on first run
   useEffect(() => {
     initDatabase(state);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Sync graph changes to IndexedDB whenever state.graph changes.
@@ -77,7 +65,6 @@ export function AbelProvider({ children }: { children: React.ReactNode }) {
       state.graph.nodes,
       state.graph.edges,
     ).catch(err => console.warn('[Abel DB] graph sync failed (non-fatal):', err));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.graph]);
 
   return (
@@ -85,10 +72,4 @@ export function AbelProvider({ children }: { children: React.ReactNode }) {
       {children}
     </AbelContext.Provider>
   );
-}
-
-export function useAbel(): AbelContextValue {
-  const ctx = useContext(AbelContext);
-  if (!ctx) throw new Error('useAbel must be used within AbelProvider');
-  return ctx;
 }

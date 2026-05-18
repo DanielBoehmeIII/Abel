@@ -2,6 +2,11 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import type { PageId } from '../../types/abel';
 import './OrbitalNav.css';
 
+function createRng(seed: number) {
+  let s = seed;
+  return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+}
+
 interface NavNode {
   id: PageId;
   label: string;
@@ -61,16 +66,17 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
     return () => window.removeEventListener('keydown', h);
   }, [selected, onClose, onNavigate, rotate]);
 
-  const stars = useMemo(() =>
-    Array.from({ length: 70 }, (_, i) => ({
+  const stars = useMemo(() => {
+    const rng = createRng(42);
+    return Array.from({ length: 70 }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 0.5 + Math.random() * 1.4,
-      delay: Math.random() * 6,
-      dur: 2 + Math.random() * 4,
-    })),
-  []);
+      x: rng() * 100,
+      y: rng() * 100,
+      size: 0.5 + rng() * 1.4,
+      delay: rng() * 6,
+      dur: 2 + rng() * 4,
+    }));
+  }, []);
 
   return (
     <div className={`orbital-overlay ${mounted ? 'orbital-overlay--in' : ''}`} onClick={onClose}>

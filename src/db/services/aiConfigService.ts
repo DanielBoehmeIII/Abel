@@ -11,6 +11,7 @@ export const DEFAULT_AI_CONFIG: Omit<AIConfigRecord, 'id' | 'userId' | 'createdA
   expertiseLevel:    'intermediate',
   memoryUsageLevel:  'standard',
   responseFormat:    'narrative',
+  apiKeyConfigured:  false,
 };
 
 export const aiConfigService = {

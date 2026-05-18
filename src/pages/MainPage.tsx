@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId } from '../types/abel';
 import ArtifactScene from '../components/3d/ArtifactScene';
 import MainToTrophyCinematic from '../components/abel/MainToTrophyCinematic';

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, LLMProvider, ThemeName, QuestIntensity } from '../types/abel';
-import { LLM_PROVIDERS } from '../config/llmProviders';
+import { LLM_PROVIDERS, getProviderStatus } from '../config/llmProviders';
 import { SEED_STATE } from '../data/seed';
 import { userService, DEMO_USER_ID, aiConfigService, privacyService, auditLogService, adminService } from '../db';
 import type { AIConfigRecord, AuditLogRecord } from '../db';
+import { providerConfigService } from '../db/services/providerConfigService';
 import type { AdminSummary } from '../db/services/adminService';
 import { buildSystemPrompt } from '../lib/aiPipeline';
 import { syncJobService } from '../db/services/syncJobService';
@@ -57,9 +58,21 @@ export default function SettingsPage({ onNavigate }: Props) {
   });
   const [aiCfgSaved, setAiCfgSaved] = useState(false);
 
+  // Provider config state
+  const [provApiKey,   setProvApiKey]   = useState('');
+  const [provModel,    setProvModel]    = useState('');
+  const [provBaseUrl,  setProvBaseUrl]  = useState('');
+  const [provSaved,    setProvSaved]    = useState(false);
+  const [provCleared,  setProvCleared]  = useState(false);
+
   useEffect(() => {
     aiConfigService.get(DEMO_USER_ID).then(cfg => {
-      if (cfg) setAiCfg(cfg);
+      if (cfg) {
+        setAiCfg(cfg);
+        setProvApiKey(cfg.apiKey ?? '');
+        setProvModel(cfg.modelName ?? '');
+        setProvBaseUrl(cfg.baseUrl ?? '');
+      }
     });
   }, []);
 
@@ -139,6 +152,28 @@ export default function SettingsPage({ onNavigate }: Props) {
     } catch (err) {
       setPrivacyError(err instanceof Error ? err.message : String(err));
     }
+  }
+
+  async function saveProviderConfig() {
+    const provider = settings.llmProvider;
+    if (provider === 'mock') return;
+    await providerConfigService.save(DEMO_USER_ID, {
+      provider,
+      apiKey: provApiKey,
+      modelName: provModel,
+      baseUrl: provBaseUrl,
+    });
+    setProvSaved(true);
+    setTimeout(() => setProvSaved(false), 2500);
+  }
+
+  async function clearProviderConfig() {
+    await providerConfigService.clear(DEMO_USER_ID);
+    setProvApiKey('');
+    setProvModel('');
+    setProvBaseUrl('');
+    setProvCleared(true);
+    setTimeout(() => setProvCleared(false), 2500);
   }
 
   async function enqueueJob(type: Parameters<typeof syncJobService.create>[1], payload: Record<string, unknown> = {}) {
@@ -368,33 +403,104 @@ export default function SettingsPage({ onNavigate }: Props) {
               </p>
 
               <div className="settings-provider-grid">
-                {LLM_PROVIDERS.map(p => (
-                  <div
-                    key={p.id}
-                    className={`settings-provider-card glass ${settings.llmProvider === p.id ? 'settings-provider-card--active' : ''}`}
-                    onClick={() => updateSetting('llmProvider', p.id as LLMProvider)}
-                  >
-                    <div className="settings-provider-header">
-                      <span className="settings-provider-icon">{p.icon}</span>
-                      <div>
-                        <p style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.9rem' }}>{p.name}</p>
-                        <span className={`pill ${p.status === 'mock' ? 'status-active' : p.status === 'configured' ? 'status-completed' : 'status-locked'}`}>
-                          {p.status}
-                        </span>
+                {LLM_PROVIDERS.map(p => {
+                  const status = p.id === 'mock' ? 'active'
+                    : settings.llmProvider === p.id ? 'active'
+                    : getProviderStatus(p.id, aiCfg as AIConfigRecord | null);
+                  const statusLabel = status === 'active' ? 'Active'
+                    : status === 'configured' ? 'Configured'
+                    : status === 'not-configured' ? 'Not configured'
+                    : 'Mock only';
+                  return (
+                    <div
+                      key={p.id}
+                      className={`settings-provider-card glass ${settings.llmProvider === p.id ? 'settings-provider-card--active' : ''}`}
+                      onClick={() => updateSetting('llmProvider', p.id as LLMProvider)}
+                    >
+                      <div className="settings-provider-header">
+                        <span className="settings-provider-icon">{p.icon}</span>
+                        <div>
+                          <p style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            {p.name}
+                            {p.recommended && <span style={{ fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(34,211,238,0.85)', background: 'rgba(34,211,238,0.10)', border: '1px solid rgba(34,211,238,0.22)', borderRadius: '3px', padding: '1px 5px', textTransform: 'uppercase' }}>RECOMMENDED</span>}
+                          </p>
+                          <span className={`pill ${status === 'active' ? 'status-active' : status === 'configured' ? 'status-completed' : 'status-locked'}`}>
+                            {statusLabel}
+                          </span>
+                        </div>
                       </div>
+                      <p className="caption" style={{ marginTop: '10px', lineHeight: 1.6 }}>{p.description}</p>
+                      {settings.llmProvider === p.id && (
+                        <div className="settings-provider-selected">ACTIVE</div>
+                      )}
                     </div>
-                    <p className="caption" style={{ marginTop: '10px', lineHeight: 1.6 }}>{p.description}</p>
-                    {settings.llmProvider === p.id && (
-                      <div className="settings-provider-selected">ACTIVE</div>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
-              <GlassPanel style={{ padding: '16px', marginTop: '20px' }}>
-                <p className="eyebrow" style={{ marginBottom: '6px', color: 'var(--text-3)' }}>API KEY CONFIGURATION</p>
-                <p className="caption">Real provider API keys would be configured here. For this MVP, only Mock Abel is functional.</p>
-              </GlassPanel>
+              {/* Config form for non-mock providers */}
+              {settings.llmProvider !== 'mock' && (
+                <GlassPanel style={{ padding: '20px', marginTop: '20px' }}>
+                  <p className="eyebrow" style={{ marginBottom: '12px', color: 'var(--text-3)' }}>
+                    {settings.llmProvider === 'local' ? 'LOCAL PROVIDER CONFIGURATION' : 'API KEY CONFIGURATION'}
+                  </p>
+
+                  {settings.llmProvider === 'local' ? (
+                    <div>
+                      <p className="heading" style={{ marginBottom: '8px' }}>BASE URL</p>
+                      <input
+                        className="settings-text-input"
+                        placeholder="http://localhost:11434"
+                        value={provBaseUrl}
+                        onChange={e => setProvBaseUrl(e.target.value)}
+                      />
+                      <p className="heading" style={{ margin: '14px 0 8px' }}>MODEL NAME</p>
+                      <input
+                        className="settings-text-input"
+                        placeholder="llama3.2"
+                        value={provModel}
+                        onChange={e => setProvModel(e.target.value)}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="heading" style={{ marginBottom: '8px' }}>API KEY</p>
+                      <input
+                        className="settings-text-input"
+                        type="password"
+                        placeholder={settings.llmProvider === 'claude' ? 'sk-ant-...' : 'sk-...'}
+                        value={provApiKey}
+                        onChange={e => setProvApiKey(e.target.value)}
+                      />
+                      <p className="heading" style={{ margin: '14px 0 8px' }}>MODEL NAME (optional)</p>
+                      <input
+                        className="settings-text-input"
+                        placeholder={settings.llmProvider === 'claude' ? 'claude-sonnet-4-20250514' : 'gpt-4o'}
+                        value={provModel}
+                        onChange={e => setProvModel(e.target.value)}
+                      />
+                    </div>
+                  )}
+
+                  <p className="caption" style={{ marginTop: '12px', color: 'rgba(240,192,64,0.8)' }}>
+                    ⚠ Local-beta: API keys are stored in your browser's IndexedDB. Not intended for production use.
+                  </p>
+
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginTop: '16px' }}>
+                    <GlowButton variant="cyan" onClick={saveProviderConfig}>Save Config</GlowButton>
+                    <GlowButton variant="ghost" onClick={clearProviderConfig}>Clear Config</GlowButton>
+                    {provSaved && <span className="caption" style={{ color: 'var(--cyan)' }}>✓ Saved</span>}
+                    {provCleared && <span className="caption" style={{ color: 'var(--text-3)' }}>Config cleared</span>}
+                  </div>
+                </GlassPanel>
+              )}
+
+              {settings.llmProvider === 'mock' && (
+                <GlassPanel style={{ padding: '16px', marginTop: '20px' }}>
+                  <p className="eyebrow" style={{ marginBottom: '6px', color: 'var(--text-3)' }}>MOCK MODE</p>
+                  <p className="caption">Mock Abel uses built-in deterministic responses. No API key or configuration needed. Switch to a real provider to connect Claude, ChatGPT, or a local model.</p>
+                </GlassPanel>
+              )}
             </div>
           )}
 

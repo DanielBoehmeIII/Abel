@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect, useId } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, GraphNode, GraphNodeType, GraphEdgeType } from '../types/abel';
 import { makeGraphNode } from '../state/abelStore';
 import './GraphPage.css';

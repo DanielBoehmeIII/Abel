@@ -2,6 +2,8 @@
 // These mirror src/types/abel.ts but are optimised for Dexie/IndexedDB storage.
 // Future: swap the Dexie implementation for Postgres/Supabase by changing db.ts only.
 
+import type { LLMProvider } from '../types/abel';
+
 export interface UserRecord {
   id: string;           // 'demo' or future auth UUID
   name: string;
@@ -99,6 +101,11 @@ export interface AIConfigRecord {
   memoryUsageLevel: MemoryUsageLevel;
   responseFormat: ResponseFormat;
   providerPreference?: string;
+  provider?: LLMProvider;
+  apiKeyConfigured: boolean;
+  apiKey?: string;
+  modelName?: string;
+  baseUrl?: string;
   customInstructions?: string;
   createdAt: string;
   updatedAt: string;

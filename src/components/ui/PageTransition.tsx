@@ -11,11 +11,15 @@ export default function PageTransition({ pageId, children }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setVisible(false);
-    const t = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setVisible(true));
+    let cancelled = false;
+    const t1 = requestAnimationFrame(() => {
+      if (cancelled) return;
+      setVisible(false);
+      requestAnimationFrame(() => {
+        if (!cancelled) setVisible(true);
+      });
     });
-    return () => cancelAnimationFrame(t);
+    return () => { cancelled = true; cancelAnimationFrame(t1); };
   }, [pageId]);
 
   return (

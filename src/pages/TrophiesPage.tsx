@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, Trophy, TrophyRarity } from '../types/abel';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
@@ -9,82 +9,84 @@ interface Props { onNavigate: (page: PageId) => void; }
 
 const RARITY_ORDER: TrophyRarity[] = ['legendary', 'mythic', 'rare', 'common'];
 
+function ShapeContent({ modelType, color, sz, large }: {
+  modelType: string; color: string; sz: number; large?: boolean;
+}) {
+  switch (modelType) {
+    case 'orb':
+      return (
+        <>
+          <circle cx={sz/2} cy={sz/2} r={sz * 0.36} fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
+            style={{ filter: `drop-shadow(0 0 ${large?18:8}px ${color})` }} />
+          <circle cx={sz/2} cy={sz/2} r={sz * 0.22} fill={`${color}10`} stroke={color} strokeWidth={large?1.2:0.8} opacity="0.5" />
+          <ellipse cx={sz*0.4} cy={sz*0.38} rx={sz*0.1} ry={sz*0.12} fill="white" opacity="0.08" />
+          <circle cx={sz/2} cy={sz/2} r={sz*0.08} fill={color} opacity="0.75" />
+        </>
+      );
+    case 'cube':
+      return (
+        <>
+          <rect x={sz*0.25} y={sz*0.25} width={sz*0.44} height={sz*0.44}
+            fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
+            style={{ filter: `drop-shadow(0 0 ${large?14:7}px ${color})` }} />
+          <rect x={sz*0.35} y={sz*0.17} width={sz*0.44} height={sz*0.44}
+            fill="none" stroke={color} strokeWidth={large?1:0.7} opacity="0.45" />
+          <line x1={sz*0.25} y1={sz*0.25} x2={sz*0.35} y2={sz*0.17} stroke={color} strokeWidth={large?1:0.7} opacity="0.7" />
+          <line x1={sz*0.69} y1={sz*0.25} x2={sz*0.79} y2={sz*0.17} stroke={color} strokeWidth={large?1:0.7} opacity="0.7" />
+          <line x1={sz*0.69} y1={sz*0.69} x2={sz*0.79} y2={sz*0.61} stroke={color} strokeWidth={large?1:0.7} opacity="0.7" />
+          <circle cx={sz/2} cy={sz/2} r={sz*0.05} fill={color} opacity="0.8" />
+        </>
+      );
+    case 'creature':
+      return (
+        <>
+          <path d={`M ${sz*0.3},${sz*0.62} Q ${sz*0.18},${sz*0.35} ${sz/2},${sz*0.22} Q ${sz*0.82},${sz*0.35} ${sz*0.7},${sz*0.62} Q ${sz*0.66},${sz*0.8} ${sz/2},${sz*0.78} Q ${sz*0.34},${sz*0.8} ${sz*0.3},${sz*0.62} Z`}
+            fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
+            style={{ filter: `drop-shadow(0 0 ${large?12:6}px ${color})` }} />
+          <ellipse cx={sz*0.42} cy={sz*0.46} rx={sz*0.06} ry={sz*0.08} fill={color} opacity="0.65" />
+          <ellipse cx={sz*0.58} cy={sz*0.46} rx={sz*0.06} ry={sz*0.08} fill={color} opacity="0.65" />
+        </>
+      );
+    case 'artifact':
+      return (
+        <>
+          <polygon points={`${sz/2},${sz*0.14} ${sz*0.76},${sz*0.4} ${sz*0.68},${sz*0.78} ${sz*0.32},${sz*0.78} ${sz*0.24},${sz*0.4}`}
+            fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
+            style={{ filter: `drop-shadow(0 0 ${large?14:7}px ${color})` }} />
+          <circle cx={sz/2} cy={sz/2} r={sz*0.1} fill={color} opacity="0.55" />
+          <circle cx={sz/2} cy={sz/2} r={sz*0.04} fill={color} opacity="0.9" />
+        </>
+      );
+    case 'mask':
+      return (
+        <>
+          <path d={`M ${sz*0.28},${sz*0.22} Q ${sz*0.28},${sz*0.75} ${sz/2},${sz*0.83} Q ${sz*0.72},${sz*0.75} ${sz*0.72},${sz*0.22} Q ${sz*0.62},${sz*0.12} ${sz/2},${sz*0.12} Q ${sz*0.38},${sz*0.12} ${sz*0.28},${sz*0.22} Z`}
+            fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
+            style={{ filter: `drop-shadow(0 0 ${large?12:6}px ${color})` }} />
+          <ellipse cx={sz*0.4} cy={sz*0.44} rx={sz*0.09} ry={sz*0.06} fill={color} opacity="0.45" />
+          <ellipse cx={sz*0.6} cy={sz*0.44} rx={sz*0.09} ry={sz*0.06} fill={color} opacity="0.45" />
+        </>
+      );
+    default: // totem
+      return (
+        <>
+          <rect x={sz*0.44} y={sz*0.14} width={sz*0.18} height={sz*0.74} rx={sz*0.04}
+            fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2} />
+          <rect x={sz*0.26} y={sz*0.32} width={sz*0.52} height={sz*0.16} rx={sz*0.03}
+            fill={`${color}12`} stroke={color} strokeWidth={large?1:0.7} opacity="0.65" />
+          <circle cx={sz/2} cy={sz*0.26} r={sz*0.09} fill={color} opacity="0.65" />
+        </>
+      );
+  }
+}
+
 function TrophyDisplay({ trophy, large }: { trophy: Trophy; large?: boolean }) {
   const sz = large ? 160 : 80;
   const { modelType, color } = trophy;
 
-  const ShapeContent = () => {
-    switch (modelType) {
-      case 'orb':
-        return (
-          <>
-            <circle cx={sz/2} cy={sz/2} r={sz * 0.36} fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
-              style={{ filter: `drop-shadow(0 0 ${large?18:8}px ${color})` }} />
-            <circle cx={sz/2} cy={sz/2} r={sz * 0.22} fill={`${color}10`} stroke={color} strokeWidth={large?1.2:0.8} opacity="0.5" />
-            <ellipse cx={sz*0.4} cy={sz*0.38} rx={sz*0.1} ry={sz*0.12} fill="white" opacity="0.08" />
-            <circle cx={sz/2} cy={sz/2} r={sz*0.08} fill={color} opacity="0.75" />
-          </>
-        );
-      case 'cube':
-        return (
-          <>
-            <rect x={sz*0.25} y={sz*0.25} width={sz*0.44} height={sz*0.44}
-              fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
-              style={{ filter: `drop-shadow(0 0 ${large?14:7}px ${color})` }} />
-            <rect x={sz*0.35} y={sz*0.17} width={sz*0.44} height={sz*0.44}
-              fill="none" stroke={color} strokeWidth={large?1:0.7} opacity="0.45" />
-            <line x1={sz*0.25} y1={sz*0.25} x2={sz*0.35} y2={sz*0.17} stroke={color} strokeWidth={large?1:0.7} opacity="0.7" />
-            <line x1={sz*0.69} y1={sz*0.25} x2={sz*0.79} y2={sz*0.17} stroke={color} strokeWidth={large?1:0.7} opacity="0.7" />
-            <line x1={sz*0.69} y1={sz*0.69} x2={sz*0.79} y2={sz*0.61} stroke={color} strokeWidth={large?1:0.7} opacity="0.7" />
-            <circle cx={sz/2} cy={sz/2} r={sz*0.05} fill={color} opacity="0.8" />
-          </>
-        );
-      case 'creature':
-        return (
-          <>
-            <path d={`M ${sz*0.3},${sz*0.62} Q ${sz*0.18},${sz*0.35} ${sz/2},${sz*0.22} Q ${sz*0.82},${sz*0.35} ${sz*0.7},${sz*0.62} Q ${sz*0.66},${sz*0.8} ${sz/2},${sz*0.78} Q ${sz*0.34},${sz*0.8} ${sz*0.3},${sz*0.62} Z`}
-              fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
-              style={{ filter: `drop-shadow(0 0 ${large?12:6}px ${color})` }} />
-            <ellipse cx={sz*0.42} cy={sz*0.46} rx={sz*0.06} ry={sz*0.08} fill={color} opacity="0.65" />
-            <ellipse cx={sz*0.58} cy={sz*0.46} rx={sz*0.06} ry={sz*0.08} fill={color} opacity="0.65" />
-          </>
-        );
-      case 'artifact':
-        return (
-          <>
-            <polygon points={`${sz/2},${sz*0.14} ${sz*0.76},${sz*0.4} ${sz*0.68},${sz*0.78} ${sz*0.32},${sz*0.78} ${sz*0.24},${sz*0.4}`}
-              fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
-              style={{ filter: `drop-shadow(0 0 ${large?14:7}px ${color})` }} />
-            <circle cx={sz/2} cy={sz/2} r={sz*0.1} fill={color} opacity="0.55" />
-            <circle cx={sz/2} cy={sz/2} r={sz*0.04} fill={color} opacity="0.9" />
-          </>
-        );
-      case 'mask':
-        return (
-          <>
-            <path d={`M ${sz*0.28},${sz*0.22} Q ${sz*0.28},${sz*0.75} ${sz/2},${sz*0.83} Q ${sz*0.72},${sz*0.75} ${sz*0.72},${sz*0.22} Q ${sz*0.62},${sz*0.12} ${sz/2},${sz*0.12} Q ${sz*0.38},${sz*0.12} ${sz*0.28},${sz*0.22} Z`}
-              fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2}
-              style={{ filter: `drop-shadow(0 0 ${large?12:6}px ${color})` }} />
-            <ellipse cx={sz*0.4} cy={sz*0.44} rx={sz*0.09} ry={sz*0.06} fill={color} opacity="0.45" />
-            <ellipse cx={sz*0.6} cy={sz*0.44} rx={sz*0.09} ry={sz*0.06} fill={color} opacity="0.45" />
-          </>
-        );
-      default: // totem
-        return (
-          <>
-            <rect x={sz*0.44} y={sz*0.14} width={sz*0.18} height={sz*0.74} rx={sz*0.04}
-              fill={`${color}14`} stroke={color} strokeWidth={large?2:1.2} />
-            <rect x={sz*0.26} y={sz*0.32} width={sz*0.52} height={sz*0.16} rx={sz*0.03}
-              fill={`${color}12`} stroke={color} strokeWidth={large?1:0.7} opacity="0.65" />
-            <circle cx={sz/2} cy={sz*0.26} r={sz*0.09} fill={color} opacity="0.65" />
-          </>
-        );
-    }
-  };
-
   return (
     <svg width={sz} height={sz} viewBox={`0 0 ${sz} ${sz}`}>
-      <ShapeContent />
+      <ShapeContent modelType={modelType} color={color} sz={sz} large={large} />
     </svg>
   );
 }

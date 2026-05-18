@@ -13,11 +13,11 @@ const USER_KEY  = 'abel-atlas-username';
 const NODES_KEY = 'abel-atlas-extra-nodes-v1';
 
 function loadView()   { try { const r = localStorage.getItem(VIEW_KEY);  return r ? JSON.parse(r)  : null; } catch { return null; } }
-function saveView(pan: {x:number;y:number}, scale: number) { try { localStorage.setItem(VIEW_KEY, JSON.stringify({pan, scale})); } catch {} }
+function saveView(pan: {x:number;y:number}, scale: number) { try { localStorage.setItem(VIEW_KEY, JSON.stringify({pan, scale})); } catch { /* storage unavailable */ } }
 function loadUser()   { try { return localStorage.getItem(USER_KEY) ?? ''; } catch { return ''; } }
-function saveUser(n: string) { try { localStorage.setItem(USER_KEY, n); } catch {} }
+function saveUser(n: string) { try { localStorage.setItem(USER_KEY, n); } catch { /* storage unavailable */ } }
 function loadExtraNodes(): ExtraNode[] { try { const r = localStorage.getItem(NODES_KEY); return r ? JSON.parse(r) : []; } catch { return []; } }
-function saveExtraNodes(ns: ExtraNode[]) { try { localStorage.setItem(NODES_KEY, JSON.stringify(ns)); } catch {} }
+function saveExtraNodes(ns: ExtraNode[]) { try { localStorage.setItem(NODES_KEY, JSON.stringify(ns)); } catch { /* storage unavailable */ } }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ExtraNode { id: string; label: string; subtitle: string; parentId: string; x: number; y: number; }
@@ -169,15 +169,12 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
 
   // Login / username
   const [userName,    setUserName]    = useState(() => loadUser());
-  const [loginOpen,   setLoginOpen]   = useState(false);
+  const [loginOpen,   setLoginOpen]   = useState(() => !loadUser());
   const [loginInput,  setLoginInput]  = useState('');
 
   const savedView = useMemo(() => loadView(), []);
   const [pan,   setPan]   = useState(savedView?.pan   ?? { x: 0, y: 0 });
   const [scale, setScale] = useState(savedView?.scale ?? 0.72);
-
-  // Show login on first load if no username
-  useEffect(() => { if (!userName) setLoginOpen(true); }, []);
 
   // ── Layout ──────────────────────────────────────────────────────────────────
   const baseLayout = useMemo(() => {
@@ -206,10 +203,13 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
 
   // ── Reset view when mode changes ─────────────────────────────────────────────
   useEffect(() => {
-    setPan({ x: 0, y: 0 });
     const defaultScale = displayMode === 'radial' ? 0.58 : 0.72;
-    setScale(defaultScale);
+    const raf = requestAnimationFrame(() => {
+      setPan({ x: 0, y: 0 });
+      setScale(defaultScale);
+    });
     saveView({ x: 0, y: 0 }, defaultScale);
+    return () => cancelAnimationFrame(raf);
   }, [displayMode]);
 
   // ── Resize observer ──────────────────────────────────────────────────────────
@@ -229,12 +229,12 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
     ? size.h / 2 - rootNode.y * scale
     : 30;
 
-  function screenToSvg(clientX: number, clientY: number) {
+  const screenToSvg = useCallback((clientX: number, clientY: number) => {
     return {
       x: (clientX - (treeOffX + pan.x)) / scale,
       y: (clientY - (treeOffY + pan.y)) / scale,
     };
-  }
+  }, [treeOffX, treeOffY, pan, scale]);
 
   // ── Canvas pan ───────────────────────────────────────────────────────────────
   const onMD = useCallback((e: React.MouseEvent) => {
@@ -253,7 +253,7 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
       return;
     }
     if (isDragging) setPan({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
-  }, [isDragging, dragStart, nodeDragId, nodeDragOff]);
+  }, [isDragging, dragStart, nodeDragId, nodeDragOff, screenToSvg]);
 
   const onMU = useCallback(() => {
     if (isDragging) saveView(pan, scale);

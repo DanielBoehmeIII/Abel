@@ -1,26 +1,22 @@
-// AI Pipeline — abstraction layer between Abel's UI and AI providers.
-//
-// Current implementation: deterministic mock that shapes responses based on
-// user AIConfig (tone, verbosity, expertiseLevel).
-//
-// Future: swap generateResponse() to call real providers (Claude, ChatGPT, local)
-// using buildSystemPrompt() as the system message. The rest of the app stays the same.
-
 import type { AIConfigRecord } from '../db/schema';
-
-// ── Context passed alongside each request ─────────────────────────────────────
+import type { LLMProvider } from '../types/abel';
 
 export interface AIRequestContext {
   journeyTitle?:       string;
   projectFocus?:       string;
   recentMemoryTitles?: string[];
-  useAsContextIds?:    string[];   // thread IDs flagged for retrieval
-  retrievedContext?:   string;     // compressed context from contextEngine
+  useAsContextIds?:    string[];
+  retrievedContext?:   string;
+}
+
+// ── Provider interface ───────────────────────────────────────────────────────
+
+export interface AIProviderResult {
+  content: string;
+  provider: LLMProvider;
 }
 
 // ── System prompt builder ─────────────────────────────────────────────────────
-// Converts AIConfigRecord → system-level instructions for a real provider.
-// Also used as the "preview" in Settings so users understand what they're configuring.
 
 export function buildSystemPrompt(cfg: AIConfigRecord, ctx: AIRequestContext = {}): string {
   const toneDesc: Record<string, string> = {
@@ -79,6 +75,183 @@ export function buildSystemPrompt(cfg: AIConfigRecord, ctx: AIRequestContext = {
   return lines.join('\n');
 }
 
+// ── Action marker helpers ─────────────────────────────────────────────────────
+
+export function hasActionMarkers(text: string): boolean {
+  return /\[quest:\s*([^\]]+)\]/i.test(text);
+}
+
+export function extractActionMarkers(text: string): string[] {
+  const markers: string[] = [];
+  const re = /\[quest:\s*([^\]]+)\]/gi;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    markers.push(m[1].trim());
+  }
+  return markers;
+}
+
+// ── Connection test ───────────────────────────────────────────────────────────
+
+export type ConnectionTestResult = { ok: true; provider: LLMProvider } | { ok: false; provider: LLMProvider; error: string };
+
+export async function testProviderConnection(
+  provider: LLMProvider,
+  apiKey: string,
+  baseUrl: string,
+): Promise<ConnectionTestResult> {
+  if (provider === 'mock') return { ok: true, provider: 'mock' };
+
+  try {
+    if (provider === 'claude') {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 10,
+          system: 'Respond with a single word: ok',
+          messages: [{ role: 'user', content: 'ping' }],
+        }),
+      });
+      if (res.ok) return { ok: true, provider: 'claude' };
+      const body = await res.text();
+      return { ok: false, provider: 'claude', error: `API error ${res.status}: ${body.slice(0, 120)}` };
+    }
+
+    if (provider === 'chatgpt') {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          max_tokens: 10,
+          messages: [{ role: 'user', content: 'ping' }],
+        }),
+      });
+      if (res.ok) return { ok: true, provider: 'chatgpt' };
+      const body = await res.text();
+      return { ok: false, provider: 'chatgpt', error: `API error ${res.status}: ${body.slice(0, 120)}` };
+    }
+
+    if (provider === 'local') {
+      const endpoint = baseUrl.replace(/\/+$/, '') + '/v1/chat/completions';
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'test',
+          max_tokens: 10,
+          messages: [{ role: 'user', content: 'ping' }],
+        }),
+      });
+      if (res.ok) return { ok: true, provider: 'local' };
+      const body = await res.text();
+      return { ok: false, provider: 'local', error: `API error ${res.status}: ${body.slice(0, 120)}` };
+    }
+
+    return { ok: false, provider, error: 'Unknown provider' };
+  } catch (err) {
+    return { ok: false, provider, error: err instanceof Error ? err.message : String(err) };
+  }
+}
+
+// ── Real provider calls ───────────────────────────────────────────────────────
+
+async function callAnthropic(apiKey: string, systemPrompt: string, userMessage: string, model?: string): Promise<string> {
+  const modelName = model || 'claude-sonnet-4-20250514';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: modelName,
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userMessage }],
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Anthropic API error ${res.status}: ${body.slice(0, 200)}`);
+    }
+    const data = await res.json();
+    return data.content?.[0]?.text ?? '(empty response)';
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return `**Provider error:** ${msg}\n\nPlease check your API key and network connection.`;
+  }
+}
+
+async function callOpenAI(apiKey: string, systemPrompt: string, userMessage: string, model?: string): Promise<string> {
+  const modelName = model || 'gpt-4o';
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: modelName,
+        max_tokens: 1024,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`OpenAI API error ${res.status}: ${body.slice(0, 200)}`);
+    }
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content ?? '(empty response)';
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return `**Provider error:** ${msg}\n\nPlease check your API key and network connection.`;
+  }
+}
+
+async function callLocal(baseUrl: string, systemPrompt: string, userMessage: string, model?: string): Promise<string> {
+  const endpoint = baseUrl.replace(/\/+$/, '') + '/v1/chat/completions';
+  const modelName = model || 'local-model';
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: modelName,
+        max_tokens: 1024,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Local API error ${res.status}: ${body.slice(0, 200)}`);
+    }
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content ?? '(empty response)';
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return `**Provider error:** ${msg}\n\nPlease check your local provider URL and model.`;
+  }
+}
+
 // ── Topic detection ───────────────────────────────────────────────────────────
 
 type Topic = 'quest' | 'archetype' | 'memory' | 'graph' | 'goal' | 'focus' | 'general';
@@ -95,7 +268,6 @@ function detectTopic(input: string): Topic {
 }
 
 // ── Response bank (tone × topic) ─────────────────────────────────────────────
-// Each entry: [concise, balanced, verbose_extension]
 
 type ResponseVariant = [string, string, string];
 
@@ -261,40 +433,57 @@ const RESPONSES: Record<Topic, Record<string, ResponseVariant>> = {
 function shapeByVerbosity(variants: ResponseVariant, verbosity: string): string {
   if (verbosity === 'concise') return variants[0];
   if (verbosity === 'verbose') return variants[1] + ' ' + variants[2];
-  return variants[1]; // balanced (default)
+  return variants[1];
 }
 
-// ── Main generate function ────────────────────────────────────────────────────
+// ── Mock response generator ───────────────────────────────────────────────────
 
-export function generateResponse(
-  input: string,
-  cfg: AIConfigRecord,
-  ctx?: AIRequestContext,
-): string {
-  void ctx; // reserved for future memory/journey injection into real providers
+function generateMockResponse(input: string, cfg: AIConfigRecord): string {
   const topic = detectTopic(input);
   const toneBank = RESPONSES[topic];
   const tone = (cfg.tone ?? 'philosophical') as string;
   const variants: ResponseVariant = toneBank[tone] ?? toneBank['philosophical'];
-
   let response = shapeByVerbosity(variants, cfg.verbosity ?? 'balanced');
-
-  // Prepend project-focus tag if set and not too intrusive
   if (cfg.projectFocus && cfg.verbosity !== 'concise') {
     response = `[${cfg.projectFocus}] ${response}`;
   }
-
   return response;
 }
 
-// ── Export for future provider integration ────────────────────────────────────
-// When wiring a real API, implement this interface:
-//
-// export interface AIProvider {
-//   id: string;
-//   generateResponse(input: string, systemPrompt: string): Promise<string>;
-// }
-//
-// Then replace generateResponse() above with:
-//   const systemPrompt = buildSystemPrompt(cfg, ctx);
-//   return provider.generateResponse(input, systemPrompt);
+// ── Main generate function ────────────────────────────────────────────────────
+
+export async function generateResponse(
+  input: string,
+  cfg: AIConfigRecord,
+  ctx?: AIRequestContext,
+): Promise<string> {
+  const provider: LLMProvider = cfg.provider ?? 'mock';
+  const systemPrompt = buildSystemPrompt(cfg, ctx);
+
+  switch (provider) {
+    case 'claude': {
+      if (!cfg.apiKeyConfigured || !cfg.apiKey) {
+        return '**Claude is not configured.** Go to Settings → LLM Provider to enter your API key.';
+      }
+      const model = cfg.modelName || undefined;
+      return callAnthropic(cfg.apiKey, systemPrompt, input, model);
+    }
+    case 'chatgpt': {
+      if (!cfg.apiKeyConfigured || !cfg.apiKey) {
+        return '**ChatGPT is not configured.** Go to Settings → LLM Provider to enter your API key.';
+      }
+      const model = cfg.modelName || undefined;
+      return callOpenAI(cfg.apiKey, systemPrompt, input, model);
+    }
+    case 'local': {
+      if (!cfg.baseUrl) {
+        return '**Local provider is not configured.** Go to Settings → LLM Provider to enter your base URL.';
+      }
+      const model = cfg.modelName || undefined;
+      return callLocal(cfg.baseUrl, systemPrompt, input, model);
+    }
+    default: {
+      return generateMockResponse(input, cfg);
+    }
+  }
+}

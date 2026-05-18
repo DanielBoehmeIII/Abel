@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useAbel } from '../state/AbelProvider';
+import { useAbel } from '../state/useAbel';
 import type { PageId, Egg, EggType } from '../types/abel';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
