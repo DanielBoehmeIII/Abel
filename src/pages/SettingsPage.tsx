@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAbel } from '../state/AbelProvider';
 import type { PageId, LLMProvider, ThemeName, QuestIntensity } from '../types/abel';
 import { LLM_PROVIDERS } from '../config/llmProviders';
 import { SEED_STATE } from '../data/seed';
-import { userService, DEMO_USER_ID } from '../db/services/userService';
+import { userService, DEMO_USER_ID, aiConfigService, memoryService } from '../db';
+import type { AIConfigRecord } from '../db';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
@@ -38,6 +39,20 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
   const [profileTitle, setProfileTitle] = useState(user.title);
   const [profileSaved, setProfileSaved] = useState(false);
 
+  // AI Config state — loaded from IndexedDB on mount
+  const [aiCfg, setAiCfg] = useState<Partial<AIConfigRecord>>({
+    tone: 'philosophical', verbosity: 'balanced', expertiseLevel: 'intermediate',
+    memoryUsageLevel: 'standard', responseFormat: 'narrative',
+    customInstructions: '', projectFocus: '',
+  });
+  const [aiCfgSaved, setAiCfgSaved] = useState(false);
+
+  useEffect(() => {
+    aiConfigService.get(DEMO_USER_ID).then(cfg => {
+      if (cfg) setAiCfg(cfg);
+    });
+  }, []);
+
   function updateSetting<K extends keyof typeof settings>(key: K, value: typeof settings[K]) {
     dispatch({ type: 'UPDATE_SETTINGS', settings: { [key]: value } });
   }
@@ -48,7 +63,6 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
   }
 
   async function saveProfile() {
-    // Persist to DB
     await userService.upsert({
       id: DEMO_USER_ID,
       name: profileName.trim() || user.name,
@@ -56,13 +70,28 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
       title: profileTitle,
       createdAt: user.createdAt,
     });
-    // Update in-memory state (no dedicated action yet — reflected on next reload via DB)
     setProfileSaved(true);
     setTimeout(() => setProfileSaved(false), 2500);
   }
 
+  async function saveAiConfig() {
+    await aiConfigService.upsert(DEMO_USER_ID, aiCfg);
+    setAiCfgSaved(true);
+    setTimeout(() => setAiCfgSaved(false), 2500);
+  }
+
+  async function exportMemories() {
+    const records = await memoryService.list(DEMO_USER_ID, {});
+    const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'abel-memories.json'; a.click();
+    URL.revokeObjectURL(url);
+  }
+
   const SECTIONS = [
     { id: 'profile',     label: 'Profile' },
+    { id: 'ai-config',   label: 'AI Config' },
     { id: 'llm',         label: 'LLM Provider' },
     { id: 'themes',      label: 'Themes' },
     { id: 'preferences', label: 'Preferences' },
@@ -157,6 +186,102 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
                     ✓ Saved
                   </span>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* AI Config */}
+          {activeSection === 'ai-config' && (
+            <div className="settings-section animate-fade-in">
+              <p className="eyebrow settings-section-eyebrow">BEHAVIOUR</p>
+              <h2 className="settings-section-title">AI Configuration</h2>
+              <p className="body" style={{ marginBottom: '24px' }}>
+                Personalise how Abel thinks, speaks, and uses your memory.
+                These settings are stored in your local database and feed into all AI interactions.
+              </p>
+
+              <GlassPanel style={{ padding: '20px', marginBottom: '14px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>TONE</p>
+                <div className="settings-radio-group">
+                  {(['formal','casual','philosophical','direct'] as const).map(v => (
+                    <label key={v} className="settings-radio-item">
+                      <input type="radio" name="ai-tone" checked={aiCfg.tone === v}
+                        onChange={() => setAiCfg(c => ({ ...c, tone: v }))} />
+                      <span className="settings-radio-label">{v.charAt(0).toUpperCase()+v.slice(1)}</span>
+                    </label>
+                  ))}
+                </div>
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '20px', marginBottom: '14px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>VERBOSITY</p>
+                <div className="settings-radio-group">
+                  {(['concise','balanced','verbose'] as const).map(v => (
+                    <label key={v} className="settings-radio-item">
+                      <input type="radio" name="ai-verb" checked={aiCfg.verbosity === v}
+                        onChange={() => setAiCfg(c => ({ ...c, verbosity: v }))} />
+                      <span className="settings-radio-label">{v.charAt(0).toUpperCase()+v.slice(1)}</span>
+                    </label>
+                  ))}
+                </div>
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '20px', marginBottom: '14px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>EXPERTISE LEVEL</p>
+                <div className="settings-radio-group">
+                  {(['beginner','intermediate','expert'] as const).map(v => (
+                    <label key={v} className="settings-radio-item">
+                      <input type="radio" name="ai-exp" checked={aiCfg.expertiseLevel === v}
+                        onChange={() => setAiCfg(c => ({ ...c, expertiseLevel: v }))} />
+                      <span className="settings-radio-label">{v.charAt(0).toUpperCase()+v.slice(1)}</span>
+                    </label>
+                  ))}
+                </div>
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '20px', marginBottom: '14px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>MEMORY USAGE</p>
+                <div className="settings-radio-group">
+                  {(['minimal','standard','deep'] as const).map(v => (
+                    <label key={v} className="settings-radio-item">
+                      <input type="radio" name="ai-mem" checked={aiCfg.memoryUsageLevel === v}
+                        onChange={() => setAiCfg(c => ({ ...c, memoryUsageLevel: v }))} />
+                      <span className="settings-radio-label">{v.charAt(0).toUpperCase()+v.slice(1)}</span>
+                    </label>
+                  ))}
+                </div>
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '20px', marginBottom: '14px' }}>
+                <p className="heading" style={{ marginBottom: '12px' }}>RESPONSE FORMAT</p>
+                <div className="settings-radio-group">
+                  {(['structured','narrative','hybrid'] as const).map(v => (
+                    <label key={v} className="settings-radio-item">
+                      <input type="radio" name="ai-fmt" checked={aiCfg.responseFormat === v}
+                        onChange={() => setAiCfg(c => ({ ...c, responseFormat: v }))} />
+                      <span className="settings-radio-label">{v.charAt(0).toUpperCase()+v.slice(1)}</span>
+                    </label>
+                  ))}
+                </div>
+              </GlassPanel>
+
+              <GlassPanel style={{ padding: '20px', marginBottom: '20px' }}>
+                <p className="heading" style={{ marginBottom: '10px' }}>PROJECT FOCUS</p>
+                <input className="settings-text-input" placeholder="e.g. building a SaaS product"
+                  value={aiCfg.projectFocus ?? ''}
+                  onChange={e => setAiCfg(c => ({ ...c, projectFocus: e.target.value }))} />
+                <p className="heading" style={{ margin: '14px 0 10px' }}>CUSTOM INSTRUCTIONS</p>
+                <textarea className="settings-text-input" rows={4}
+                  placeholder="Additional instructions Abel should always follow…"
+                  value={aiCfg.customInstructions ?? ''}
+                  onChange={e => setAiCfg(c => ({ ...c, customInstructions: e.target.value }))}
+                  style={{ resize: 'vertical', minHeight: '90px' }}
+                />
+              </GlassPanel>
+
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <GlowButton variant="cyan" onClick={saveAiConfig}>Save AI Config</GlowButton>
+                {aiCfgSaved && <span className="caption" style={{ color: 'var(--cyan)' }}>✓ Saved</span>}
               </div>
             </div>
           )}
@@ -306,11 +431,10 @@ export default function SettingsPage({ onNavigate: _onNavigate }: Props) {
               <GlassPanel style={{ padding: '20px', marginTop: '16px' }}>
                 <p className="heading" style={{ marginBottom: '12px' }}>CONTROLS</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  <GlowButton variant="ghost" size="sm">Export Memories (JSON)</GlowButton>
-                  <GlowButton variant="ghost" size="sm">Import Memories</GlowButton>
+                  <GlowButton variant="ghost" size="sm" onClick={exportMemories}>Export Memories (JSON)</GlowButton>
                   <GlowButton variant="danger" size="sm">Clear All Memories</GlowButton>
                 </div>
-                <p className="caption" style={{ marginTop: '10px' }}>Export/import not functional in MVP. Coming soon.</p>
+                <p className="caption" style={{ marginTop: '10px' }}>Export downloads all memories from IndexedDB as JSON.</p>
               </GlassPanel>
             </div>
           )}

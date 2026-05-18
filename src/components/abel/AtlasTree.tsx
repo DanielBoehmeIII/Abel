@@ -770,7 +770,6 @@ export default function AtlasTree({
           fill="none"
           stroke={`url(#lg_${safeFragment(e.id)}_${safe})`}
           strokeWidth="0.50"
-          pathLength={1}
           className={`atlas-path--crisp ${edgeClass(e)}`}
         />
       ))}
@@ -783,7 +782,6 @@ export default function AtlasTree({
           fill="none"
           stroke="rgba(255,255,255,0.55)"
           strokeWidth="0.20"
-          pathLength={1}
           className={`atlas-path--highlight ${edgeClass(e)}`}
         />
       ))}

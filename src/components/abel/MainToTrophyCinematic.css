@@ -21,6 +21,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  pointer-events: none;
   /* opacity managed by rAF loop; will-change promotes to compositor layer */
   will-change: opacity;
 }
@@ -72,6 +73,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 5;
+  pointer-events: none;
   will-change: opacity;
 }
 
@@ -84,6 +86,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 5;
+  pointer-events: none;
   will-change: opacity;
 }
 
@@ -95,6 +98,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 6;
+  pointer-events: none;
   will-change: opacity;
 }
 

@@ -30,8 +30,10 @@ export const graphService = {
     return db.graphEdges.where('userId').equals(userId).toArray();
   },
 
-  // Bulk sync — replaces all graph data for a user (used when state changes)
-  // Future: AI memory sync will call this after graph_refresh jobs
+  // Bulk sync — replaces all graph data for a user.
+  // Called from AbelProvider when graph state changes.
+  // Future: AI memory sync (graph_refresh jobs) will also call this after
+  // enriching the graph with embeddings and inferred connections.
   async syncFromState(
     userId: string,
     nodes: Omit<GraphNodeRecord, 'userId' | 'updatedAt'>[],

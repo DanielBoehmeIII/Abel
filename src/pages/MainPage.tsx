@@ -5,7 +5,7 @@ import ArtifactScene from '../components/3d/ArtifactScene';
 import MainToTrophyCinematic from '../components/abel/MainToTrophyCinematic';
 import './MainPage.css';
 
-interface Props { onNavigate: (page: PageId) => void; onOpenNav: () => void; }
+interface Props { onNavigate: (page: PageId) => void; }
 
 const PORTAL_NODES: Array<{ id: PageId; label: string; glyph: string; angle: number }> = [
   { id: 'archive',    label: 'Archive',    glyph: '◈', angle: 30  },
@@ -16,6 +16,7 @@ const PORTAL_NODES: Array<{ id: PageId; label: string; glyph: string; angle: num
   { id: 'skillweb',   label: 'Skills',     glyph: '⟁', angle: 330 },
 ];
 
+
 function hexPoints(cx: number, cy: number, r: number): string {
   return Array.from({ length: 6 }, (_, i) => {
     const a = (i * 60 - 90) * (Math.PI / 180);
@@ -23,7 +24,7 @@ function hexPoints(cx: number, cy: number, r: number): string {
   }).join(' ');
 }
 
-export default function MainPage({ onNavigate, onOpenNav }: Props) {
+export default function MainPage({ onNavigate }: Props) {
   const { state } = useAbel();
   const { user, quests, skills, memories, recentActivity, graph, archetype, trophies } = state;
 
@@ -178,17 +179,6 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
           ))}
         </nav>
 
-        <button className="main-nav-btn" onClick={onOpenNav} title="Navigator (Esc)">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1" strokeOpacity="0.6" />
-            <circle cx="9" cy="9" r="3" stroke="currentColor" strokeWidth="1" />
-            <circle cx="9" cy="9" r="1" fill="currentColor" />
-            <line x1="9" y1="2" x2="9" y2="0" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
-            <line x1="9" y1="16" x2="9" y2="18" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
-            <line x1="2" y1="9" x2="0" y2="9" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
-            <line x1="16" y1="9" x2="18" y2="9" stroke="currentColor" strokeWidth="1" strokeOpacity="0.4" />
-          </svg>
-        </button>
       </header>
 
       {/* ── Hero text — left ── */}
@@ -214,7 +204,11 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
 
       {/* ── Right instrument panels ── */}
       <aside className="main-info-right">
-        <div className="main-widget animate-fade-in" style={{ animationDelay: '0.22s' }}>
+        <div
+          className="main-widget main-widget--link animate-fade-in"
+          style={{ animationDelay: '0.22s' }}
+          onClick={() => onNavigate('skillweb')}
+        >
           <div className="main-widget-header">
             <p className="main-widget-eye">SYSTEM STATUS</p>
             <span className="main-widget-dot" />
@@ -231,6 +225,7 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
           {archetype.primary && (
             <p className="main-widget-archetype">{archetype.primary}</p>
           )}
+          <span className="main-widget-nav">VIEW →</span>
         </div>
 
         {recentMemory && (
@@ -293,10 +288,10 @@ export default function MainPage({ onNavigate, onOpenNav }: Props) {
         </div>
 
         {recentActivity[0] && (
-          <div className="main-latest">
+          <button className="main-latest" onClick={() => onNavigate('archive')}>
             <p className="eyebrow" style={{ marginBottom: '2px' }}>LATEST</p>
             <p className="caption">{recentActivity[0].title}</p>
-          </div>
+          </button>
         )}
       </footer>
 

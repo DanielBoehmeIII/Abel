@@ -75,20 +75,6 @@
 .main-nav-item:hover { color: var(--text); }
 .main-nav-item:hover::after { transform: scaleX(1); }
 
-.main-nav-btn {
-  width: 38px; height: 38px; border-radius: 50%;
-  border: 1px solid var(--border-2);
-  background: rgba(255,255,255,0.025);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text-3);
-  transition: var(--transition);
-  backdrop-filter: blur(8px);
-}
-.main-nav-btn:hover {
-  border-color: var(--purple); color: var(--purple);
-  box-shadow: 0 0 16px var(--purple-glow);
-}
-
 /* ── Hero text ─────────────────────────────────────────────── */
 .main-hero {
   position: absolute;
@@ -289,7 +275,19 @@
   border-radius: var(--radius);
   background: rgba(255,255,255,0.022);
   border: 1px solid var(--border);
+  transition: border-color 0.2s, background 0.2s;
 }
+.main-latest:hover {
+  border-color: var(--border-2);
+  background: rgba(255,255,255,0.045);
+}
+.main-latest:active { transform: scale(0.97); }
+
+/* ── Button active press feedback ────────────────────────────── */
+.main-nav-item:active  { opacity: 0.55; }
+.main-cta:active       { transform: scale(0.97); }
+.main-stat:active      { transform: scale(0.95); }
+.main-widget--link:active { transform: scale(0.985); }
 
 /* ── Portal orbital ring ────────────────────────────────────── */
 .main-portal {
