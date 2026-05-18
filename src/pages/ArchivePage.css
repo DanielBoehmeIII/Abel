@@ -317,3 +317,114 @@
     rgba(6, 6, 16, 0.88) 100%
   );
 }
+
+/* ── New Prompt 4 elements ─────────────────────────────────────────────────── */
+
+.archive-search {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(139,92,246,0.16);
+  border-radius: 6px;
+  padding: 7px 11px;
+  font-size: 11px;
+  color: var(--text);
+  outline: none;
+  margin-top: 10px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.archive-search::placeholder { color: rgba(255,255,255,0.22); }
+.archive-search:focus { border-color: rgba(139,92,246,0.38); }
+
+.archive-threads-empty {
+  font-size: 11px;
+  color: rgba(255,255,255,0.22);
+  padding: 16px 4px;
+  letter-spacing: 0.04em;
+}
+
+.archive-thread-body { flex: 1; min-width: 0; }
+
+.archive-thread-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.archive-ctx-badge {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: rgba(52,211,153,0.90);
+  background: rgba(52,211,153,0.12);
+  border: 1px solid rgba(52,211,153,0.28);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.archive-thread-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.archive-thread-item:hover .archive-thread-actions,
+.archive-thread-item--active .archive-thread-actions {
+  opacity: 1;
+}
+.archive-thread-actions button {
+  background: none;
+  border: none;
+  color: rgba(200,185,255,0.45);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color 0.15s, background 0.15s;
+}
+.archive-thread-actions button:hover {
+  color: rgba(200,185,255,0.90);
+  background: rgba(139,92,246,0.12);
+}
+
+.archive-rename-input {
+  width: 100%;
+  background: rgba(139,92,246,0.12);
+  border: 1px solid rgba(139,92,246,0.40);
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+  font-family: var(--font-sans);
+}
+
+.archive-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.archive-summarize-btn {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(200,175,255,0.65);
+  background: rgba(139,92,246,0.09);
+  border: 1px solid rgba(139,92,246,0.24);
+  border-radius: 5px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.archive-summarize-btn:hover {
+  background: rgba(139,92,246,0.18);
+  border-color: rgba(139,92,246,0.45);
+  color: rgba(220,210,255,0.90);
+}
+.archive-summarize-btn--done {
+  color: rgba(52,211,153,0.85);
+  border-color: rgba(52,211,153,0.30);
+  background: rgba(52,211,153,0.08);
+}
+.archive-summarize-btn:active { transform: scale(0.97); }
