@@ -1,0 +1,155 @@
+- generic [ref=e2]:
+  - generic [ref=e2896]:
+    - generic:
+      - img
+    - generic [ref=e2897]:
+      - paragraph [ref=e2898]: FOCUS SESSION
+      - heading "Your mind. Augmented." [level=1] [ref=e2899]:
+        - text: Your mind.
+        - emphasis [ref=e2900]: Augmented.
+      - paragraph [ref=e2901]: SELECT MODE
+      - generic [ref=e2902]:
+        - generic [ref=e2903] [cursor=pointer]:
+          - generic [ref=e2904]: ⊕
+          - generic [ref=e2905]: Deep Work
+        - generic [ref=e2906] [cursor=pointer]:
+          - generic [ref=e2907]: ⟁
+          - generic [ref=e2908]: Study
+        - generic [ref=e2909] [cursor=pointer]:
+          - generic [ref=e2910]: ▣
+          - generic [ref=e2911]: Reading
+        - generic [ref=e2912] [cursor=pointer]:
+          - generic [ref=e2913]: ◇
+          - generic [ref=e2914]: Writing
+        - generic [ref=e2915] [cursor=pointer]:
+          - generic [ref=e2916]: ☽
+          - generic [ref=e2917]: Recovery
+        - generic [ref=e2918] [cursor=pointer]:
+          - generic [ref=e2919]: ◈
+          - generic [ref=e2920]: Creative Flow
+      - paragraph [ref=e2921]: Maximum focus. Single task. No distraction.
+      - paragraph [ref=e2922]: DURATION
+      - generic [ref=e2923]:
+        - button "15m" [ref=e2924] [cursor=pointer]
+        - button "25m" [ref=e2925] [cursor=pointer]
+        - button "45m" [ref=e2926] [cursor=pointer]
+        - button "60m" [ref=e2927] [cursor=pointer]
+        - button "90m" [ref=e2928] [cursor=pointer]
+        - button "120m" [ref=e2929] [cursor=pointer]
+      - paragraph [ref=e2930]: AMBIENT SOUND
+      - generic [ref=e2931]:
+        - button "None" [ref=e2932] [cursor=pointer]
+        - button "Rain" [ref=e2933] [cursor=pointer]
+        - button "White Noise" [ref=e2934] [cursor=pointer]
+        - button "Forest" [ref=e2935] [cursor=pointer]
+        - button "Waves" [ref=e2936] [cursor=pointer]
+        - button "Brown Noise" [ref=e2937] [cursor=pointer]
+      - paragraph [ref=e2938]: "Sensor: Not configured"
+    - generic [ref=e2939]:
+      - generic [ref=e2940]:
+        - paragraph [ref=e2941]: SESSION INTENTION
+        - textbox "What will you work on? Be specific." [ref=e2942]
+        - paragraph [ref=e2943]: LINK QUEST
+        - combobox [ref=e2944]:
+          - option "None"
+          - option "Synthesize Three Insights" [selected]
+          - option "Write a Reflection on Your Archetype"
+        - button "BEGIN SESSION" [disabled] [ref=e2945]
+      - generic [ref=e2946]:
+        - paragraph [ref=e2947]: RECENT SESSIONS
+        - generic [ref=e2948]:
+          - generic [ref=e2949]: deep-work
+          - generic [ref=e2950]: 60min
+          - generic [ref=e2951]: "87"
+        - generic [ref=e2952]:
+          - generic [ref=e2953]: deep-work
+          - generic [ref=e2954]: 90min
+          - generic [ref=e2955]: "94"
+  - generic [ref=e2957]:
+    - img
+    - generic [ref=e2958]:
+      - img
+      - img
+      - generic [ref=e2959] [cursor=pointer]:
+        - generic [ref=e2960]:
+          - img [ref=e2961]
+          - generic [ref=e2964]: ◉
+        - generic [ref=e2965]: HOME
+      - generic [ref=e2966] [cursor=pointer]:
+        - generic [ref=e2967]:
+          - img [ref=e2968]
+          - generic [ref=e2971]: ◈
+        - generic [ref=e2972]: ARCHIVE
+      - generic [ref=e2973] [cursor=pointer]:
+        - generic [ref=e2974]:
+          - img [ref=e2975]
+          - generic [ref=e2978]: ⊕
+        - generic [ref=e2979]: QUESTS
+      - generic [ref=e2980] [cursor=pointer]:
+        - generic [ref=e2981]:
+          - img [ref=e2982]
+          - generic [ref=e2985]: ⬡
+        - generic [ref=e2986]: FOCUS
+      - generic [ref=e2987] [cursor=pointer]:
+        - generic [ref=e2988]:
+          - img [ref=e2989]
+          - generic [ref=e2992]: ◇
+        - generic [ref=e2993]: GRAPH
+      - generic [ref=e2994] [cursor=pointer]:
+        - generic [ref=e2995]:
+          - img [ref=e2996]
+          - generic [ref=e2999]: ⟁
+        - generic [ref=e3000]: SKILLWEB
+      - generic [ref=e3001] [cursor=pointer]:
+        - generic [ref=e3002]:
+          - img [ref=e3003]
+          - generic [ref=e3006]: ◐
+        - generic [ref=e3007]: MEMORY
+      - generic [ref=e3008] [cursor=pointer]:
+        - generic [ref=e3009]:
+          - img [ref=e3010]
+          - generic [ref=e3013]: ◌
+        - generic [ref=e3014]: EGGS
+      - generic [ref=e3015] [cursor=pointer]:
+        - generic [ref=e3016]:
+          - img [ref=e3017]
+          - generic [ref=e3020]: ⬙
+        - generic [ref=e3021]: TROPHIES
+      - generic [ref=e3022] [cursor=pointer]:
+        - generic [ref=e3023]:
+          - img [ref=e3024]
+          - generic [ref=e3027]: ▣
+        - generic [ref=e3028]: EXHIBITION
+      - generic [ref=e3029] [cursor=pointer]:
+        - generic [ref=e3030]:
+          - img [ref=e3031]
+          - generic [ref=e3034]: ⊞
+        - generic [ref=e3035]: SETTINGS
+      - generic [ref=e3036]:
+        - img [ref=e3038]:
+          - generic [ref=e3040]: ⬡
+        - heading "FOCUS" [level=2] [ref=e3041]
+        - paragraph [ref=e3043]: Deep work sessions. Enter flow state.
+        - button "OPEN" [ref=e3044] [cursor=pointer]:
+          - generic [ref=e3045]: OPEN
+          - img [ref=e3046]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

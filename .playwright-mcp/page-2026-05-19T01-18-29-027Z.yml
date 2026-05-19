@@ -1,0 +1,166 @@
+- generic [ref=e2]:
+  - generic [ref=e2299]:
+    - complementary [ref=e2300]:
+      - generic [ref=e2301]:
+        - generic [ref=e2302]:
+          - generic [ref=e2303]: ◐
+          - heading "MEMORY" [level=1] [ref=e2304]
+        - button "+ New" [ref=e2305] [cursor=pointer]
+      - textbox "Search memories…" [ref=e2306]
+      - generic [ref=e2307]:
+        - button "All" [ref=e2308] [cursor=pointer]
+        - button "Fact" [ref=e2309] [cursor=pointer]
+        - button "Goal" [ref=e2310] [cursor=pointer]
+        - button "Pref" [ref=e2311] [cursor=pointer]
+        - button "Project" [ref=e2312] [cursor=pointer]
+        - button "Skill" [ref=e2313] [cursor=pointer]
+        - button "Doc" [ref=e2314] [cursor=pointer]
+        - button "System" [ref=e2315] [cursor=pointer]
+      - generic [ref=e2316]:
+        - button "Active" [ref=e2317] [cursor=pointer]
+        - generic [ref=e2318]: "6"
+      - generic [ref=e2319]:
+        - button "Gratitude Moment fact Paused mid-session to notice how much had changed in the last six weeks.… May 7, 2026 confidence" [ref=e2320] [cursor=pointer]:
+          - generic [ref=e2321]:
+            - generic [ref=e2322]: Gratitude Moment
+            - generic [ref=e2323]: fact
+          - generic [ref=e2324]: Paused mid-session to notice how much had changed in the last six weeks.…
+          - generic [ref=e2325]:
+            - generic [ref=e2326]: May 7, 2026
+            - generic [ref=e2327]: confidence
+        - button "Creative Breakthrough fact Spent an afternoon rearranging the pieces of a project that had been stu… May 4, 2026 breakthrough" [ref=e2328] [cursor=pointer]:
+          - generic [ref=e2329]:
+            - generic [ref=e2330]: Creative Breakthrough
+            - generic [ref=e2331]: fact
+          - generic [ref=e2332]: Spent an afternoon rearranging the pieces of a project that had been stu…
+          - generic [ref=e2333]:
+            - generic [ref=e2334]: May 4, 2026
+            - generic [ref=e2335]: breakthrough
+        - button "Deep Work fact Four hours. No notifications. No context switching. The work went somewh… Apr 29, 2026 flow" [ref=e2336] [cursor=pointer]:
+          - generic [ref=e2337]:
+            - generic [ref=e2338]: Deep Work
+            - generic [ref=e2339]: fact
+          - generic [ref=e2340]: Four hours. No notifications. No context switching. The work went somewh…
+          - generic [ref=e2341]:
+            - generic [ref=e2342]: Apr 29, 2026
+            - generic [ref=e2343]: flow
+        - button "Meaningful Conversation fact Talked for three hours about design systems and how they mirror the mind… Apr 27, 2026 connection" [ref=e2344] [cursor=pointer]:
+          - generic [ref=e2345]:
+            - generic [ref=e2346]: Meaningful Conversation
+            - generic [ref=e2347]: fact
+          - generic [ref=e2348]: Talked for three hours about design systems and how they mirror the mind…
+          - generic [ref=e2349]:
+            - generic [ref=e2350]: Apr 27, 2026
+            - generic [ref=e2351]: connection
+        - button "Quiet Realizations fact During a long recovery session, I noticed how many of my anxieties trace… Apr 24, 2026 clarity" [ref=e2352] [cursor=pointer]:
+          - generic [ref=e2353]:
+            - generic [ref=e2354]: Quiet Realizations
+            - generic [ref=e2355]: fact
+          - generic [ref=e2356]: During a long recovery session, I noticed how many of my anxieties trace…
+          - generic [ref=e2357]:
+            - generic [ref=e2358]: Apr 24, 2026
+            - generic [ref=e2359]: clarity
+        - button "First Light fact The moment I realized that knowledge without structure is noise. I had b… Apr 20, 2026 clarity" [ref=e2360] [cursor=pointer]:
+          - generic [ref=e2361]:
+            - generic [ref=e2362]: First Light
+            - generic [ref=e2363]: fact
+          - generic [ref=e2364]: The moment I realized that knowledge without structure is noise. I had b…
+          - generic [ref=e2365]:
+            - generic [ref=e2366]: Apr 20, 2026
+            - generic [ref=e2367]: clarity
+    - main [ref=e2368]:
+      - generic [ref=e2369]:
+        - generic [ref=e2370]: ◐
+        - paragraph [ref=e2371]: Select a memory, create one, or start from a chat.
+        - generic [ref=e2372]:
+          - button "New memory" [ref=e2373] [cursor=pointer]
+          - button "Open chat" [ref=e2374] [cursor=pointer]
+          - button "View atlas" [ref=e2375] [cursor=pointer]
+  - generic [ref=e2377]:
+    - img
+    - generic [ref=e2378]:
+      - img
+      - img
+      - generic [ref=e2379] [cursor=pointer]:
+        - generic [ref=e2380]:
+          - img [ref=e2381]
+          - generic [ref=e2384]: ◉
+        - generic [ref=e2385]: HOME
+      - generic [ref=e2386] [cursor=pointer]:
+        - generic [ref=e2387]:
+          - img [ref=e2388]
+          - generic [ref=e2391]: ◈
+        - generic [ref=e2392]: ARCHIVE
+      - generic [ref=e2393] [cursor=pointer]:
+        - generic [ref=e2394]:
+          - img [ref=e2395]
+          - generic [ref=e2398]: ⊕
+        - generic [ref=e2399]: QUESTS
+      - generic [ref=e2400] [cursor=pointer]:
+        - generic [ref=e2401]:
+          - img [ref=e2402]
+          - generic [ref=e2405]: ⬡
+        - generic [ref=e2406]: FOCUS
+      - generic [ref=e2407] [cursor=pointer]:
+        - generic [ref=e2408]:
+          - img [ref=e2409]
+          - generic [ref=e2412]: ◇
+        - generic [ref=e2413]: GRAPH
+      - generic [ref=e2414] [cursor=pointer]:
+        - generic [ref=e2415]:
+          - img [ref=e2416]
+          - generic [ref=e2419]: ⟁
+        - generic [ref=e2420]: SKILLWEB
+      - generic [ref=e2421] [cursor=pointer]:
+        - generic [ref=e2422]:
+          - img [ref=e2423]
+          - generic [ref=e2426]: ◐
+        - generic [ref=e2427]: MEMORY
+      - generic [ref=e2428] [cursor=pointer]:
+        - generic [ref=e2429]:
+          - img [ref=e2430]
+          - generic [ref=e2433]: ◌
+        - generic [ref=e2434]: EGGS
+      - generic [ref=e2435] [cursor=pointer]:
+        - generic [ref=e2436]:
+          - img [ref=e2437]
+          - generic [ref=e2440]: ⬙
+        - generic [ref=e2441]: TROPHIES
+      - generic [ref=e2442] [cursor=pointer]:
+        - generic [ref=e2443]:
+          - img [ref=e2444]
+          - generic [ref=e2447]: ▣
+        - generic [ref=e2448]: EXHIBITION
+      - generic [ref=e2449] [cursor=pointer]:
+        - generic [ref=e2450]:
+          - img [ref=e2451]
+          - generic [ref=e2454]: ⊞
+        - generic [ref=e2455]: SETTINGS
+      - generic [ref=e2456]:
+        - img [ref=e2458]:
+          - generic [ref=e2460]: ◐
+        - heading "MEMORY" [level=2] [ref=e2461]
+        - paragraph [ref=e2463]: Persistent memory store. Facts, goals, and durable context.
+        - button "OPEN" [ref=e2464] [cursor=pointer]:
+          - generic [ref=e2465]: OPEN
+          - img [ref=e2466]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

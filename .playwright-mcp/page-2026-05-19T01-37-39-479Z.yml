@@ -1,0 +1,109 @@
+- generic [ref=e2]:
+  - generic [ref=e131]:
+    - complementary [ref=e132]:
+      - generic [ref=e133]:
+        - paragraph [ref=e134]: THE ARCHIVE
+        - paragraph [ref=e135]: Clarity Over Noise
+        - button "+ New Session" [ref=e136] [cursor=pointer]:
+          - generic [ref=e137]: +
+          - text: New Session
+        - textbox "Search sessions…" [ref=e138]
+      - generic [ref=e140] [cursor=pointer]:
+        - generic [ref=e141]: ◈
+        - generic [ref=e142]:
+          - paragraph [ref=e143]: Clarity Over Noise — Journey Planning
+          - generic [ref=e145]: 4/9/2026
+        - generic [ref=e146]:
+          - button "✎" [ref=e147]
+          - button "○" [ref=e148]
+          - button "⌫" [ref=e149]
+          - button "×" [ref=e150]
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - paragraph [ref=e153]: JOURNEY
+          - paragraph [ref=e154]: Clarity Over Noise
+        - generic [ref=e155]:
+          - paragraph [ref=e156]: ARCHETYPE
+          - paragraph [ref=e157]: The Architect
+        - generic [ref=e158]:
+          - button "Memory" [ref=e159] [cursor=pointer]
+          - button "Generate Quests" [ref=e160] [cursor=pointer]
+          - button "View Quests" [ref=e161] [cursor=pointer]
+          - button "Open Graph" [ref=e162] [cursor=pointer]
+          - button "Settings" [ref=e163] [cursor=pointer]
+    - main [ref=e164]:
+      - generic:
+        - img
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - button "Open thread list" [active] [ref=e167] [cursor=pointer]: ◈
+          - generic [ref=e168]:
+            - heading "Clarity Over Noise — Journey Planning" [level=2] [ref=e169]
+            - paragraph [ref=e170]: 4 entries · May 18
+        - generic [ref=e171]:
+          - button "→ Memory" [ref=e172] [cursor=pointer]
+          - button "◈ Mock Abel" [ref=e174] [cursor=pointer]:
+            - generic [ref=e175]: ◈
+            - generic [ref=e176]: Mock Abel
+      - alert [ref=e178]:
+        - generic [ref=e179]: ◈
+        - generic [ref=e180]: Offline simulation mode — responses are generated locally. Switch to a real provider in Settings.
+      - generic [ref=e181]:
+        - generic [ref=e183]:
+          - paragraph [ref=e184]: I want to build a knowledge system that actually helps me think. Not just collect. Help me design a journey around this.
+          - paragraph [ref=e185]: 10:30 PM
+        - generic [ref=e186]:
+          - generic [ref=e187]: ◈
+          - generic [ref=e188]:
+            - paragraph [ref=e189]:
+              - text: I understand. Most knowledge tools optimize for capture, not clarity. What you're describing is a different kind of system — one that builds structure as you think, not after. Your journey is
+              - strong [ref=e190]: Clarity Over Noise
+              - text: ". Here's how I see it unfolding: 1. First, you build the graph — a visual map of what you already know. 2. Then you identify the gaps and turn them into quests. 3. Each quest produces insight that feeds back into the graph. 4. Over time, the system learns what you're becoming. Shall I generate the first set of quests from this vision?"
+            - paragraph [ref=e191]: 10:30 PM
+        - generic [ref=e193]:
+          - paragraph [ref=e194]: Yes. Generate quests.
+          - paragraph [ref=e195]: 10:30 PM
+        - generic [ref=e196]:
+          - generic [ref=e197]: ◈
+          - generic [ref=e198]:
+            - paragraph [ref=e199]:
+              - text: Generated 6 quests for
+              - strong [ref=e200]: Clarity Over Noise
+              - text: .
+              - strong [ref=e201]: Build Knowledge Graph
+              - text: — Start the map. Connect what you know.
+              - strong [ref=e202]: Establish Deep Work Ritual
+              - text: — Create the conditions for depth.
+              - strong [ref=e203]: Map Your Creative Process
+              - text: — Understand how you move from idea to output.
+              - strong [ref=e204]: Synthesize Three Insights
+              - text: — Cross-pollinate your best learnings.
+              - strong [ref=e205]: Write a Reflection on Your Archetype
+              - text: — Know the identity driving the work.
+              - strong [ref=e206]: Design Your Systems Architecture
+              - text: — Map the whole machine. These are now live in your Quests. Begin with
+              - strong [ref=e207]: Build Knowledge Graph
+              - text: — it unlocks everything else.
+            - paragraph [ref=e208]: 10:30 PM
+      - generic [ref=e209]:
+        - generic [ref=e210]:
+          - textbox "Share a goal, insight, or question…" [ref=e211]
+          - button "SEND" [disabled] [ref=e212]
+        - paragraph [ref=e213]: Mock Abel · Enter to send · Shift+Enter for newline
+  - navigation "Mobile navigation" [ref=e113]:
+    - button "Home" [ref=e114] [cursor=pointer]:
+      - generic [ref=e115]: ◉
+      - generic [ref=e116]: Home
+    - button "Chat" [ref=e117] [cursor=pointer]:
+      - generic [ref=e118]: ◈
+      - generic [ref=e119]: Chat
+    - button "Quests" [ref=e120] [cursor=pointer]:
+      - generic [ref=e121]: ⊕
+      - generic [ref=e122]: Quests
+    - button "Memory" [ref=e123] [cursor=pointer]:
+      - generic [ref=e124]: ◐
+      - generic [ref=e125]: Memory
+    - button "Settings" [ref=e126] [cursor=pointer]:
+      - generic [ref=e127]: ⊞
+      - generic [ref=e128]: Settings
+  - button "Feedback" [ref=e130] [cursor=pointer]

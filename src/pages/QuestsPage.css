@@ -303,3 +303,42 @@
   margin-top: 20px;
   display: flex; flex-direction: column; gap: 8px;
 }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Collapse 3-col to single scrollable column */
+  .quests-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    overflow-y: auto;
+  }
+
+  .quests-left {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 16px;
+    overflow-y: visible;
+    max-height: none;
+  }
+
+  /* Atlas column: fixed height on mobile, scrollable */
+  .quests-atlas-col {
+    min-height: 320px;
+    max-height: 50vh;
+  }
+
+  /* Detail panel: scroll below atlas */
+  .quests-right {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding: 20px 16px;
+    overflow-y: visible;
+  }
+
+  /* Rewards grid: full width on mobile */
+  .quests-rewards { grid-template-columns: 1fr; }
+
+  /* Filter tabs: horizontal scroll */
+  .quests-filters { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .quests-filters::-webkit-scrollbar { display: none; }
+}

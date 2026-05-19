@@ -434,13 +434,22 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
           </filter>
         </defs>
 
+        {/* Pre-warm SVG filters to prevent first-paint rasterization flicker */}
+        <g opacity="0" aria-hidden="true" style={{ willChange: 'filter' }}>
+          <path d="M0,0" filter={`url(#${F.wireGlow})`} />
+          <path d="M0,0" filter={`url(#${F.bloom})`} />
+          <path d="M0,0" filter={`url(#${F.ptGlow})`} />
+          <path d="M0,0" filter={`url(#${F.rimGlow})`} />
+          <path d="M0,0" filter={`url(#${F.hlGlow})`} />
+        </g>
+
         <g transform={`translate(${treeOffX+pan.x},${treeOffY+pan.y}) scale(${scale})`}>
 
           {/* ── Starfield ─────────────────────────────────────────────────── */}
           {stars.map((s,i) => (
             <circle key={i} cx={s.cx} cy={s.cy} r={s.r} fill="white" opacity={s.op}>
-              {!prefersReducedMotion && <animate attributeName="opacity" values={`${s.op*0.2};${s.op};${s.op*0.2}`} dur={`${s.dur}s`} begin={`${s.del}s`} repeatCount="indefinite" />}
-              {!prefersReducedMotion && s.kind!=='bg' && s.kind!=='side' && <animate attributeName="r" values={`${s.r*0.5};${s.r*1.5};${s.r*0.5}`} dur={`${s.dur}s`} begin={`${s.del}s`} repeatCount="indefinite" />}
+              {!prefersReducedMotion && <animate attributeName="opacity" values={`${s.op};${s.op*0.2};${s.op}`} dur={`${s.dur}s`} begin={`${s.del}s`} repeatCount="indefinite" />}
+              {!prefersReducedMotion && s.kind!=='bg' && s.kind!=='side' && <animate attributeName="r" values={`${s.r};${s.r*1.5};${s.r}`} dur={`${s.dur}s`} begin={`${s.del}s`} repeatCount="indefinite" />}
             </circle>
           ))}
 
@@ -449,9 +458,9 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
           {!prefersReducedMotion && filaments.map((f,i) => (
             <g key={`f-${i}`}>
               <path d={`M ${f.x1} ${f.y1} Q ${f.x2} ${f.y2} ${f.x3} ${f.y3}`} fill="none" stroke={`rgba(255,255,255,${f.op})`} strokeWidth={f.isMicro?'0.35':'0.55'} strokeLinecap="round">
-                <animate attributeName="opacity" values={`${f.op*0.15};${f.op};${f.op*0.15}`} dur={`${f.dur}s`} begin={`${f.del}s`} repeatCount="indefinite" />
+                <animate attributeName="opacity" values="1;0.15;1" dur={`${f.dur}s`} begin={`${f.del}s`} repeatCount="indefinite" />
               </path>
-              {!f.isMicro && <circle cx={f.x3} cy={f.y3} r="1.0" fill="rgba(255,255,255,0.65)" filter={`url(#${F.ptGlow})`}><animate attributeName="opacity" values="0.04;0.75;0.04" dur={`${f.dur}s`} begin={`${f.del}s`} repeatCount="indefinite" /></circle>}
+              {!f.isMicro && <circle cx={f.x3} cy={f.y3} r="1.0" fill="rgba(255,255,255,0.65)" filter={`url(#${F.ptGlow})`}><animate attributeName="opacity" values="1;0.053;1" dur={`${f.dur}s`} begin={`${f.del}s`} repeatCount="indefinite" /></circle>}
             </g>
           ))}
 
@@ -509,8 +518,8 @@ export default function AtlasWorkspace({ root, selectedId, onNodeClick, onAddNod
           {/* ── Junction stars ────────────────────────────────────────────── */}
           {!prefersReducedMotion && junctionStars.map((p,i) => (
             <circle key={`js-${i}`} cx={p.cx} cy={p.cy} r={p.r} fill="white" filter={`url(#${F.ptGlow})`}>
-              <animate attributeName="opacity" values={`${p.op*0.15};${p.op};${p.op*0.15}`} dur={`${p.dur}s`} begin={`${p.del}s`} repeatCount="indefinite" />
-              <animate attributeName="r"       values={`${p.r*0.5};${p.r*1.6};${p.r*0.5}`} dur={`${p.dur}s`} begin={`${p.del}s`} repeatCount="indefinite" />
+              <animate attributeName="opacity" values="1;0.15;1" dur={`${p.dur}s`} begin={`${p.del}s`} repeatCount="indefinite" />
+              <animate attributeName="r"       values={`${p.r};${p.r*1.6};${p.r}`} dur={`${p.dur}s`} begin={`${p.del}s`} repeatCount="indefinite" />
             </circle>
           ))}
 

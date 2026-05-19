@@ -513,3 +513,46 @@
   color: rgba(195,168,255,0.95);
 }
 .gp-modal-btn--primary:hover { background: rgba(124,77,255,0.30); }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  .gp-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  /* Sidebar becomes a compact horizontal strip */
+  .gp-sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    height: auto;
+    max-height: 160px;
+    overflow-y: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .gp-sidebar-header {
+    width: 100%;
+    padding: 0 0 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    margin-bottom: 4px;
+  }
+
+  /* Legend sections flow horizontally */
+  .gp-sidebar-sect {
+    display: flex; flex-direction: row; flex-wrap: wrap;
+    gap: 6px; margin: 0;
+  }
+
+  .gp-sidebar-footer { display: none; }
+
+  /* Canvas takes remaining height */
+  .gp-canvas {
+    height: 100%;
+    min-height: 400px;
+  }
+}

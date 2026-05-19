@@ -335,3 +335,28 @@
   background: rgba(70,40,180,0.22);
   color: rgba(200,188,255,0.88);
 }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Collapse hero padding */
+  .sw-hero {
+    padding: 16px 16px 12px;
+    gap: 16px;
+    height: auto;
+  }
+  .sw-hero--collapsed { padding: 10px 16px; }
+
+  /* Eyebrow text wraps instead of clipping */
+  .sw-eyebrow {
+    white-space: normal;
+    overflow: visible;
+  }
+
+  /* Side panel takes full width below canvas */
+  .sw-panel {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    top: auto; right: auto;
+  }
+}

@@ -255,3 +255,14 @@
     rgba(4, 3, 16, 0.88) 100%
   );
 }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  .focus-config {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 16px 80px;
+    min-height: auto;
+  }
+  .focus-modes { grid-template-columns: 1fr 1fr; }
+}

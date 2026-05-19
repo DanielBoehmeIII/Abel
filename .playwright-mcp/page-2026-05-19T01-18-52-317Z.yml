@@ -1,0 +1,251 @@
+- generic [ref=e2]:
+  - generic [ref=e2468]:
+    - complementary [ref=e2469]:
+      - generic [ref=e2470]:
+        - generic [ref=e2471]: ◈
+        - generic [ref=e2472]:
+          - paragraph [ref=e2473]: KNOWLEDGE GRAPH
+          - paragraph [ref=e2474]: Core Graph
+      - generic [ref=e2475]:
+        - paragraph [ref=e2476]: NODE TYPES
+        - button "Goal" [ref=e2477] [cursor=pointer]:
+          - generic [ref=e2479]: Goal
+        - button "Concept" [ref=e2480] [cursor=pointer]:
+          - generic [ref=e2482]: Concept
+        - button "Conversation" [ref=e2483] [cursor=pointer]:
+          - generic [ref=e2485]: Conversation
+        - button "Journal" [ref=e2486] [cursor=pointer]:
+          - generic [ref=e2488]: Journal
+        - button "Quest" [ref=e2489] [cursor=pointer]:
+          - generic [ref=e2491]: Quest
+        - button "Skill" [ref=e2492] [cursor=pointer]:
+          - generic [ref=e2494]: Skill
+        - button "Memory" [ref=e2495] [cursor=pointer]:
+          - generic [ref=e2497]: Memory
+      - generic [ref=e2498]:
+        - paragraph [ref=e2499]: LINK TYPES
+        - generic [ref=e2502]: supports
+        - generic [ref=e2505]: relates-to
+        - generic [ref=e2508]: part-of
+        - generic [ref=e2511]: unlocks
+      - generic [ref=e2512]:
+        - paragraph [ref=e2513]: 10 nodes · 12 edges
+        - button "+ ADD NODE" [ref=e2514] [cursor=pointer]
+    - generic [ref=e2515]:
+      - generic [ref=e2516]:
+        - generic [ref=e2517]:
+          - generic [ref=e2518]: Workspace
+          - generic [ref=e2519]: /
+          - generic [ref=e2520]: Core Graph
+        - generic [ref=e2521]:
+          - button "Memory" [ref=e2522] [cursor=pointer]
+          - button "Chat" [ref=e2523] [cursor=pointer]
+          - button "Settings" [ref=e2524] [cursor=pointer]
+          - textbox "Search nodes, links, tags…" [ref=e2525]
+      - generic [ref=e2526]:
+        - generic [ref=e2527]:
+          - img
+          - generic [ref=e2528] [cursor=pointer]:
+            - generic [ref=e2529]:
+              - generic [ref=e2531]: ✦
+              - generic [ref=e2532]:
+                - generic [ref=e2533]: Core Purpose
+                - generic [ref=e2534]: Goal
+              - generic [ref=e2535]: "5"
+            - paragraph [ref=e2536]: Building tools that amplify human creativity and clarity.
+            - generic [ref=e2537]:
+              - generic [ref=e2538]: purpose
+              - generic [ref=e2539]: vision
+              - generic [ref=e2540]: guiding-star
+          - generic [ref=e2541] [cursor=pointer]:
+            - generic [ref=e2542]:
+              - generic [ref=e2544]: ⬡
+              - generic [ref=e2545]:
+                - generic [ref=e2546]: Projects OS
+                - generic [ref=e2547]: Concept
+              - generic [ref=e2548]: "3"
+            - paragraph [ref=e2549]: Designing Abel as a connected memory operating system.
+            - generic [ref=e2550]:
+              - generic [ref=e2551]: Docs
+              - generic [ref=e2552]: v3
+          - generic [ref=e2553] [cursor=pointer]:
+            - generic [ref=e2554]:
+              - generic [ref=e2556]: ◉
+              - generic [ref=e2557]:
+                - generic [ref=e2558]: ChatGPT Conversations
+                - generic [ref=e2559]: Conversation
+              - generic [ref=e2560]: "2"
+            - paragraph [ref=e2561]: Key discussions about projects, ideas, and problem solving.
+            - generic [ref=e2562]:
+              - generic [ref=e2563]: ai
+              - generic [ref=e2564]: design
+          - generic [ref=e2565] [cursor=pointer]:
+            - generic [ref=e2566]:
+              - generic [ref=e2568]: ◉
+              - generic [ref=e2569]:
+                - generic [ref=e2570]: Claude Conversations
+                - generic [ref=e2571]: Conversation
+              - generic [ref=e2572]: "2"
+            - paragraph [ref=e2573]: Deep dives and reflections on philosophy and systems.
+            - generic [ref=e2574]:
+              - generic [ref=e2575]: ai
+              - generic [ref=e2576]: research
+          - generic [ref=e2577] [cursor=pointer]:
+            - generic [ref=e2578]:
+              - generic [ref=e2580]: ▣
+              - generic [ref=e2581]:
+                - generic [ref=e2582]: "Journal: May 12"
+                - generic [ref=e2583]: Journal
+              - generic [ref=e2584]: "1"
+            - paragraph [ref=e2585]: Reflection on focus, energy, and the week ahead.
+            - generic [ref=e2586]:
+              - generic [ref=e2587]: journal
+              - generic [ref=e2588]: reflection
+          - generic [ref=e2589] [cursor=pointer]:
+            - generic [ref=e2590]:
+              - generic [ref=e2592]: ◎
+              - generic [ref=e2593]:
+                - generic [ref=e2594]: Build Knowledge Graph
+                - generic [ref=e2595]: Quest
+              - generic [ref=e2596]: "3"
+            - paragraph [ref=e2597]: Create a visualization of my knowledge base with real-time connections.
+            - generic [ref=e2598]:
+              - generic [ref=e2599]: Quest
+              - generic [ref=e2600]: In Progress
+          - generic [ref=e2601] [cursor=pointer]:
+            - generic [ref=e2602]:
+              - generic [ref=e2604]: ⟨⟩
+              - generic [ref=e2605]:
+                - generic [ref=e2606]: Systems Thinking
+                - generic [ref=e2607]: Skill
+              - generic [ref=e2608]: "3"
+            - paragraph [ref=e2609]: Skill in understanding complex systems and feedback loops.
+            - generic [ref=e2610]:
+              - generic [ref=e2611]: skill
+              - generic [ref=e2612]: mental-model
+          - generic [ref=e2613] [cursor=pointer]:
+            - generic [ref=e2614]:
+              - generic [ref=e2616]: ⬡
+              - generic [ref=e2617]:
+                - generic [ref=e2618]: Design Principles
+                - generic [ref=e2619]: Concept
+              - generic [ref=e2620]: "3"
+            - paragraph [ref=e2621]: Key principles for building intuitive and powerful tools.
+            - generic [ref=e2622]:
+              - generic [ref=e2623]: design
+              - generic [ref=e2624]: principles
+          - generic [ref=e2625] [cursor=pointer]:
+            - generic [ref=e2626]:
+              - generic [ref=e2628]: ⟨⟩
+              - generic [ref=e2629]:
+                - generic [ref=e2630]: Focus & Flow
+                - generic [ref=e2631]: Skill
+              - generic [ref=e2632]: "1"
+            - paragraph [ref=e2633]: Notes on maintaining deep work and creative momentum.
+            - generic [ref=e2634]:
+              - generic [ref=e2635]: skill
+              - generic [ref=e2636]: flow
+          - generic [ref=e2637] [cursor=pointer]:
+            - generic [ref=e2638]:
+              - generic [ref=e2640]: ✦
+              - generic [ref=e2641]:
+                - generic [ref=e2642]: Long-term Goals
+                - generic [ref=e2643]: Goal
+              - generic [ref=e2644]: "1"
+            - paragraph [ref=e2645]: Five-year vision for work, craft, and contribution.
+            - generic [ref=e2646]:
+              - generic [ref=e2647]: vision
+              - generic [ref=e2648]: goal
+        - generic [ref=e2649]:
+          - button "+" [ref=e2650] [cursor=pointer]
+          - generic [ref=e2651]: 80%
+          - button "−" [ref=e2652] [cursor=pointer]
+          - button "⊞" [ref=e2653] [cursor=pointer]
+  - generic [ref=e2655]:
+    - img
+    - generic [ref=e2656]:
+      - img
+      - img
+      - generic [ref=e2657] [cursor=pointer]:
+        - generic [ref=e2658]:
+          - img [ref=e2659]
+          - generic [ref=e2662]: ◉
+        - generic [ref=e2663]: HOME
+      - generic [ref=e2664] [cursor=pointer]:
+        - generic [ref=e2665]:
+          - img [ref=e2666]
+          - generic [ref=e2669]: ◈
+        - generic [ref=e2670]: ARCHIVE
+      - generic [ref=e2671] [cursor=pointer]:
+        - generic [ref=e2672]:
+          - img [ref=e2673]
+          - generic [ref=e2676]: ⊕
+        - generic [ref=e2677]: QUESTS
+      - generic [ref=e2678] [cursor=pointer]:
+        - generic [ref=e2679]:
+          - img [ref=e2680]
+          - generic [ref=e2683]: ⬡
+        - generic [ref=e2684]: FOCUS
+      - generic [ref=e2685] [cursor=pointer]:
+        - generic [ref=e2686]:
+          - img [ref=e2687]
+          - generic [ref=e2690]: ◇
+        - generic [ref=e2691]: GRAPH
+      - generic [ref=e2692] [cursor=pointer]:
+        - generic [ref=e2693]:
+          - img [ref=e2694]
+          - generic [ref=e2697]: ⟁
+        - generic [ref=e2698]: SKILLWEB
+      - generic [ref=e2699] [cursor=pointer]:
+        - generic [ref=e2700]:
+          - img [ref=e2701]
+          - generic [ref=e2704]: ◐
+        - generic [ref=e2705]: MEMORY
+      - generic [ref=e2706] [cursor=pointer]:
+        - generic [ref=e2707]:
+          - img [ref=e2708]
+          - generic [ref=e2711]: ◌
+        - generic [ref=e2712]: EGGS
+      - generic [ref=e2713] [cursor=pointer]:
+        - generic [ref=e2714]:
+          - img [ref=e2715]
+          - generic [ref=e2718]: ⬙
+        - generic [ref=e2719]: TROPHIES
+      - generic [ref=e2720] [cursor=pointer]:
+        - generic [ref=e2721]:
+          - img [ref=e2722]
+          - generic [ref=e2725]: ▣
+        - generic [ref=e2726]: EXHIBITION
+      - generic [ref=e2727] [cursor=pointer]:
+        - generic [ref=e2728]:
+          - img [ref=e2729]
+          - generic [ref=e2732]: ⊞
+        - generic [ref=e2733]: SETTINGS
+      - generic [ref=e2734]:
+        - img [ref=e2736]:
+          - generic [ref=e2738]: ◇
+        - heading "GRAPH" [level=2] [ref=e2739]
+        - paragraph [ref=e2741]: Knowledge graph. Nodes and insight clusters.
+        - button "OPEN" [ref=e2742] [cursor=pointer]:
+          - generic [ref=e2743]: OPEN
+          - img [ref=e2744]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

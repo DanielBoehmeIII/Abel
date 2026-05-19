@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react';
 import type { PageId } from '../../types/abel';
 import './OrbitalNav.css';
 
@@ -42,6 +42,49 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
   const [selected, setSelected]   = useState<PageId>(currentPage);
   const [mounted,  setMounted]    = useState(false);
   const selectedNode = NAV_NODES.find(n => n.id === selected) ?? NAV_NODES[0];
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [connector, setConnector] = useState<{
+    w: number; h: number;
+    cx: number; cy: number;
+    lines: { id: string; x: number; y: number }[];
+  } | null>(null);
+
+  const debug = typeof window !== 'undefined' && window.localStorage?.getItem('abel_nav_debug') === '1';
+
+  const measure = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const cr = container.getBoundingClientRect();
+    const w = cr.width;
+    const h = cr.height;
+    const lines: { id: string; x: number; y: number }[] = [];
+
+    container.querySelectorAll<HTMLElement>('[data-nav-id]').forEach(el => {
+      const id = el.dataset.navId!;
+      const r = el.getBoundingClientRect();
+      lines.push({
+        id,
+        x: r.left + r.width / 2 - cr.left,
+        y: r.top + r.height / 2 - cr.top,
+      });
+    });
+
+    setConnector({ w, h, cx: w / 2, cy: h / 2, lines });
+  }, []);
+
+  useLayoutEffect(() => {
+    measure();
+    const ro = new ResizeObserver(measure);
+    const el = containerRef.current;
+    if (el) ro.observe(el);
+    return () => { ro.disconnect(); };
+  }, [measure]);
+
+  useLayoutEffect(() => {
+    measure();
+  }, [selected, measure]);
 
   useEffect(() => {
     const t = requestAnimationFrame(() => setMounted(true));
@@ -108,13 +151,13 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
         </svg>
 
         {/* Orbital container */}
-        <div className="orbital-container">
+        <div className="orbital-container" ref={containerRef}>
 
           {/* Sphere backplate — rendered as screen-blend to let dark bg show through */}
           <div className="orbital-sphere-plate" aria-hidden="true" />
 
           {/* SVG — orbit ring + spokes only (sphere is the image) */}
-          <svg className="orbital-svg" viewBox="-300 -300 600 600">
+          <svg className="orbital-svg" viewBox="-340 -340 680 680">
             {/* Outer decorative rings */}
             <circle cx="0" cy="0" r="280" fill="none"
               stroke="rgba(139,92,246,0.04)" strokeWidth="1" />
@@ -133,23 +176,41 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
               style={{ animation: 'spin-slow 14s linear infinite', transformOrigin: 'center' }}
             />
 
-            {/* Spokes from center to each node */}
-            {NAV_NODES.map(node => {
-              const rad = (node.angle - 90) * (Math.PI / 180);
-              const x   = Math.cos(rad) * ORBIT_R;
-              const y   = Math.sin(rad) * ORBIT_R;
-              const sel = node.id === selected;
-              return (
-                <line key={node.id}
-                  x1="0" y1="0" x2={x} y2={y}
-                  stroke={sel ? 'rgba(139,92,246,0.50)' : 'rgba(255,255,255,0.025)'}
-                  strokeWidth={sel ? '1.2' : '0.5'}
-                  strokeDasharray={sel ? '4 6' : '2 12'}
-                  style={{ transition: 'stroke 0.35s, stroke-width 0.35s' }}
-                />
-              );
-            })}
           </svg>
+
+          {/* Connector overlay — pixel-accurate lines from measured DOM centers */}
+          {connector && (
+            <svg className="orbital-connector"
+              viewBox={`0 0 ${connector.w} ${connector.h}`}
+            >
+              {connector.lines.map(line => {
+                const sel = line.id === selected;
+                return (
+                  <line key={line.id}
+                    x1={connector.cx} y1={connector.cy}
+                    x2={line.x} y2={line.y}
+                    stroke={sel ? 'rgba(139,92,246,0.50)' : 'rgba(255,255,255,0.025)'}
+                    strokeWidth={sel ? '1.2' : '0.5'}
+                    strokeDasharray={sel ? '4 6' : '2 12'}
+                    style={{ transition: 'stroke 0.35s, stroke-width 0.35s' }}
+                  />
+                );
+              })}
+              {debug && (
+                <>
+                  <circle cx={connector.cx} cy={connector.cy} r={3} fill="cyan" opacity={0.9} />
+                  {connector.lines.map(line => (
+                    <React.Fragment key={`debug-${line.id}`}>
+                      <line x1={line.x - 5} y1={line.y - 5} x2={line.x + 5} y2={line.y + 5}
+                        stroke={line.id === selected ? 'lime' : 'rgba(255,255,0,0.5)'} strokeWidth={1} />
+                      <line x1={line.x - 5} y1={line.y + 5} x2={line.x + 5} y2={line.y - 5}
+                        stroke={line.id === selected ? 'lime' : 'rgba(255,255,0,0.5)'} strokeWidth={1} />
+                    </React.Fragment>
+                  ))}
+                </>
+              )}
+            </svg>
+          )}
 
           {/* Nav nodes */}
           {NAV_NODES.map(node => {
@@ -167,8 +228,10 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
                 onClick={() => onNavigate(node.id)}
                 onMouseEnter={() => setSelected(node.id)}
               >
-                <div className="orbital-node-halo" />
-                <div className="orbital-node-dot">
+                <div className="orbital-icon-target" data-nav-id={node.id}>
+                  <div className="orbital-node-hover-ring" />
+                  <div className="orbital-node-active-ring" />
+                  <div className="orbital-node-current-ring" />
                   <svg width="48" height="48" viewBox="-24 -24 48 48" className="orbital-node-shape">
                     <circle cx="0" cy="0" r="20"
                       fill={isSel ? 'rgba(139,92,246,0.22)' : 'rgba(14,13,26,0.90)'}

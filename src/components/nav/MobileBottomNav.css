@@ -1,0 +1,83 @@
+/* ─── Shell ─────────────────────────────────────────────────── */
+.mob-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  height: calc(var(--mob-nav-h) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  display: flex;
+  align-items: stretch;
+  background: rgba(5, 5, 14, 0.96);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+}
+
+/* Desktop: hidden — orbital nav takes over */
+@media (min-width: 768px) {
+  .mob-nav { display: none; }
+}
+
+/* ─── Items ─────────────────────────────────────────────────── */
+.mob-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease;
+  min-height: var(--touch-min);
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Active indicator bar at top edge */
+.mob-nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1.5px;
+  background: var(--purple);
+  border-radius: 0 0 2px 2px;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.mob-nav-item--active {
+  color: var(--purple);
+}
+
+.mob-nav-item--active::before {
+  opacity: 1;
+}
+
+/* Tap response */
+.mob-nav-item:active {
+  background: rgba(139, 92, 246, 0.07);
+}
+
+/* ─── Glyph ─────────────────────────────────────────────────── */
+.mob-nav-glyph {
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: transform 0.18s var(--ease-out-expo);
+}
+
+.mob-nav-item--active .mob-nav-glyph {
+  transform: scale(1.12);
+}
+
+/* ─── Label ─────────────────────────────────────────────────── */
+.mob-nav-label {
+  font-family: var(--font-sans);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}

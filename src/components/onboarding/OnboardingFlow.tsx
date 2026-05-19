@@ -10,6 +10,7 @@ import GlowButton from '../common/GlowButton';
 import './OnboardingFlow.css';
 
 const ONBOARDING_KEY = 'abel_onboarding_complete_v1';
+const ONBOARDING_STEP_KEY = 'abel_onb_step_v1';
 
 type StepId = 'provider' | 'profile' | 'ai' | 'memory' | 'atlas' | 'chat';
 
@@ -43,7 +44,16 @@ function shouldShowOnboarding(): boolean {
 export default function OnboardingFlow({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const [open, setOpen] = useState(() => shouldShowOnboarding());
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(() => {
+    try {
+      const saved = localStorage.getItem(ONBOARDING_STEP_KEY);
+      if (saved !== null) {
+        const n = parseInt(saved, 10);
+        if (!isNaN(n) && n >= 0 && n < STEPS.length) return n;
+      }
+    } catch { /* noop */ }
+    return 0;
+  });
   const [profileName, setProfileName] = useState(state.user.name === 'Abel' ? '' : state.user.name);
   const [profileTitle, setProfileTitle] = useState(state.user.title || 'Knowledge Builder');
   const [tone, setTone] = useState<AITone>('direct');
@@ -82,6 +92,7 @@ export default function OnboardingFlow({ onNavigate }: Props) {
 
   function complete() {
     localStorage.setItem(ONBOARDING_KEY, '1');
+    try { localStorage.removeItem(ONBOARDING_STEP_KEY); } catch { /* noop */ }
     setOpen(false);
   }
 
@@ -243,7 +254,11 @@ export default function OnboardingFlow({ onNavigate }: Props) {
         return;
       }
 
-      setStepIndex(i => Math.min(STEPS.length - 1, i + 1));
+      setStepIndex(i => {
+        const n = Math.min(STEPS.length - 1, i + 1);
+        try { localStorage.setItem(ONBOARDING_STEP_KEY, String(n)); } catch { /* noop */ }
+        return n;
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -463,7 +478,11 @@ export default function OnboardingFlow({ onNavigate }: Props) {
 
           <div className="onb-actions">
             <button className="onb-skip" onClick={skip}>Skip for now</button>
-            {stepIndex > 0 && <button className="onb-back" onClick={() => setStepIndex(i => i - 1)}>Back</button>}
+            {stepIndex > 0 && <button className="onb-back" onClick={() => setStepIndex(i => {
+              const n = i - 1;
+              try { localStorage.setItem(ONBOARDING_STEP_KEY, String(n)); } catch { /* noop */ }
+              return n;
+            })}>Back</button>}
             <GlowButton variant="purple" onClick={next} disabled={saving}>
               {saving ? 'Saving…' : step.id === 'chat' ? 'Open Archive' : 'Continue'}
             </GlowButton>

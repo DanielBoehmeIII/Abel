@@ -67,10 +67,10 @@
   animation: atlas-pulse 3.4s ease-in-out infinite;
 }
 
-/* ── Edge shimmer (related/selected state) ───────────────────────────────── */
+/* ── Edge shimmer (related/selected state) — starts immediately, subtle ── */
 @keyframes atlas-edge-shimmer {
-  0%, 100% { opacity: 0.70; }
-  50%       { opacity: 0.92; }
+  0%, 100% { opacity: 0.80; }
+  50%       { opacity: 0.88; }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -78,7 +78,7 @@
 /* ─────────────────────────────────────────────────────────────────────────── */
 .atlas-path--mist {
   opacity: 0.065;
-  transition: opacity 0.48s ease;
+  transition: opacity 0.35s ease;
 }
 .atlas-path--mist.atlas-edge--related { opacity: 0.24; }
 .atlas-path--mist.atlas-edge--dimmed  { opacity: 0.006; }
@@ -88,7 +88,7 @@
 /* ─────────────────────────────────────────────────────────────────────────── */
 .atlas-path--stream {
   opacity: 0.10;
-  transition: opacity 0.45s ease;
+  transition: opacity 0.35s ease;
 }
 .atlas-path--stream.atlas-edge--related { opacity: 0.30; }
 .atlas-path--stream.atlas-edge--dimmed  { opacity: 0.010; }
@@ -98,7 +98,7 @@
 /* ─────────────────────────────────────────────────────────────────────────── */
 .atlas-path--glow {
   opacity: 0.12;
-  transition: opacity 0.42s ease;
+  transition: opacity 0.35s ease;
 }
 .atlas-path--glow.atlas-edge--related { opacity: 0.40; }
 .atlas-path--glow.atlas-edge--dimmed  { opacity: 0.018; }
@@ -108,11 +108,11 @@
 /* ─────────────────────────────────────────────────────────────────────────── */
 .atlas-path--crisp {
   opacity: 0.55;
-  transition: opacity 0.42s ease;
+  transition: opacity 0.35s ease;
 }
 .atlas-path--crisp.atlas-edge--related {
   opacity: 0.80;
-  animation: atlas-edge-shimmer 4s 1.6s ease-in-out infinite;
+  animation: atlas-edge-shimmer 6s ease-in-out infinite;
 }
 .atlas-path--crisp.atlas-edge--dimmed {
   opacity: 0.04;
@@ -123,7 +123,7 @@
 /* ─────────────────────────────────────────────────────────────────────────── */
 .atlas-path--highlight {
   opacity: 0.22;
-  transition: opacity 0.42s ease;
+  transition: opacity 0.35s ease;
 }
 .atlas-path--highlight.atlas-edge--related { opacity: 0.48; }
 .atlas-path--highlight.atlas-edge--dimmed  { opacity: 0.03; }
@@ -141,5 +141,6 @@
   }
   .atlas-path--crisp.atlas-edge--related {
     animation: none;
+    opacity: 0.80;
   }
 }

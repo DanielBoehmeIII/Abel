@@ -1,0 +1,154 @@
+- generic [ref=e2]:
+  - generic [ref=e3245]:
+    - generic [ref=e3246]:
+      - generic [ref=e3247]:
+        - paragraph [ref=e3248]: EVERY SKILL CONNECTS · EVERY CONNECTION TRANSFORMS
+        - heading "SKILL WEB" [level=1] [ref=e3249]:
+          - text: SKILL
+          - text: WEB
+      - paragraph [ref=e3251]:
+        - text: A living map of what
+        - text: you know, feel, and are becoming.
+      - generic [ref=e3254]:
+        - generic [ref=e3255]: MASTERY POINTS
+        - generic [ref=e3256]: "+37"
+    - generic [ref=e3257]:
+      - button "↗" [ref=e3258] [cursor=pointer]
+      - generic [ref=e3259]:
+        - generic [ref=e3261]:
+          - paragraph [ref=e3262]: SKILL WEB
+          - paragraph [ref=e3263]: Select a node to explore your mastery path.
+        - generic [ref=e3264]:
+          - img:
+            - generic [ref=e3309] [cursor=pointer]:
+              - generic [ref=e3314]: Systems
+              - generic [ref=e3315]: Thinking
+            - generic [ref=e3317] [cursor=pointer]:
+              - generic [ref=e3322]: Emotional
+              - generic [ref=e3323]: Clarity
+            - generic [ref=e3325] [cursor=pointer]:
+              - generic [ref=e3330]: Creative
+              - generic [ref=e3331]: Direction
+            - generic [ref=e3333]:
+              - generic [ref=e3335]: ⊘
+              - generic [ref=e3336]: Technical Craft
+            - generic [ref=e3338] [cursor=pointer]:
+              - generic [ref=e3343]: Discipline
+              - generic [ref=e3344]: "& Flow"
+            - generic [ref=e3346]:
+              - generic [ref=e3348]: ⊘
+              - generic [ref=e3349]: Knowledge Synthesis
+            - generic [ref=e3351]:
+              - generic [ref=e3353]: ⊘
+              - generic [ref=e3354]: Pattern Recognition
+            - generic [ref=e3356]:
+              - generic [ref=e3358]: ⊘
+              - generic [ref=e3359]: Strategic Vision
+            - generic [ref=e3361]:
+              - generic [ref=e3363]: ⊘
+              - generic [ref=e3364]: Narrative Design
+            - generic [ref=e3366]:
+              - generic [ref=e3368]: ⊘
+              - generic [ref=e3369]: Somatic Awareness
+            - generic [ref=e3371]:
+              - generic [ref=e3373]: ⊘
+              - generic [ref=e3374]: Deep Focus
+            - generic [ref=e3376]:
+              - generic [ref=e3378]: ⊘
+              - generic [ref=e3379]: Integrated Learning
+        - generic [ref=e3380]:
+          - generic [ref=e3381]:
+            - generic [ref=e3382]: "4"
+            - generic [ref=e3383]: ACTIVE PATHS
+          - generic [ref=e3384]:
+            - generic [ref=e3385]: "37"
+            - generic [ref=e3386]: CONNECTING MEMORIES
+          - button "⚙ DEBUG" [ref=e3388] [cursor=pointer]
+  - generic [ref=e3390]:
+    - img
+    - generic [ref=e3391]:
+      - img
+      - img
+      - generic [ref=e3392] [cursor=pointer]:
+        - generic [ref=e3393]:
+          - img [ref=e3394]
+          - generic [ref=e3397]: ◉
+        - generic [ref=e3398]: HOME
+      - generic [ref=e3399] [cursor=pointer]:
+        - generic [ref=e3400]:
+          - img [ref=e3401]
+          - generic [ref=e3404]: ◈
+        - generic [ref=e3405]: ARCHIVE
+      - generic [ref=e3406] [cursor=pointer]:
+        - generic [ref=e3407]:
+          - img [ref=e3408]
+          - generic [ref=e3411]: ⊕
+        - generic [ref=e3412]: QUESTS
+      - generic [ref=e3413] [cursor=pointer]:
+        - generic [ref=e3414]:
+          - img [ref=e3415]
+          - generic [ref=e3418]: ⬡
+        - generic [ref=e3419]: FOCUS
+      - generic [ref=e3420] [cursor=pointer]:
+        - generic [ref=e3421]:
+          - img [ref=e3422]
+          - generic [ref=e3425]: ◇
+        - generic [ref=e3426]: GRAPH
+      - generic [ref=e3427] [cursor=pointer]:
+        - generic [ref=e3428]:
+          - img [ref=e3429]
+          - generic [ref=e3432]: ⟁
+        - generic [ref=e3433]: SKILLWEB
+      - generic [ref=e3434] [cursor=pointer]:
+        - generic [ref=e3435]:
+          - img [ref=e3436]
+          - generic [ref=e3439]: ◐
+        - generic [ref=e3440]: MEMORY
+      - generic [ref=e3441] [cursor=pointer]:
+        - generic [ref=e3442]:
+          - img [ref=e3443]
+          - generic [ref=e3446]: ◌
+        - generic [ref=e3447]: EGGS
+      - generic [ref=e3448] [cursor=pointer]:
+        - generic [ref=e3449]:
+          - img [ref=e3450]
+          - generic [ref=e3453]: ⬙
+        - generic [ref=e3454]: TROPHIES
+      - generic [ref=e3455] [cursor=pointer]:
+        - generic [ref=e3456]:
+          - img [ref=e3457]
+          - generic [ref=e3460]: ▣
+        - generic [ref=e3461]: EXHIBITION
+      - generic [ref=e3462] [cursor=pointer]:
+        - generic [ref=e3463]:
+          - img [ref=e3464]
+          - generic [ref=e3467]: ⊞
+        - generic [ref=e3468]: SETTINGS
+      - generic [ref=e3469]:
+        - img [ref=e3471]:
+          - generic [ref=e3473]: ⟁
+        - heading "SKILLWEB" [level=2] [ref=e3474]
+        - paragraph [ref=e3476]: Skill web. Mastery milestones and eggs.
+        - button "OPEN" [ref=e3477] [cursor=pointer]:
+          - generic [ref=e3478]: OPEN
+          - img [ref=e3479]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

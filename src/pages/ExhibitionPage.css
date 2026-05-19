@@ -191,3 +191,26 @@
     rgba(6, 6, 16, 0.78) 100%
   );
 }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  .exhibition-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    overflow-y: auto;
+  }
+  /* Left list becomes a compact scrollable header strip */
+  .exhibition-left {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .exhibition-left-footer { display: none; }
+  /* Right featured panel flows naturally below */
+  .exhibition-right {
+    border-left: none;
+    display: none; /* shown only when something is selected on desktop; mobile uses center */
+  }
+}

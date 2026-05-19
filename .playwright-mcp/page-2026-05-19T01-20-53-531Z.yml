@@ -1,0 +1,184 @@
+- generic [ref=e2]:
+  - region "Cinematic transition to Trophy Vault" [ref=e3618]:
+    - generic [ref=e3619]:
+      - generic [ref=e3620]:
+        - generic:
+          - img:
+            - generic [ref=e3621] [cursor=pointer]:
+              - generic: ◈
+              - generic: ARCHIVE
+            - generic [ref=e3624] [cursor=pointer]:
+              - generic: ⊕
+              - generic: QUESTS
+            - generic [ref=e3627] [cursor=pointer]:
+              - generic: ◇
+              - generic: GRAPH
+            - generic [ref=e3630] [cursor=pointer]:
+              - generic: ▣
+              - generic: EXHIBITION
+            - generic [ref=e3633] [cursor=pointer]:
+              - generic: ⬡
+              - generic: FOCUS
+            - generic [ref=e3636] [cursor=pointer]:
+              - generic: ⟁
+              - generic: SKILLS
+            - generic: ABEL
+            - generic: OS
+        - generic [ref=e3639]:
+          - generic [ref=e3642]: ABEL
+          - navigation [ref=e3643]:
+            - button "CHAT" [ref=e3644] [cursor=pointer]
+            - button "MEMORY" [ref=e3645] [cursor=pointer]
+            - button "GRAPH" [ref=e3646] [cursor=pointer]
+            - button "SETTINGS" [ref=e3647] [cursor=pointer]
+        - main [ref=e3648]:
+          - paragraph [ref=e3649]: ABEL OS
+          - heading "A living system that remembers, dreams, and becomes." [level=1] [ref=e3650]:
+            - text: A living system
+            - text: that remembers,
+            - emphasis [ref=e3651]: dreams,
+            - text: and becomes.
+          - button "START A CHAT" [ref=e3652] [cursor=pointer]:
+            - generic [ref=e3653]: START A CHAT
+            - img [ref=e3654]
+          - generic [ref=e3656]:
+            - button "Import memory" [ref=e3657] [cursor=pointer]
+            - button "View atlas" [ref=e3659] [cursor=pointer]
+            - button "Tune Abel" [ref=e3661] [cursor=pointer]
+        - complementary [ref=e3662]:
+          - generic [ref=e3663] [cursor=pointer]:
+            - paragraph [ref=e3665]: SYSTEM STATUS
+            - paragraph [ref=e3667]: HARMONIC
+            - paragraph [ref=e3689]: The Architect
+            - text: VIEW →
+          - generic [ref=e3690] [cursor=pointer]:
+            - generic [ref=e3691]:
+              - paragraph [ref=e3692]: RECENT MEMORY
+              - generic [ref=e3693]: ▣
+            - paragraph [ref=e3694]: Gratitude Moment
+            - paragraph [ref=e3695]: Paused mid-session to notice how much had changed in the last six we…
+            - text: VIEW →
+          - generic [ref=e3696] [cursor=pointer]:
+            - generic [ref=e3697]:
+              - paragraph [ref=e3698]: ACTIVE QUEST
+              - generic [ref=e3699]: ⊕
+            - paragraph [ref=e3700]: Synthesize Three Insights
+            - paragraph [ref=e3701]: Take three separate learnings and write a short synthesis conn…
+            - text: VIEW →
+        - generic [ref=e3702]:
+          - generic [ref=e3703]:
+            - generic [ref=e3705]: A
+            - generic [ref=e3706]:
+              - paragraph [ref=e3707]: Abel
+              - paragraph [ref=e3708]: Seeker of Clarity
+          - generic [ref=e3709]:
+            - button "35% MASTERY" [ref=e3710] [cursor=pointer]:
+              - generic [ref=e3711]: 35%
+              - generic [ref=e3712]: MASTERY
+            - button "3 QUESTS" [ref=e3713] [cursor=pointer]:
+              - generic [ref=e3714]: "3"
+              - generic [ref=e3715]: QUESTS
+            - button "10 GRAPH NODES" [ref=e3716] [cursor=pointer]:
+              - generic [ref=e3717]: "10"
+              - generic [ref=e3718]: GRAPH NODES
+            - button "6 MEMORIES" [ref=e3719] [cursor=pointer]:
+              - generic [ref=e3720]: "6"
+              - generic [ref=e3721]: MEMORIES
+          - button "LATEST Obsidian Compass earned" [ref=e3722] [cursor=pointer]:
+            - paragraph [ref=e3723]: LATEST
+            - paragraph [ref=e3724]: Obsidian Compass earned
+      - img
+      - generic:
+        - generic: TROPHY VAULT
+        - heading [level=2]: Artifacts of Your Journey
+        - paragraph: What you earn becomes visible.
+        - paragraph: 4 collected
+        - button [ref=e3725] [cursor=pointer]: Enter Vault →
+  - generic [ref=e3727]:
+    - img
+    - generic [ref=e3728]:
+      - img
+      - img
+      - generic [ref=e3729] [cursor=pointer]:
+        - generic [ref=e3730]:
+          - img [ref=e3731]
+          - generic [ref=e3734]: ◉
+        - generic [ref=e3735]: HOME
+      - generic [ref=e3736] [cursor=pointer]:
+        - generic [ref=e3737]:
+          - img [ref=e3738]
+          - generic [ref=e3741]: ◈
+        - generic [ref=e3742]: ARCHIVE
+      - generic [ref=e3743] [cursor=pointer]:
+        - generic [ref=e3744]:
+          - img [ref=e3745]
+          - generic [ref=e3748]: ⊕
+        - generic [ref=e3749]: QUESTS
+      - generic [ref=e3750] [cursor=pointer]:
+        - generic [ref=e3751]:
+          - img [ref=e3752]
+          - generic [ref=e3755]: ⬡
+        - generic [ref=e3756]: FOCUS
+      - generic [ref=e3757] [cursor=pointer]:
+        - generic [ref=e3758]:
+          - img [ref=e3759]
+          - generic [ref=e3762]: ◇
+        - generic [ref=e3763]: GRAPH
+      - generic [ref=e3764] [cursor=pointer]:
+        - generic [ref=e3765]:
+          - img [ref=e3766]
+          - generic [ref=e3769]: ⟁
+        - generic [ref=e3770]: SKILLWEB
+      - generic [ref=e3771] [cursor=pointer]:
+        - generic [ref=e3772]:
+          - img [ref=e3773]
+          - generic [ref=e3776]: ◐
+        - generic [ref=e3777]: MEMORY
+      - generic [ref=e3778] [cursor=pointer]:
+        - generic [ref=e3779]:
+          - img [ref=e3780]
+          - generic [ref=e3783]: ◌
+        - generic [ref=e3784]: EGGS
+      - generic [ref=e3785] [cursor=pointer]:
+        - generic [ref=e3786]:
+          - img [ref=e3787]
+          - generic [ref=e3790]: ⬙
+        - generic [ref=e3791]: TROPHIES
+      - generic [ref=e3792] [cursor=pointer]:
+        - generic [ref=e3793]:
+          - img [ref=e3794]
+          - generic [ref=e3797]: ▣
+        - generic [ref=e3798]: EXHIBITION
+      - generic [ref=e3799] [cursor=pointer]:
+        - generic [ref=e3800]:
+          - img [ref=e3801]
+          - generic [ref=e3804]: ⊞
+        - generic [ref=e3805]: SETTINGS
+      - generic [ref=e3806]:
+        - img [ref=e3808]:
+          - generic [ref=e3810]: ◉
+        - heading "HOME" [level=2] [ref=e3811]
+        - paragraph [ref=e3813]: Your living system at a glance.
+        - button "OPEN" [ref=e3814] [cursor=pointer]:
+          - generic [ref=e3815]: OPEN
+          - img [ref=e3816]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

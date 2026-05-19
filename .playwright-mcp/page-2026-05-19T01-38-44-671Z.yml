@@ -1,0 +1,159 @@
+- generic [ref=e2]:
+  - generic [ref=e449]:
+    - generic [ref=e450]:
+      - generic [ref=e451]:
+        - paragraph [ref=e452]: EVERY INSIGHT CONNECTS
+        - heading "Atlas of Being" [level=1] [ref=e453]:
+          - text: Atlas
+          - text: of Being
+        - paragraph [ref=e454]: A living map of what you know, feel, and are becoming.
+        - paragraph [ref=e455]: Clarity Over Noise
+      - generic [ref=e456]:
+        - button "ALL" [ref=e457] [cursor=pointer]
+        - button "ACTIVE" [ref=e458] [cursor=pointer]
+        - button "AVAILABLE" [ref=e459] [cursor=pointer]
+        - button "COMPLETED" [ref=e460] [cursor=pointer]
+        - button "LOCKED" [ref=e461] [cursor=pointer]
+      - generic [ref=e462]:
+        - generic [ref=e463]: Showing all quests
+        - generic [ref=e464]: 6 quests
+      - generic [ref=e465]:
+        - generic [ref=e466] [cursor=pointer]:
+          - generic [ref=e467]:
+            - generic [ref=e468]: completed
+            - generic [ref=e469]: ◇ knowledge
+            - generic "Difficulty 3" [ref=e470]: ■■■
+          - heading "Build Knowledge Graph" [level=3] [ref=e471]
+          - paragraph [ref=e472]: Create a visual map of your core ideas, connecting concepts, goals, and insights.
+          - paragraph [ref=e473]: Completed 4/25/2026
+        - generic [ref=e474] [cursor=pointer]:
+          - generic [ref=e475]:
+            - generic [ref=e476]: completed
+            - generic [ref=e477]: ⊕ focus
+            - generic "Difficulty 2" [ref=e478]: ■■
+          - heading "Establish Deep Work Ritual" [level=3] [ref=e479]
+          - paragraph [ref=e480]: Design and complete five 90-minute deep work sessions with zero context switching.
+          - paragraph [ref=e481]: Completed 4/18/2026
+        - generic [ref=e482] [cursor=pointer]:
+          - generic [ref=e483]:
+            - generic [ref=e484]: completed
+            - generic [ref=e485]: ▣ reflection
+            - generic "Difficulty 2" [ref=e486]: ■■
+          - heading "Map Your Creative Process" [level=3] [ref=e487]
+          - paragraph [ref=e488]: Document how you move from raw idea to finished work. Find the gaps.
+          - paragraph [ref=e489]: Completed 4/21/2026
+        - generic [ref=e490] [cursor=pointer]:
+          - generic [ref=e491]:
+            - generic [ref=e492]: active
+            - generic [ref=e493]: ◇ knowledge
+            - generic "Difficulty 3" [ref=e494]: ■■■
+          - heading "Synthesize Three Insights" [level=3] [ref=e495]
+          - paragraph [ref=e496]: Take three separate learnings and write a short synthesis connecting them.
+        - generic [ref=e497] [cursor=pointer]:
+          - generic [ref=e498]:
+            - generic [ref=e499]: available
+            - generic [ref=e500]: ◉ archetype
+            - generic "Difficulty 1" [ref=e501]: ■
+          - heading "Write a Reflection on Your Archetype" [level=3] [ref=e502]
+          - paragraph [ref=e503]: Journal about your primary archetype. Where does it serve you? Where does it limit you?
+        - generic [ref=e504] [cursor=pointer]:
+          - generic [ref=e505]:
+            - generic [ref=e506]: locked
+            - generic [ref=e507]: ⬡ skill
+            - generic "Difficulty 4" [ref=e508]: ■■■■
+          - heading "Design Your Systems Architecture" [level=3] [ref=e509]
+          - paragraph [ref=e510]: Map how your tools, habits, and rituals connect. Identify the weak links.
+    - generic [ref=e512]:
+      - generic [ref=e513]:
+        - button "MANUAL" [ref=e514] [cursor=pointer]
+        - button "HIERARCHY" [ref=e515] [cursor=pointer]
+        - button "RADIAL" [ref=e516] [cursor=pointer]
+      - generic [ref=e517]:
+        - button "↺ RESET" [ref=e518] [cursor=pointer]
+        - button "SIGN IN" [ref=e519] [cursor=pointer]
+      - generic [ref=e520]:
+        - button "Zoom in" [ref=e521] [cursor=pointer]: +
+        - button "Zoom out" [ref=e522] [cursor=pointer]: −
+      - img [ref=e523]:
+        - generic [ref=e524]:
+          - button "Core" [ref=e1907]:
+            - generic: Core
+            - generic: Core
+            - generic: Creative Expression
+          - button "Focus" [ref=e1962]:
+            - generic: Focus
+            - generic: Focus
+            - generic: Spark
+          - button "Memory" [ref=e1990]:
+            - generic: Memory
+            - generic: Memory
+            - generic: Wisdom
+          - button "Expression" [ref=e2018]:
+            - generic: Expression
+            - generic: Expression
+            - generic: Mastery
+          - button "Mastery" [ref=e2046]:
+            - generic: Mastery
+            - generic: Mastery
+            - generic: "& Flow"
+          - button "Social" [ref=e2074]:
+            - generic: Social
+            - generic: Social
+            - generic: Legacy
+          - button "World" [ref=e2102]:
+            - generic: World
+            - generic: World
+            - generic: Evolution
+      - generic:
+        - button "+ ADD NODE" [ref=e2130] [cursor=pointer]:
+          - generic [ref=e2131]: +
+          - text: ADD NODE
+        - generic: scroll to zoom · drag to pan · drag node to move
+      - generic [ref=e2133]:
+        - paragraph [ref=e2134]: ATLAS OF BEING
+        - heading "Begin your atlas." [level=2] [ref=e2135]
+        - paragraph [ref=e2136]: A living map of what you know, feel, and are becoming.
+        - textbox "Your name" [active] [ref=e2137]
+        - button "Enter Atlas" [ref=e2139] [cursor=pointer]
+    - generic [ref=e2141]:
+      - generic [ref=e2142]:
+        - generic [ref=e2143]: active
+        - generic [ref=e2144]: ◇ knowledge quest
+      - heading "Synthesize Three Insights" [level=2] [ref=e2145]
+      - paragraph [ref=e2146]: Take three separate learnings and write a short synthesis connecting them.
+      - generic [ref=e2147]:
+        - paragraph [ref=e2148]: WHY IT MATTERS
+        - paragraph [ref=e2149]: Synthesis is the highest form of learning. It creates new knowledge.
+      - generic [ref=e2150]:
+        - paragraph [ref=e2151]: REWARDS
+        - generic [ref=e2152]:
+          - generic [ref=e2153]:
+            - generic [ref=e2154]: "130"
+            - generic [ref=e2155]: XP
+          - generic [ref=e2156]:
+            - generic [ref=e2157]: +10%
+            - generic [ref=e2158]: MASTERY
+        - generic [ref=e2159] [cursor=pointer]:
+          - generic [ref=e2160]: ⬡
+          - text: Knowledge Synthesis
+        - generic [ref=e2161] [cursor=pointer]:
+          - generic [ref=e2162]: ⬡
+          - text: Systems Thinking
+      - button "COMPLETE QUEST ✓" [ref=e2164] [cursor=pointer]
+  - navigation "Mobile navigation" [ref=e113]:
+    - button "Home" [ref=e114] [cursor=pointer]:
+      - generic [ref=e115]: ◉
+      - generic [ref=e116]: Home
+    - button "Chat" [ref=e117] [cursor=pointer]:
+      - generic [ref=e118]: ◈
+      - generic [ref=e119]: Chat
+    - button "Quests" [ref=e120] [cursor=pointer]:
+      - generic [ref=e121]: ⊕
+      - generic [ref=e122]: Quests
+    - button "Memory" [ref=e123] [cursor=pointer]:
+      - generic [ref=e124]: ◐
+      - generic [ref=e125]: Memory
+    - button "Settings" [ref=e126] [cursor=pointer]:
+      - generic [ref=e127]: ⊞
+      - generic [ref=e128]: Settings
+  - button "Feedback" [ref=e130] [cursor=pointer]

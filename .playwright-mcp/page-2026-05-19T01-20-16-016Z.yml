@@ -1,0 +1,119 @@
+- generic [ref=e2]:
+  - generic [ref=e3481]:
+    - generic [ref=e3482]:
+      - paragraph [ref=e3483]: EGG HATCH
+      - heading "Hatch what you have earned." [level=1] [ref=e3484]:
+        - text: Hatch what you
+        - text: have earned.
+      - paragraph [ref=e3485]: 4 ready · 8 hatched
+    - generic [ref=e3486]:
+      - button "Emotional Clarity" [ref=e3487] [cursor=pointer]:
+        - img [ref=e3488]:
+          - generic [ref=e3493]: 20%
+      - button "Technical Craft" [ref=e3494] [cursor=pointer]:
+        - img [ref=e3495]:
+          - generic [ref=e3500]: 20%
+      - button "Knowledge Synthesis" [ref=e3501] [cursor=pointer]:
+        - img [ref=e3502]:
+          - generic [ref=e3507]: 20%
+      - generic [ref=e3508]:
+        - button [ref=e3509] [cursor=pointer]:
+          - img [ref=e3510]:
+            - generic [ref=e3515]: 40%
+        - generic [ref=e3516]:
+          - paragraph [ref=e3517]: Knowledge Egg
+          - paragraph [ref=e3518]: Systems Thinking · 40% milestone
+        - paragraph [ref=e3519]: TAP TO HATCH
+      - generic [ref=e3520]:
+        - button [ref=e3521] [cursor=pointer]
+        - button [ref=e3522] [cursor=pointer]
+        - button [ref=e3523] [cursor=pointer]
+        - button [ref=e3524] [cursor=pointer]
+  - generic [ref=e3526]:
+    - img
+    - generic [ref=e3527]:
+      - img
+      - img
+      - generic [ref=e3528] [cursor=pointer]:
+        - generic [ref=e3529]:
+          - img [ref=e3530]
+          - generic [ref=e3533]: ◉
+        - generic [ref=e3534]: HOME
+      - generic [ref=e3535] [cursor=pointer]:
+        - generic [ref=e3536]:
+          - img [ref=e3537]
+          - generic [ref=e3540]: ◈
+        - generic [ref=e3541]: ARCHIVE
+      - generic [ref=e3542] [cursor=pointer]:
+        - generic [ref=e3543]:
+          - img [ref=e3544]
+          - generic [ref=e3547]: ⊕
+        - generic [ref=e3548]: QUESTS
+      - generic [ref=e3549] [cursor=pointer]:
+        - generic [ref=e3550]:
+          - img [ref=e3551]
+          - generic [ref=e3554]: ⬡
+        - generic [ref=e3555]: FOCUS
+      - generic [ref=e3556] [cursor=pointer]:
+        - generic [ref=e3557]:
+          - img [ref=e3558]
+          - generic [ref=e3561]: ◇
+        - generic [ref=e3562]: GRAPH
+      - generic [ref=e3563] [cursor=pointer]:
+        - generic [ref=e3564]:
+          - img [ref=e3565]
+          - generic [ref=e3568]: ⟁
+        - generic [ref=e3569]: SKILLWEB
+      - generic [ref=e3570] [cursor=pointer]:
+        - generic [ref=e3571]:
+          - img [ref=e3572]
+          - generic [ref=e3575]: ◐
+        - generic [ref=e3576]: MEMORY
+      - generic [ref=e3577] [cursor=pointer]:
+        - generic [ref=e3578]:
+          - img [ref=e3579]
+          - generic [ref=e3582]: ◌
+        - generic [ref=e3583]: EGGS
+      - generic [ref=e3584] [cursor=pointer]:
+        - generic [ref=e3585]:
+          - img [ref=e3586]
+          - generic [ref=e3589]: ⬙
+        - generic [ref=e3590]: TROPHIES
+      - generic [ref=e3591] [cursor=pointer]:
+        - generic [ref=e3592]:
+          - img [ref=e3593]
+          - generic [ref=e3596]: ▣
+        - generic [ref=e3597]: EXHIBITION
+      - generic [ref=e3598] [cursor=pointer]:
+        - generic [ref=e3599]:
+          - img [ref=e3600]
+          - generic [ref=e3603]: ⊞
+        - generic [ref=e3604]: SETTINGS
+      - generic [ref=e3605]:
+        - img [ref=e3607]:
+          - generic [ref=e3609]: ◌
+        - heading "EGGS" [level=2] [ref=e3610]
+        - paragraph [ref=e3612]: Hatch earned eggs into collectible trophies.
+        - button "OPEN" [ref=e3613] [cursor=pointer]:
+          - generic [ref=e3614]: OPEN
+          - img [ref=e3615]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

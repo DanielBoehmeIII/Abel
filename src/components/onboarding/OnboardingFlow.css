@@ -7,17 +7,17 @@
   justify-content: center;
   padding: 32px;
   background:
-    radial-gradient(circle at 52% 36%, rgba(139,92,246,0.20), transparent 42%),
-    rgba(3,3,10,0.78);
+    radial-gradient(circle at 52% 36%, rgba(139,92,246,0.14), transparent 42%),
+    rgba(3,3,10,0.82);
   backdrop-filter: blur(18px);
 }
 
 .onb-panel {
-  width: min(920px, 100%);
-  min-height: 560px;
+  width: min(860px, 100%);
+  min-height: 520px;
   max-height: calc(100vh - 64px);
   display: grid;
-  grid-template-columns: 230px 1fr;
+  grid-template-columns: 180px 1fr;
   overflow: hidden;
   background: linear-gradient(145deg, rgba(12,10,28,0.96), rgba(5,5,14,0.97));
   border: 1px solid rgba(139,92,246,0.28);
@@ -28,8 +28,8 @@
 .onb-rail {
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  padding: 28px 22px;
+  gap: 18px;
+  padding: 24px 16px;
   border-right: 1px solid rgba(139,92,246,0.16);
   background:
     linear-gradient(180deg, rgba(139,92,246,0.08), transparent 42%),
@@ -90,7 +90,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 42px 48px 30px;
+  padding: 28px 44px 24px;
   overflow-y: auto;
 }
 
@@ -98,7 +98,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   color: rgba(34,211,238,0.72);
   font-size: 0.65rem;
   font-weight: 700;
@@ -107,12 +107,12 @@
 }
 
 .onb-section {
-  max-width: 610px;
+  max-width: 580px;
 }
 
 .onb-section-label {
   display: block;
-  margin: 16px 0 7px;
+  margin: 12px 0 6px;
   color: rgba(180,155,230,0.56);
   font-size: 0.62rem;
   font-weight: 700;
@@ -130,13 +130,13 @@
 .onb-provider-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .onb-provider-card {
-  padding: 18px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
   background: rgba(255,255,255,0.03);
@@ -165,17 +165,17 @@
 .onb-provider-header {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-bottom: 6px;
 }
 
 .onb-provider-icon {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   color: rgba(200,175,255,0.8);
 }
 
 .onb-provider-name {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text);
   margin: 0;
@@ -196,7 +196,7 @@
 }
 
 .onb-provider-desc {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: rgba(200,190,255,0.5);
   line-height: 1.55;
   margin: 0;
@@ -204,8 +204,14 @@
 
 .onb-provider-config {
   border-top: 1px solid rgba(139,92,246,0.14);
-  padding-top: 16px;
-  margin-top: 4px;
+  padding-top: 12px;
+  margin-top: 2px;
+  animation: onb-config-enter 0.3s ease both;
+}
+
+@keyframes onb-config-enter {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .onb-provider-input {
@@ -217,8 +223,8 @@
   color: rgba(235,230,255,0.92);
   outline: none;
   font-family: var(--font-sans);
-  font-size: 0.9rem;
-  padding: 11px 13px;
+  font-size: 0.85rem;
+  padding: 9px 12px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -235,7 +241,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 14px;
+  margin-top: 12px;
   flex-wrap: wrap;
 }
 
@@ -259,6 +265,7 @@
   color: rgba(200,190,255,0.58);
   font-size: 0.82rem;
   line-height: 1.55;
+  animation: onb-config-enter 0.3s ease both;
 }
 
 .onb-mock-warning {
@@ -283,11 +290,11 @@
 
 .onb-section h2 {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 3.35rem);
-  line-height: 1.05;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  line-height: 1.1;
   font-weight: 300;
   color: var(--text);
-  margin: 0 0 14px;
+  margin: 0 0 8px;
 }
 
 .onb-section p {
@@ -295,12 +302,12 @@
   color: rgba(205,198,238,0.62);
   line-height: 1.65;
   font-size: 0.92rem;
-  margin: 0 0 24px;
+  margin: 0 0 18px;
 }
 
 .onb-section label {
   display: block;
-  margin: 16px 0 7px;
+  margin: 12px 0 6px;
   color: rgba(180,155,230,0.56);
   font-size: 0.62rem;
   font-weight: 700;
@@ -318,8 +325,8 @@
   color: rgba(235,230,255,0.92);
   outline: none;
   font-family: var(--font-sans);
-  font-size: 0.9rem;
-  padding: 11px 13px;
+  font-size: 0.85rem;
+  padding: 9px 12px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -343,16 +350,16 @@
 .onb-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .onb-choice {
-  padding: 8px 12px;
+  padding: 7px 11px;
   border: 1px solid rgba(139,92,246,0.16);
   border-radius: 7px;
   color: rgba(205,198,238,0.52);
   background: rgba(255,255,255,0.025);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   text-transform: capitalize;
 }
 
@@ -364,8 +371,8 @@
 
 .onb-atlas-map {
   position: relative;
-  height: 190px;
-  margin: 4px 0 24px;
+  height: 170px;
+  margin: 4px 0 20px;
   border: 1px solid rgba(139,92,246,0.16);
   border-radius: 12px;
   background:
@@ -442,7 +449,7 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: auto;
-  padding-top: 28px;
+  padding-top: 20px;
 }
 
 .onb-skip,
@@ -462,23 +469,73 @@
 }
 
 @media (max-width: 760px) {
-  .onb-shell { padding: 14px; }
+  .onb-shell {
+    padding: 14px;
+    align-items: flex-start;
+    padding-top: max(14px, var(--safe-top));
+  }
+
   .onb-panel {
     grid-template-columns: 1fr;
     min-height: 0;
+    max-height: calc(100dvh - 28px);
+    overflow: hidden;
   }
+
   .onb-rail {
-    padding: 16px;
+    padding: 14px 16px;
     border-right: none;
     border-bottom: 1px solid rgba(139,92,246,0.16);
+    overflow: hidden;
   }
+
   .onb-progress-track { display: none; }
+
+  /* Horizontal step strip — glyph only on very narrow screens */
   .onb-steps {
     flex-direction: row;
     overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
   }
+  .onb-steps::-webkit-scrollbar { display: none; }
+
   .onb-step {
     flex-shrink: 0;
+    padding: 6px 8px;
+    gap: 5px;
   }
-  .onb-main { padding: 28px 22px 24px; }
+
+  /* Wrap long text inside step labels */
+  .onb-step span:last-child {
+    white-space: nowrap;
+  }
+
+  .onb-main {
+    padding: 20px 16px 16px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent inner content from overflowing panel width */
+  .onb-section,
+  .onb-section p,
+  .onb-section h2 {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Provider cards: single column, touch-friendly */
+  .onb-provider-card { padding: 12px; }
+
+  /* Actions row: stack on very small screens */
+  .onb-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Atlas preview: reduce height */
+  .onb-atlas-map { height: 130px; }
 }

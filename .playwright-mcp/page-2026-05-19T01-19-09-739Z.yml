@@ -1,0 +1,143 @@
+- generic [ref=e2]:
+  - generic [ref=e2747]:
+    - complementary [ref=e2748]:
+      - paragraph [ref=e2750]: ABEL OS
+      - button "Profile" [ref=e2751] [cursor=pointer]
+      - button "AI Config" [ref=e2752] [cursor=pointer]
+      - button "LLM Provider" [ref=e2753] [cursor=pointer]
+      - button "Themes" [ref=e2754] [cursor=pointer]
+      - button "Preferences" [ref=e2755] [cursor=pointer]
+      - button "Memory" [ref=e2756] [cursor=pointer]
+      - button "Sync Jobs" [ref=e2757] [cursor=pointer]
+      - button "Data & Privacy" [ref=e2758] [cursor=pointer]
+      - button "Admin" [ref=e2759] [cursor=pointer]
+      - button "Accessibility" [ref=e2760] [cursor=pointer]
+      - generic [ref=e2761]:
+        - generic [ref=e2762]: A
+        - generic [ref=e2763]:
+          - paragraph [ref=e2764]: Abel
+          - paragraph [ref=e2765]: Seeker of Clarity
+    - main [ref=e2766]:
+      - generic [ref=e2767]:
+        - paragraph [ref=e2768]: IDENTITY
+        - heading "Profile" [level=2] [ref=e2769]
+        - generic [ref=e2770]:
+          - paragraph [ref=e2771]: DISPLAY NAME
+          - textbox "Your name" [ref=e2772]: Abel
+        - generic [ref=e2773]:
+          - paragraph [ref=e2774]: EMAIL
+          - textbox "your@email.com (optional)" [ref=e2775]
+          - paragraph [ref=e2776]: Used for future sync and account recovery.
+        - generic [ref=e2777]:
+          - paragraph [ref=e2778]: TITLE
+          - generic [ref=e2779]:
+            - generic [ref=e2780] [cursor=pointer]:
+              - radio "Seeker of Clarity" [checked] [ref=e2781]
+              - generic [ref=e2782]: Seeker of Clarity
+            - generic [ref=e2783] [cursor=pointer]:
+              - radio "Systems Architect" [ref=e2784]
+              - generic [ref=e2785]: Systems Architect
+            - generic [ref=e2786] [cursor=pointer]:
+              - radio "Creative Synthesist" [ref=e2787]
+              - generic [ref=e2788]: Creative Synthesist
+            - generic [ref=e2789] [cursor=pointer]:
+              - radio "Deep Worker" [ref=e2790]
+              - generic [ref=e2791]: Deep Worker
+            - generic [ref=e2792] [cursor=pointer]:
+              - radio "Knowledge Builder" [ref=e2793]
+              - generic [ref=e2794]: Knowledge Builder
+            - generic [ref=e2795] [cursor=pointer]:
+              - radio "Pattern Finder" [ref=e2796]
+              - generic [ref=e2797]: Pattern Finder
+            - generic [ref=e2798] [cursor=pointer]:
+              - radio "The Reflector" [ref=e2799]
+              - generic [ref=e2800]: The Reflector
+        - button "Save Profile" [ref=e2802] [cursor=pointer]
+  - generic [ref=e2804]:
+    - img
+    - generic [ref=e2805]:
+      - img
+      - img
+      - generic [ref=e2806] [cursor=pointer]:
+        - generic [ref=e2807]:
+          - img [ref=e2808]
+          - generic [ref=e2811]: ◉
+        - generic [ref=e2812]: HOME
+      - generic [ref=e2813] [cursor=pointer]:
+        - generic [ref=e2814]:
+          - img [ref=e2815]
+          - generic [ref=e2818]: ◈
+        - generic [ref=e2819]: ARCHIVE
+      - generic [ref=e2820] [cursor=pointer]:
+        - generic [ref=e2821]:
+          - img [ref=e2822]
+          - generic [ref=e2825]: ⊕
+        - generic [ref=e2826]: QUESTS
+      - generic [ref=e2827] [cursor=pointer]:
+        - generic [ref=e2828]:
+          - img [ref=e2829]
+          - generic [ref=e2832]: ⬡
+        - generic [ref=e2833]: FOCUS
+      - generic [ref=e2834] [cursor=pointer]:
+        - generic [ref=e2835]:
+          - img [ref=e2836]
+          - generic [ref=e2839]: ◇
+        - generic [ref=e2840]: GRAPH
+      - generic [ref=e2841] [cursor=pointer]:
+        - generic [ref=e2842]:
+          - img [ref=e2843]
+          - generic [ref=e2846]: ⟁
+        - generic [ref=e2847]: SKILLWEB
+      - generic [ref=e2848] [cursor=pointer]:
+        - generic [ref=e2849]:
+          - img [ref=e2850]
+          - generic [ref=e2853]: ◐
+        - generic [ref=e2854]: MEMORY
+      - generic [ref=e2855] [cursor=pointer]:
+        - generic [ref=e2856]:
+          - img [ref=e2857]
+          - generic [ref=e2860]: ◌
+        - generic [ref=e2861]: EGGS
+      - generic [ref=e2862] [cursor=pointer]:
+        - generic [ref=e2863]:
+          - img [ref=e2864]
+          - generic [ref=e2867]: ⬙
+        - generic [ref=e2868]: TROPHIES
+      - generic [ref=e2869] [cursor=pointer]:
+        - generic [ref=e2870]:
+          - img [ref=e2871]
+          - generic [ref=e2874]: ▣
+        - generic [ref=e2875]: EXHIBITION
+      - generic [ref=e2876] [cursor=pointer]:
+        - generic [ref=e2877]:
+          - img [ref=e2878]
+          - generic [ref=e2881]: ⊞
+        - generic [ref=e2882]: SETTINGS
+      - generic [ref=e2883]:
+        - img [ref=e2885]:
+          - generic [ref=e2887]: ⊞
+        - heading "SETTINGS" [level=2] [ref=e2888]
+        - paragraph [ref=e2890]: Configure Abel. Providers and preferences.
+        - button "OPEN" [ref=e2891] [cursor=pointer]:
+          - generic [ref=e2892]: OPEN
+          - img [ref=e2893]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

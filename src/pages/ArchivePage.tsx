@@ -95,8 +95,11 @@ export default function ArchivePage({ onNavigate }: Props) {
   const [input,            setInput]            = useState('');
   const [isTyping,         setIsTyping]         = useState(false);
   const [showProviderMenu, setShowProviderMenu] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [msgMenuId, setMsgMenuId] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const renameRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const activeThread = threads.find(t => t.id === activeThreadId) ?? null;
   const currentProvider = LLM_PROVIDERS.find(p => p.id === settings.llmProvider) ?? LLM_PROVIDERS[0];
@@ -261,6 +264,29 @@ export default function ArchivePage({ onNavigate }: Props) {
     }
   }
 
+  function copyMessage(content: string) {
+    navigator.clipboard.writeText(content).catch(() => undefined);
+    setMsgMenuId(null);
+  }
+
+  async function saveMessageToMemory(msg: ChatMessageRecord) {
+    await memoryService.create(DEMO_USER_ID, {
+      title: `Chat snippet — ${new Date(msg.createdAt).toLocaleDateString()}`,
+      content: msg.content,
+      type: 'document',
+      source: 'archive',
+      tags: ['chat', activeThreadId ?? ''],
+      confidence: 0.7,
+    });
+    setMsgMenuId(null);
+  }
+
+  function handleTextareaInput(e: React.FormEvent<HTMLTextAreaElement>) {
+    const el = e.currentTarget;
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, 180)}px`;
+  }
+
   // Ctrl+Shift+D toggles debug panel
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
@@ -276,14 +302,49 @@ export default function ArchivePage({ onNavigate }: Props) {
     return () => window.removeEventListener('keydown', h);
   }, []);
 
+  // Keyboard avoidance — update --keyboard-h when virtual keyboard appears (Week 11)
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () => {
+      const kbH = Math.max(0, window.innerHeight - vv.offsetTop - vv.height);
+      document.documentElement.style.setProperty('--keyboard-h', `${kbH}px`);
+    };
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    return () => { vv.removeEventListener('resize', update); vv.removeEventListener('scroll', update); };
+  }, []);
+
+  // Close message action menu on outside tap (Week 15)
+  useEffect(() => {
+    if (!msgMenuId) return;
+    const close = (e: MouseEvent | TouchEvent) => {
+      const menu = document.querySelector('[data-msg-actions]');
+      if (!menu || !menu.contains(e.target as Node)) setMsgMenuId(null);
+    };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('touchstart', close);
+    return () => { document.removeEventListener('mousedown', close); document.removeEventListener('touchstart', close); };
+  }, [msgMenuId]);
+
+  // Reset textarea height when input is cleared (Week 14)
+  useEffect(() => {
+    if (!input && textareaRef.current) textareaRef.current.style.height = '';
+  }, [input]);
+
   const isMockProvider = settings.llmProvider === 'mock';
 
   return (
     <div className="archive-page">
       <CinematicIdleBackplate src="/scene/archive/archive.mp4" pingPong={false} className="cib-archive" />
 
+      {/* Mobile sidebar backdrop — tap to close */}
+      {mobileSidebarOpen && (
+        <div className="archive-mob-backdrop" onClick={() => setMobileSidebarOpen(false)} />
+      )}
+
       {/* ── Sidebar ─────────────────────────────────────────────────────────── */}
-      <aside className="archive-sidebar">
+      <aside className={`archive-sidebar${mobileSidebarOpen ? ' archive-sidebar--mob-open' : ''}`}>
         <div className="archive-sidebar-top">
           <p className="archive-sidebar-eyebrow">THE ARCHIVE</p>
           <p className="archive-sidebar-subtitle" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.05rem', fontWeight: 300, fontStyle: 'italic', color: 'var(--text-2)', marginTop: '4px', marginBottom: '16px' }}>
@@ -328,7 +389,7 @@ export default function ArchivePage({ onNavigate }: Props) {
             <div
               key={t.id}
               className={`archive-thread-item ${t.id === activeThreadId ? 'archive-thread-item--active' : ''}`}
-              onClick={() => setActiveThreadId(t.id)}
+              onClick={() => { setActiveThreadId(t.id); setMobileSidebarOpen(false); }}
             >
               <span className="archive-thread-glyph">◈</span>
               <div className="archive-thread-body">
@@ -408,14 +469,24 @@ export default function ArchivePage({ onNavigate }: Props) {
 
         {/* Header */}
         <div className="archive-chamber-header">
-          <div>
-            <h2 className="archive-chamber-title">
-              {activeThread?.title ?? 'Select a Session'}
-            </h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* Mobile: open thread list drawer */}
+            <button
+              className="archive-mob-threads-btn"
+              onClick={() => setMobileSidebarOpen(true)}
+              aria-label="Open thread list"
+            >
+              ◈
+            </button>
+            <div>
+              <h2 className="archive-chamber-title">
+                {activeThread?.title ?? 'Select a Session'}
+              </h2>
               <p className="caption" style={{ marginTop: '3px', color: 'var(--text-4)' }}>
                 {messages.length} entries · {new Date().toLocaleDateString([], { month: 'long', day: 'numeric' })}
               </p>
             </div>
+          </div>
 
           <div className="archive-header-right">
               {/* Provider badge for real providers */}
@@ -507,9 +578,22 @@ export default function ArchivePage({ onNavigate }: Props) {
                     <MessageContent text={msg.content} quests={quests} onNavigate={onNavigate} onSendMessage={handleActionSend} />
                   ) : msg.content}
                 </p>
-                <p className="archive-msg-time">
-                  {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
+                <div className="archive-msg-footer">
+                  <p className="archive-msg-time">
+                    {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                  <button
+                    className="archive-msg-menu-btn"
+                    onClick={e => { e.stopPropagation(); setMsgMenuId(id => id === msg.id ? null : msg.id); }}
+                    aria-label="Message actions"
+                  >⋯</button>
+                </div>
+                {msgMenuId === msg.id && (
+                  <div className="archive-msg-actions" data-msg-actions="">
+                    <button onClick={() => copyMessage(msg.content)}>Copy</button>
+                    <button onClick={() => saveMessageToMemory(msg)}>→ Memory</button>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -533,10 +617,13 @@ export default function ArchivePage({ onNavigate }: Props) {
           )}
           <div className="archive-input-inner">
             <textarea
+              ref={textareaRef}
               className="archive-textarea"
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+              onInput={handleTextareaInput}
+              onFocus={() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' })}
               placeholder={activeThread ? 'Share a goal, insight, or question…' : 'Create or select a session to begin.'}
               rows={2}
               disabled={!activeThread}

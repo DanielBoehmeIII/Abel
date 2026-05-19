@@ -1,0 +1,181 @@
+- generic [ref=e2]:
+  - generic [ref=e3048]:
+    - generic [ref=e3049]:
+      - generic [ref=e3050]:
+        - paragraph [ref=e3051]: EXHIBITION OF CONSCIOUSNESS
+        - heading "Memory Exhibition" [level=1] [ref=e3052]:
+          - text: Memory
+          - text: Exhibition
+        - paragraph [ref=e3053]:
+          - text: 記憶は、わたしを持つくり、
+          - text: 未来を開こ示す。
+        - button "+ ENTER THE EXHIBIT" [ref=e3054] [cursor=pointer]
+      - generic [ref=e3055]:
+        - button "◉ Gratitude Moment 5/7/2026" [ref=e3056] [cursor=pointer]:
+          - generic [ref=e3057]: ◉
+          - generic [ref=e3058]:
+            - paragraph [ref=e3059]: Gratitude Moment
+            - paragraph [ref=e3060]: 5/7/2026
+        - button "★ Creative Breakthrough 5/4/2026" [ref=e3061] [cursor=pointer]:
+          - generic [ref=e3062]: ★
+          - generic [ref=e3063]:
+            - paragraph [ref=e3064]: Creative Breakthrough
+            - paragraph [ref=e3065]: 5/4/2026
+        - button "∿ Deep Work 4/29/2026" [ref=e3066] [cursor=pointer]:
+          - generic [ref=e3067]: ∿
+          - generic [ref=e3068]:
+            - paragraph [ref=e3069]: Deep Work
+            - paragraph [ref=e3070]: 4/29/2026
+        - button "◈ Meaningful Conversation 4/27/2026" [ref=e3071] [cursor=pointer]:
+          - generic [ref=e3072]: ◈
+          - generic [ref=e3073]:
+            - paragraph [ref=e3074]: Meaningful Conversation
+            - paragraph [ref=e3075]: 4/27/2026
+        - button "◇ Quiet Realizations 4/24/2026" [ref=e3076] [cursor=pointer]:
+          - generic [ref=e3077]: ◇
+          - generic [ref=e3078]:
+            - paragraph [ref=e3079]: Quiet Realizations
+            - paragraph [ref=e3080]: 4/24/2026
+        - button "◇ First Light 4/20/2026" [ref=e3081] [cursor=pointer]:
+          - generic [ref=e3082]: ◇
+          - generic [ref=e3083]:
+            - paragraph [ref=e3084]: First Light
+            - paragraph [ref=e3085]: 4/20/2026
+      - generic [ref=e3088]:
+        - paragraph [ref=e3089]: Abel
+        - paragraph [ref=e3090]: The Architect
+    - generic:
+      - img:
+        - generic [ref=e3097] [cursor=pointer]:
+          - generic: First Light
+        - generic [ref=e3100] [cursor=pointer]:
+          - generic: Quiet Realizatio
+        - generic [ref=e3103] [cursor=pointer]:
+          - generic: Meaningful Conve
+        - generic [ref=e3106] [cursor=pointer]:
+          - generic: Deep Work
+        - generic [ref=e3109] [cursor=pointer]:
+          - generic: Creative Breakth
+        - generic [ref=e3112] [cursor=pointer]:
+          - generic: Gratitude Moment
+      - generic [ref=e3122]:
+        - generic [ref=e3123]:
+          - generic [ref=e3124]: "6"
+          - generic [ref=e3125]: MEMORIES
+        - generic [ref=e3126]:
+          - generic [ref=e3127]: "2"
+          - generic [ref=e3128]: BREAKTHROUGHS
+        - generic [ref=e3129]:
+          - generic [ref=e3130]: "1"
+          - generic [ref=e3131]: FLOW MOMENTS
+        - generic [ref=e3132]:
+          - generic [ref=e3133]: "4"
+          - generic [ref=e3134]: TROPHIES
+    - generic [ref=e3135]:
+      - generic [ref=e3136]:
+        - generic [ref=e3137]: ◉
+        - paragraph [ref=e3138]: FEATURED EXHIBIT
+      - heading "Gratitude Moment" [level=2] [ref=e3139]
+      - generic [ref=e3140]:
+        - generic [ref=e3141]: ◉ confidence
+        - generic [ref=e3142]: ↺ resilience
+      - paragraph [ref=e3143]: "Paused mid-session to notice how much had changed in the last six weeks. The practice is working. The system is holding. Felt something rare: trust in the direction."
+      - paragraph [ref=e3144]: "Tone: Grateful"
+      - generic [ref=e3145]:
+        - paragraph [ref=e3146]: EFFECT ON ARCHETYPE
+        - paragraph [ref=e3147]:
+          - text: Contributes evidence for
+          - strong [ref=e3148]: The Architect
+      - paragraph [ref=e3149]: May 7, 2026
+      - button "View Trophy" [ref=e3151] [cursor=pointer]
+      - paragraph [ref=e3152]:
+        - text: "\"We do not remember to escape."
+        - text: We remember to become."
+  - generic [ref=e3154]:
+    - img
+    - generic [ref=e3155]:
+      - img
+      - img
+      - generic [ref=e3156] [cursor=pointer]:
+        - generic [ref=e3157]:
+          - img [ref=e3158]
+          - generic [ref=e3161]: ◉
+        - generic [ref=e3162]: HOME
+      - generic [ref=e3163] [cursor=pointer]:
+        - generic [ref=e3164]:
+          - img [ref=e3165]
+          - generic [ref=e3168]: ◈
+        - generic [ref=e3169]: ARCHIVE
+      - generic [ref=e3170] [cursor=pointer]:
+        - generic [ref=e3171]:
+          - img [ref=e3172]
+          - generic [ref=e3175]: ⊕
+        - generic [ref=e3176]: QUESTS
+      - generic [ref=e3177] [cursor=pointer]:
+        - generic [ref=e3178]:
+          - img [ref=e3179]
+          - generic [ref=e3182]: ⬡
+        - generic [ref=e3183]: FOCUS
+      - generic [ref=e3184] [cursor=pointer]:
+        - generic [ref=e3185]:
+          - img [ref=e3186]
+          - generic [ref=e3189]: ◇
+        - generic [ref=e3190]: GRAPH
+      - generic [ref=e3191] [cursor=pointer]:
+        - generic [ref=e3192]:
+          - img [ref=e3193]
+          - generic [ref=e3196]: ⟁
+        - generic [ref=e3197]: SKILLWEB
+      - generic [ref=e3198] [cursor=pointer]:
+        - generic [ref=e3199]:
+          - img [ref=e3200]
+          - generic [ref=e3203]: ◐
+        - generic [ref=e3204]: MEMORY
+      - generic [ref=e3205] [cursor=pointer]:
+        - generic [ref=e3206]:
+          - img [ref=e3207]
+          - generic [ref=e3210]: ◌
+        - generic [ref=e3211]: EGGS
+      - generic [ref=e3212] [cursor=pointer]:
+        - generic [ref=e3213]:
+          - img [ref=e3214]
+          - generic [ref=e3217]: ⬙
+        - generic [ref=e3218]: TROPHIES
+      - generic [ref=e3219] [cursor=pointer]:
+        - generic [ref=e3220]:
+          - img [ref=e3221]
+          - generic [ref=e3224]: ▣
+        - generic [ref=e3225]: EXHIBITION
+      - generic [ref=e3226] [cursor=pointer]:
+        - generic [ref=e3227]:
+          - img [ref=e3228]
+          - generic [ref=e3231]: ⊞
+        - generic [ref=e3232]: SETTINGS
+      - generic [ref=e3233]:
+        - img [ref=e3235]:
+          - generic [ref=e3237]: ▣
+        - heading "EXHIBITION" [level=2] [ref=e3238]
+        - paragraph [ref=e3240]: Memory museum. Who you are becoming.
+        - button "OPEN" [ref=e3241] [cursor=pointer]:
+          - generic [ref=e3242]: OPEN
+          - img [ref=e3243]
+    - generic:
+      - generic:
+        - generic:
+          - generic: Navigate your universe.
+          - generic: Everything is connected.
+      - generic:
+        - generic: ↑ ↓ ← →
+        - generic: Navigate
+        - generic: Enter
+        - generic: Select
+        - generic: Esc
+        - generic: Back
+      - generic:
+        - generic: Synced
+        - generic: All systems operational
+  - generic [ref=e113]:
+    - button "Navigator (Esc)" [active] [ref=e114] [cursor=pointer]:
+      - img [ref=e115]
+    - generic [ref=e119]: Nav
+  - button "Feedback" [ref=e121] [cursor=pointer]

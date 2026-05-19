@@ -3,6 +3,7 @@ import type { PageId } from '../types/abel';
 import { memoryService } from '../db/services/memoryService';
 import { DEMO_USER_ID } from '../db/services/userService';
 import type { MemoryRecord, MemoryType } from '../db/schema';
+import { useIsMobile } from '../hooks/useIsMobile';
 import './MemoryPage.css';
 
 interface Props { onNavigate: (page: PageId) => void; }
@@ -54,6 +55,9 @@ export default function MemoryPage({ onNavigate }: Props) {
   const [savedNotice,  setSavedNotice]  = useState<string | null>(null);
   const [rev,          setRev]          = useState(0);
 
+  const isMobile = useIsMobile();
+  const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
+
   const refresh = () => setRev(r => r + 1);
 
   useEffect(() => {
@@ -76,12 +80,14 @@ export default function MemoryPage({ onNavigate }: Props) {
     setTagInput('');
     setEditing(true);
     setIsNew(true);
+    if (isMobile) setMobileView('detail');
   }
 
   function openDetail(m: MemoryRecord) {
     setSelected(m);
     setEditing(false);
     setIsNew(false);
+    if (isMobile) setMobileView('detail');
   }
 
   function openEdit(m: MemoryRecord) {
@@ -130,18 +136,21 @@ export default function MemoryPage({ onNavigate }: Props) {
     await memoryService.archive(DEMO_USER_ID, m.id);
     setSelected(null);
     refresh();
+    if (isMobile) setMobileView('list');
   }
 
   async function handleDelete(m: MemoryRecord) {
     await memoryService.delete(DEMO_USER_ID, m.id);
     setSelected(null);
     refresh();
+    if (isMobile) setMobileView('list');
   }
 
   function cancelEdit() {
     setEditing(false);
     setIsNew(false);
     if (isNew) setSelected(null);
+    if (isMobile) setMobileView('list');
   }
 
   return (

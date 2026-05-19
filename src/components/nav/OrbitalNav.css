@@ -1,8 +1,9 @@
 /* ── Overlay ─────────────────────────────────────────────────── */
 .orbital-overlay {
   position: fixed; inset: 0; z-index: 999;
-  /* nav.png fills the scene — its edge gray IS the background */
-  background: transparent;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(70,40,120,0.10), transparent 55%),
+    rgba(5,5,18,0.97);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   opacity: 0;
@@ -10,16 +11,11 @@
 }
 .orbital-overlay--in { opacity: 1; }
 
-/* ── Full scene wrapper — nav.png covers the entire scene ────── */
+/* ── Full scene wrapper — dark minimal canvas ───────────────── */
 .orbital-scene {
   position: relative;
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
-  background-image: url('/backplates/nav.png');
-  background-position: center center;
-  background-repeat: no-repeat;
-  /* Scale to cover viewport — sphere lands center, gray fills edges */
-  background-size: cover;
 }
 
 /* ── Stars ──────────────────────────────────────────────────── */
@@ -60,6 +56,15 @@
   z-index: 2;
 }
 
+/* ── Connector overlay SVG — pixel-accurate lines ──────────── */
+.orbital-connector {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
 /* ── Nav nodes ──────────────────────────────────────────────── */
 .orbital-node {
   position: absolute;
@@ -73,33 +78,60 @@
   transform: translate(calc(-50% + var(--nx)), calc(-50% + var(--ny))) scale(1.12);
 }
 
-.orbital-node-halo {
-  position: absolute;
-  width: 72px; height: 72px; border-radius: 50%;
-  background: transparent;
-  transition: background 0.25s;
-  pointer-events: none;
-}
-.orbital-node--selected .orbital-node-halo {
-  background: radial-gradient(circle, rgba(139,92,246,0.38) 0%, transparent 65%);
-  box-shadow: 0 0 32px rgba(139,92,246,0.45), 0 0 64px rgba(139,92,246,0.18);
-  width: 82px; height: 82px;
-}
-
-.orbital-node-dot {
-  width: 52px; height: 52px;
-  display: flex; align-items: center; justify-content: center;
+.orbital-icon-target {
   position: relative;
-  transition: filter 0.2s, transform 0.2s;
+  width: 52px; height: 52px;
+  flex-shrink: 0;
   color: rgba(130,120,170,0.70);
 }
-.orbital-node--selected .orbital-node-dot {
+.orbital-node--selected .orbital-icon-target {
   color: rgba(139,92,246,1);
-  filter: drop-shadow(0 0 10px rgba(139,92,246,0.90)) drop-shadow(0 0 24px rgba(139,92,246,0.45));
 }
-.orbital-node--current .orbital-node-dot {
+.orbital-node--current .orbital-icon-target {
   color: rgba(34,211,238,0.90);
-  filter: drop-shadow(0 0 8px rgba(34,211,238,0.70));
+}
+
+/* ── Glow rings: fixed-size, opacity+scale only transitions ── */
+.orbital-node-hover-ring,
+.orbital-node-active-ring,
+.orbital-node-current-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+/* Hover ring — subtle purple glow on mouse hover */
+.orbital-node-hover-ring {
+  box-shadow: 0 0 20px rgba(139,92,246,0.30), 0 0 50px rgba(139,92,246,0.10);
+  border: 1px solid rgba(139,92,246,0.15);
+}
+.orbital-node:hover .orbital-node-hover-ring {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* Active ring — strong purple glow when selected/hover-targeted */
+.orbital-node-active-ring {
+  box-shadow: 0 0 28px rgba(139,92,246,0.50), 0 0 64px rgba(139,92,246,0.20);
+  border: 1.5px solid rgba(139,92,246,0.30);
+}
+.orbital-node--selected .orbital-node-active-ring {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+/* Current page ring — cyan glow for the active page */
+.orbital-node-current-ring {
+  box-shadow: 0 0 18px rgba(34,211,238,0.35), 0 0 44px rgba(34,211,238,0.12);
+  border: 1px solid rgba(34,211,238,0.20);
+}
+.orbital-node--current .orbital-node-current-ring {
+  opacity: 1;
 }
 
 .orbital-node-shape {
@@ -107,9 +139,12 @@
 }
 
 .orbital-node-glyph {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
   font-size: 1.0rem;
   color: inherit;
-  position: relative; z-index: 1;
   transition: color 0.2s;
 }
 
@@ -289,22 +324,49 @@
   to   { opacity: 1; transform: translateY(-50%) scale(1); }
 }
 
-@keyframes hub-pulse {
-  0%, 100% { box-shadow: 0 0 32px rgba(139,92,246,0.55), 0 0 90px rgba(139,92,246,0.18), inset 0 0 24px rgba(139,92,246,0.16); }
-  50%       { box-shadow: 0 0 48px rgba(139,92,246,0.75), 0 0 120px rgba(139,92,246,0.28), inset 0 0 32px rgba(139,92,246,0.22); }
+/* ── Mobile responsive ───────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Scale the 700px orbital container to fit a phone viewport.
+     At 390px: 358 / 700 ≈ 0.51. Use 0.50 for safe clearance. */
+  .orbital-container {
+    transform: scale(0.50);
+    transform-origin: center center;
+  }
+
+  /* The scene needs extra bottom space for the hints bar */
+  .orbital-scene {
+    overflow: hidden;
+  }
+
+  /* Info panel: move below the (scaled) container instead of right */
+  .orbital-info {
+    position: absolute;
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 68px; /* above hints bar */
+    transform: translateX(-50%);
+    width: min(280px, 88vw);
+    animation: fadeInScaleMob 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Hints bar: strip to essentials, drop keyboard hints */
+  .orbital-hints {
+    padding: 10px 16px;
+  }
+  .orbital-hints-center,
+  .orbital-hints-right {
+    display: none;
+  }
+  .orbital-hints-left {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
-@keyframes ring-expand {
-  0%   { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(1.35); opacity: 0; }
+@keyframes fadeInScaleMob {
+  from { opacity: 0; transform: translateX(-50%) scale(0.92); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
-@keyframes nebula-drift {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50%       { transform: translate(-48%, -52%) scale(1.08); }
-}
 
-@keyframes nebula-shift {
-  0%, 100% { transform: translate(-50%, -50%); }
-  50%       { transform: translate(-54%, -46%); }
-}

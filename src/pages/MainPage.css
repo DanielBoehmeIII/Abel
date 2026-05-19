@@ -373,3 +373,87 @@
 .main-page--in-transition .main-footer {
   pointer-events: none;
 }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Collapse heavy header padding */
+  .main-header {
+    padding: 16px var(--space-4);
+  }
+
+  /* Nav strip becomes a horizontal scroll row */
+  .main-nav-strip {
+    gap: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .main-nav-strip::-webkit-scrollbar { display: none; }
+
+  /* Hero: full-width column, vertically centered with room for header */
+  .main-hero {
+    position: relative;
+    top: auto; left: auto;
+    transform: none;
+    max-width: 100%;
+    padding: 80px var(--space-4) var(--space-8);
+    z-index: 20;
+  }
+
+  /* Stack the whole page content in a column */
+  .main-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Right panel: move below hero, full width */
+  .main-info-right {
+    position: relative;
+    top: auto; right: auto;
+    transform: none;
+    width: 100%;
+    padding: 0 var(--space-4) var(--space-8);
+    z-index: 20;
+  }
+
+  /* Portal: shrink and center */
+  .main-portal {
+    position: relative;
+    left: auto; top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    align-self: center;
+    margin: 0 auto var(--space-6);
+  }
+
+  /* 3D scene: full-width background, reduced height so hero is readable */
+  .main-scene {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 0.45;
+  }
+
+  /* Footer stat bar: wrap, smaller touch targets respected via min-height */
+  .main-footer {
+    position: relative;
+    bottom: auto; left: auto; right: auto;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: var(--space-4) var(--space-4) calc(var(--space-4) + var(--safe-bottom));
+  }
+
+  /* Veil: stronger left edge so hero text is always readable */
+  .main-veil {
+    background:
+      linear-gradient(180deg,
+        rgba(6,6,16,0.72) 0%,
+        rgba(6,6,16,0.55) 30%,
+        rgba(6,6,16,0.30) 60%,
+        rgba(6,6,16,0.60) 100%
+      );
+  }
+}

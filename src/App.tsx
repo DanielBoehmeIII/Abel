@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import type { PageId } from './types/abel';
 import { AbelProvider } from './state/AbelProvider';
 import OrbitalNav from './components/nav/OrbitalNav';
+import MobileBottomNav from './components/nav/MobileBottomNav';
+import { useIsMobile } from './hooks/useIsMobile';
 import PageTransition from './components/ui/PageTransition';
 import MainPage from './pages/MainPage';
 import ArchivePage from './pages/ArchivePage';
@@ -22,6 +24,7 @@ import { trackEvent } from './lib/analytics';
 function AppInner() {
   const [page, setPage]       = useState<PageId>('main');
   const [navOpen, setNavOpen] = useState(false);
+  const isMobile              = useIsMobile();
 
   const navigate = useCallback((id: PageId) => {
     trackEvent('navigate', { page: id });
@@ -61,6 +64,7 @@ function AppInner() {
         {page === 'memory'     && <MemoryPage   {...shared} />}
       </PageTransition>
 
+      {/* Orbital nav — desktop primary nav; on mobile serves as "all pages" overlay */}
       {navOpen && (
         <OrbitalNav
           currentPage={page}
@@ -69,6 +73,7 @@ function AppInner() {
         />
       )}
 
+      {/* Desktop orbit trigger — hidden on mobile via CSS */}
       <div className="global-nav">
         <button className="global-nav-btn" onClick={openNav} title="Navigator (Esc)">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -83,6 +88,11 @@ function AppInner() {
         </button>
         <span className="global-nav-label">Nav</span>
       </div>
+
+      {/* Mobile bottom navigation — shown only on phone/small tablet */}
+      {isMobile && (
+        <MobileBottomNav currentPage={page} onNavigate={navigate} />
+      )}
 
       <OnboardingFlow onNavigate={navigate} />
       <FeedbackWidget />
