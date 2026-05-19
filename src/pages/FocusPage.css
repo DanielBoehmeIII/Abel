@@ -261,8 +261,10 @@
   .focus-config {
     grid-template-columns: 1fr;
     gap: 20px;
-    padding: 24px 16px 80px;
+    padding: 24px 16px calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + 24px);
     min-height: auto;
   }
   .focus-modes { grid-template-columns: 1fr 1fr; }
+  /* Timer display: smaller font on narrow screens */
+  .focus-timer-display { font-size: clamp(4rem, 18vw, 7rem); }
 }

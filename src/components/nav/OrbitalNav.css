@@ -157,9 +157,13 @@
 .orbital-node--current  .orbital-node-label { color: rgba(34,211,238,0.80); }
 
 /* ── Info panel ─────────────────────────────────────────────── */
+/* Panel is now a sibling of .orbital-container inside .orbital-scene,
+   so positioning is relative to the scene (viewport-sized), not the scaled container. */
 .orbital-info {
   position: absolute;
-  right: -296px; top: 50%;
+  /* Sit to the right of the 700px container which is centered in the scene */
+  left: calc(50% + 394px);
+  top: 50%;
   transform: translateY(-50%);
   width: 252px;
   padding: 30px 26px;
@@ -326,47 +330,46 @@
 
 /* ── Mobile responsive ───────────────────────────────────────── */
 @media (max-width: 767px) {
-  /* Scale the 700px orbital container to fit a phone viewport.
-     At 390px: 358 / 700 ≈ 0.51. Use 0.50 for safe clearance. */
+  /* Scale the 700px orbital container to fit a phone viewport */
   .orbital-container {
-    transform: scale(0.50);
+    transform: scale(0.62);
     transform-origin: center center;
+    /* Push up slightly so info bar at bottom doesn't overlap orbit */
+    margin-bottom: 80px;
   }
 
-  /* The scene needs extra bottom space for the hints bar */
-  .orbital-scene {
-    overflow: hidden;
-  }
+  .orbital-scene { overflow: hidden; }
 
-  /* Info panel: move below the (scaled) container instead of right */
+  /* Info panel: full-width bottom bar — outside the scaled container so
+     position: absolute anchors to .orbital-scene (viewport-sized), not the scaled box */
   .orbital-info {
     position: absolute;
-    right: auto;
-    left: 50%;
-    top: auto;
-    bottom: 68px; /* above hints bar */
-    transform: translateX(-50%);
-    width: min(280px, 88vw);
-    animation: fadeInScaleMob 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+    bottom: 0; left: 0; right: 0; top: auto;
+    transform: none;
+    width: auto;
+    border-radius: 20px 20px 0 0;
+    border-top: 1px solid rgba(139,92,246,0.30);
+    border-left: none; border-right: none; border-bottom: none;
+    padding: 18px 20px calc(var(--safe-bottom, 0px) + 16px);
+    animation: slideUpInfoBar 0.32s cubic-bezier(0.16,1,0.3,1) both;
   }
 
-  /* Hints bar: strip to essentials, drop keyboard hints */
-  .orbital-hints {
-    padding: 10px 16px;
-  }
-  .orbital-hints-center,
-  .orbital-hints-right {
-    display: none;
-  }
-  .orbital-hints-left {
-    width: 100%;
-    justify-content: center;
-  }
+  /* Compact layout inside the bar: icon hidden, content inline */
+  .orbital-info-icon { display: none; }
+
+  .orbital-info-title { font-size: 1.1rem; margin-bottom: 6px; }
+
+  .orbital-info-accent { margin-bottom: 10px; }
+
+  .orbital-info-desc { margin-bottom: 14px; font-size: 0.78rem; }
+
+  /* Hide the hints bar — info panel covers this area */
+  .orbital-hints { display: none; }
 }
 
-@keyframes fadeInScaleMob {
-  from { opacity: 0; transform: translateX(-50%) scale(0.92); }
-  to   { opacity: 1; transform: translateX(-50%) scale(1); }
+@keyframes slideUpInfoBar {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 

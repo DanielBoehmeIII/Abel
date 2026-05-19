@@ -123,3 +123,19 @@
 .feedback-tab {
   box-shadow: 0 10px 28px rgba(0,0,0,0.35);
 }
+
+@media (max-width: 767px) {
+  .feedback-widget {
+    top: 12px;
+    right: 12px;
+    bottom: auto;
+  }
+  .feedback-panel {
+    width: min(280px, calc(100vw - 24px));
+  }
+  .feedback-tab {
+    font-size: 0.58rem;
+    padding: 5px 9px;
+    letter-spacing: 0.06em;
+  }
+}

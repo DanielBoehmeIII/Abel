@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useAbel } from '../state/useAbel';
+import { useIsMobile } from '../hooks/useIsMobile';
 import type { PageId, SkillNode } from '../types/abel';
 import GlowButton from '../components/common/GlowButton';
 import './SkillwebPage.css';
@@ -554,7 +555,9 @@ export default function SkillwebPage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { skills, eggs, quests } = state;
 
+  const isMobile = useIsMobile();
   const [selectedId,    setSelectedId]    = useState<string | null>(null);
+  const [sheetOpen,     setSheetOpen]     = useState(false);
   const [unlockedIds,   setUnlockedIds]   = useState<Set<string>>(new Set(INITIALLY_UNLOCKED));
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [showDebug,     setShowDebug]     = useState(false);
@@ -588,17 +591,18 @@ export default function SkillwebPage({ onNavigate }: Props) {
 
   function handleNodeClick(id: string) {
     if (selectedId === id) {
-      setSelectedId(null); setWaveIds([]); setWavePhase(0);
+      setSelectedId(null); setWaveIds([]); setWavePhase(0); setSheetOpen(false);
       if (waveRef.current) { cancelAnimationFrame(waveRef.current); waveRef.current = null; }
       return;
     }
     setSelectedId(id);
     setShowBoost(false);
+    if (isMobile) setSheetOpen(true);
     triggerWave(getWavePath(nodes, edges, id));
   }
 
   function handleDeselect() {
-    setSelectedId(null); setWaveIds([]); setWavePhase(0);
+    setSelectedId(null); setWaveIds([]); setWavePhase(0); setSheetOpen(false);
     if (waveRef.current) { cancelAnimationFrame(waveRef.current); waveRef.current = null; }
   }
 
@@ -637,8 +641,8 @@ export default function SkillwebPage({ onNavigate }: Props) {
 
         <div className="sw-panel-inner">
 
-          {/* Left: focus */}
-          <div className="sw-panel-focus">
+          {/* Left: focus / bottom sheet on mobile */}
+          <div className={`sw-panel-focus${isMobile && sheetOpen ? ' sw-panel-focus--open' : ''}`}>
             {selected ? (
               <>
                 <p className="sw-focus-eyebrow">CURRENT FOCUS</p>

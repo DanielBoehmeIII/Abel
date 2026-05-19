@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAbel } from '../state/useAbel';
+import { useIsMobile } from '../hooks/useIsMobile';
 import type { PageId, Quest, QuestType } from '../types/abel';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
@@ -136,9 +137,11 @@ const DIFF_LABELS = ['', '■', '■■', '■■■', '■■■■', '■■�
 export default function QuestsPage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { quests, journeys, skills } = state;
+  const isMobile = useIsMobile();
   const [filter, setFilter] = useState<Quest['status'] | 'all'>('all');
   const [selected, setSelected] = useState<Quest | null>(quests.find(q => q.status === 'active') ?? null);
   const [atlasNodeId, setAtlasNodeId] = useState<string | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const activeJourney = journeys.find(j => j.active) ?? journeys[0];
 
@@ -182,17 +185,20 @@ export default function QuestsPage({ onNavigate }: Props) {
       const meta = ATLAS_NODE_META[newId];
       if (meta && !meta.questTypes.includes(selected.type)) setSelected(null);
     }
-    if (!newId) setSelected(null);
+    if (!newId) { setSelected(null); setSheetOpen(false); }
+    if (isMobile && newId && newId !== 'core') setSheetOpen(true);
   }
 
   function handleQuestClick(q: Quest) {
     setSelected(q);
     setAtlasNodeId(QUEST_TYPE_TO_ATLAS[q.type]);
+    if (isMobile) setSheetOpen(true);
   }
 
   function clearSelection() {
     setAtlasNodeId(null);
     setSelected(null);
+    setSheetOpen(false);
   }
 
   function completeQuest(q: Quest) {
@@ -305,8 +311,16 @@ export default function QuestsPage({ onNavigate }: Props) {
         />
       </div>
 
-      {/* Col 3: Right — always-visible context panel */}
-      <div className="quests-right">
+      {/* Backdrop for bottom sheet */}
+      {isMobile && sheetOpen && (
+        <div className="quests-sheet-backdrop" onClick={clearSelection} />
+      )}
+
+      {/* Col 3: Right — always-visible context panel / bottom sheet on mobile */}
+      <div className={`quests-right${isMobile && sheetOpen ? ' quests-right--open' : ''}`}>
+        {isMobile && (
+          <button className="quests-sheet-close-btn" onClick={clearSelection} aria-label="Close panel">×</button>
+        )}
 
         {/* Atlas Overview — no atlas selection */}
         {rightMode === 'overview' && (

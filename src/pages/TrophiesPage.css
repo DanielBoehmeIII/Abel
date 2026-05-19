@@ -120,6 +120,18 @@
   background: rgba(139,92,246,0.06);
 }
 
+.trophies-source-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.trophies-earned-date {
+  margin-top: 12px;
+  color: var(--text-4);
+}
+
 .trophies-empty {
   display: flex; align-items: center; justify-content: center;
   height: 100%;
@@ -210,3 +222,128 @@
   text-align: center; margin: 5px 0 3px; line-height: 1.3;
 }
 .trophies-cell-rarity { font-size: 0.55rem; }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Stack to single column; clear bottom nav */
+  .trophies-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 57%) minmax(0, 43%);
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
+  }
+
+  /* Stage: compact height, let vault show below */
+  .trophies-stage {
+    min-height: 0;
+    padding: 42px 16px 14px;
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .trophies-stage-eyebrow { top: 16px; left: 16px; }
+
+  .trophies-object {
+    max-width: 310px;
+    min-height: 0;
+  }
+
+  /* Halos: smaller on mobile */
+  .trophies-halo--outer { width: 190px; height: 190px; top: -44px; }
+  .trophies-halo--inner { width: 118px; height: 118px; top: -10px; }
+  .trophies-orbit-ring  { width: 128px; height: 128px; top: -4px; }
+
+  .trophies-model svg {
+    width: 118px;
+    height: 118px;
+  }
+
+  .trophies-object-info {
+    margin-top: 16px;
+  }
+
+  .trophies-object-name {
+    font-size: 1.45rem;
+    line-height: 1.12;
+    margin-bottom: 8px;
+  }
+
+  .trophies-object-desc {
+    max-width: 280px;
+    margin: 0 auto;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .trophies-object-origin,
+  .trophies-source-row,
+  .trophies-earned-date {
+    display: none;
+  }
+
+  /* Vault: fill remaining space, scrollable grid */
+  .trophies-vault {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    min-height: 0;
+    max-height: none;
+  }
+
+  .trophies-vault-header {
+    align-items: center;
+    gap: 12px;
+    padding: 14px 12px 12px;
+  }
+
+  .trophies-vault-title {
+    font-size: 1.35rem;
+    line-height: 1.05;
+  }
+
+  .trophies-vault-header .glow-btn {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding-inline: 14px;
+    white-space: nowrap;
+  }
+
+  .trophies-filter-row { padding: 8px 12px; }
+
+  .trophies-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    padding: 12px;
+  }
+
+  /* Filter tabs: horizontal scroll */
+  .trophies-filter-row {
+    flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .trophies-filter-row::-webkit-scrollbar { display: none; }
+
+  .trophies-cell {
+    min-height: 158px;
+    padding: 10px 6px 8px;
+    border-radius: 9px;
+  }
+
+  .trophies-cell svg {
+    width: 68px;
+    height: 68px;
+  }
+
+  .trophies-cell-name {
+    min-height: 32px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 0.62rem;
+    line-height: 1.18;
+  }
+
+  .trophies-cell-rarity {
+    max-width: 100%;
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+}

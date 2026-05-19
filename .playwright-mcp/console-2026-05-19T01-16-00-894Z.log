@@ -110,3 +110,683 @@
 [ 1356848ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
 [ 1360909ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
 [ 1360909ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8196934ms] [WARNING] <link rel=preload> uses an unsupported `as` value @ http://localhost:5173/:23
+[ 8197057ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=aeaa89c6:14337
+[ 8349342ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8349342ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8349378ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8349378ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8351939ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8351939ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8351971ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8351971ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8357287ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8357287ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8357312ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8357313ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8360150ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8360150ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8360179ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8360179ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8367231ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8367231ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8367257ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8367257ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8371318ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8371318ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8375378ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8375378ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8379447ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8379448ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8383473ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8383473ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8387489ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8387489ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8391509ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8391509ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8395541ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8395541ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8399562ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8399563ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8403592ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8403592ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8407639ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8407639ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8411644ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8411644ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8415695ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8415695ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8419754ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8419754ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8423836ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8423836ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8427882ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8427883ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8431938ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8431938ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8435982ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8435982ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8440032ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8440032ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8444091ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8444091ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8448136ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8448136ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8452168ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8452168ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8456227ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8456227ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8460267ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8460267ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8464341ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8464341ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8468409ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8468409ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8472477ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8472477ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8476539ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8476540ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8480602ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8480603ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8484657ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8484657ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8488728ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8488728ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8492778ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8492778ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8496837ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8496837ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8500899ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8500899ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8504949ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8504949ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8509010ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8509010ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8513053ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8513053ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8517111ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8517111ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8521175ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8521175ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8525221ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8525221ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8529287ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8529287ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8533349ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8533349ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8537417ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8537417ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8541496ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8541498ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8548881ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8548881ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8548917ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8548917ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8664672ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8664672ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8664716ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8664716ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8666732ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8666732ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8666772ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8666772ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8680721ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8680721ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8680767ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8680767ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8686039ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8686039ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8686089ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8686089ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8692626ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8692626ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8692663ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8692663ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8695058ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8695058ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8695080ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8695080ms] [LOG] [CinematicIdleBackplate] canplay /scene/settings/settings.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8966573ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/exhibition/exhibition.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8966573ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/exhibition/exhibition.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 8966613ms] [LOG] [CinematicIdleBackplate] canplay /scene/exhibition/exhibition.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 8966613ms] [LOG] [CinematicIdleBackplate] canplay /scene/exhibition/exhibition.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9037999ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 9037999ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 9038040ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9038040ms] [LOG] [CinematicIdleBackplate] canplay /scene/archive/archive.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9042489ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 9042489ms] [LOG] [CinematicIdleBackplate] loadedmetadata /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:15
+[ 9042527ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9042527ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9050618ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9050618ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9058691ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9058691ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9066772ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9066773ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9074856ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9074856ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9082944ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9082944ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9091022ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9091022ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9099096ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9099096ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9107174ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9107175ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9115254ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9115254ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9123337ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9123337ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9131407ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9131407ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9139494ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9139494ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9147569ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9147569ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9155659ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9155659ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9163742ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9163742ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9171822ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9171822ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9179892ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9179892ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9187965ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9187965ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9196053ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9196053ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9204147ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9204147ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9212222ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9212223ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9220297ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9220297ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9228370ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9228370ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9236459ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9236459ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9244529ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9244530ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9252611ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9252611ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9260698ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9260698ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9268791ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9268791ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9276867ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9276867ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9284962ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9284962ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9293060ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9293060ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9301141ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9301141ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9309208ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9309208ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9317292ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9317292ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9325323ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9325323ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9333386ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9333386ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9341411ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9341411ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9349474ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9349474ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9357517ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9357517ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9365597ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9365597ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9373614ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9373614ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9381652ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9381652ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9389691ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9389691ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9397720ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9397720ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9405755ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9405755ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9413811ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9413811ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9421883ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9421883ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9429913ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9429913ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9437984ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9437984ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9446034ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9446034ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9454109ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9454109ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9462131ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9462131ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9470150ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9470150ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9478171ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9478171ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9486202ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9486203ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9494215ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9494215ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9502285ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9502285ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9510362ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9510362ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9518440ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9518440ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9526498ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9526499ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9534574ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9534574ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9542645ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9542646ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9550707ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9550707ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9558763ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9558763ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9566822ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9566822ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9574879ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9574879ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9582923ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9582923ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9590990ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9590990ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9599071ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9599071ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9607136ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9607136ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9615212ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9615212ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9623286ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9623286ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9631320ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9631320ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9639373ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9639374ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9647394ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9647394ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9655463ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9655463ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9663528ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9663528ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9671604ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9671604ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9679677ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9679677ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9687747ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9687747ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9695803ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9695803ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9703855ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9703855ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9711896ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9711897ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9719935ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9719935ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9727952ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9727952ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9736024ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9736025ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9744056ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9744057ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9752081ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9752081ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9760144ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9760144ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9768192ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9768192ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9776226ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9776226ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9784261ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9784261ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9792288ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9792288ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9800331ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9800331ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9808350ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9808351ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9816367ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9816367ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9824385ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9824385ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9832416ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9832416ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9840428ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9840428ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9848467ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9848467ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9856491ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9856491ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9864508ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9864508ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9872527ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9872527ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9880551ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9880552ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9888579ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9888579ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9896597ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9896598ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9904617ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9904617ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9912684ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9912684ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9920755ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9920755ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9928805ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9928805ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9936866ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9936866ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9944943ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9944943ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9953020ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9953020ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9961093ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9961093ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9969171ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9969171ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9977202ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9977202ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9985267ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9985267ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9993286ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[ 9993286ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10001371ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10001371ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10009409ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10009409ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10017504ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10017504ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10025528ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10025528ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10033557ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10033557ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10041588ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10041589ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10049645ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10049645ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10057718ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10057719ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10065795ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10065795ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10073813ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10073813ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10081834ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10081834ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10089849ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10089849ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10097873ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10097876ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10105938ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10105938ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10113968ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10113968ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10122002ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10122003ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10130083ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10130083ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10138102ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10138102ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10146144ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10146144ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10154176ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10154176ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10162255ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10162255ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10170334ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10170334ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10178411ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10178411ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10186434ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10186434ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10194462ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10194462ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10202534ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10202534ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10210607ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10210607ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10218699ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10218699ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10226776ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10226776ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10234793ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10234793ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10242870ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10242870ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10250939ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10250939ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10259017ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10259017ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10267066ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10267066ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10275112ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10275112ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10283134ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10283134ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10291162ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10291162ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10299191ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10299192ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10307227ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10307227ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10315298ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10315298ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10323375ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10323375ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10331454ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10331454ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10339523ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10339523ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10347614ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10347614ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10355666ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10355666ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10363684ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10363684ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10371753ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10371753ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10379823ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10379823ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10387890ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10387890ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10395911ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10395911ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10403965ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10403965ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10411990ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10411991ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10420041ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10420041ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10428112ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10428112ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10436133ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10436133ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10444208ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10444209ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10452268ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10452268ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10460309ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10460309ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10468377ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10468377ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10476434ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10476434ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10484469ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10484469ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10492549ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10492549ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10500621ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10500621ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10508674ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10508674ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10516752ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10516752ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10524826ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10524826ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10532863ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10532864ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10540903ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10540903ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10548940ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10548940ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10557012ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10557013ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10565054ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10565054ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10573096ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10573096ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10581140ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10581140ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10589209ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10589209ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10597274ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10597274ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10605356ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10605356ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10613431ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10613431ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10621463ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10621463ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10629537ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10629537ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10637611ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10637611ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10645651ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10645651ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10653706ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10653706ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10661779ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10661779ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10669855ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10669855ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10677931ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10677931ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10686003ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10686004ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10694083ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10694083ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10702143ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10702143ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10710209ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10710209ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10718282ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10718282ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10726346ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10726346ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10734363ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10734363ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10742439ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10742439ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10750526ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10750526ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10758578ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10758578ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10766655ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10766657ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10774724ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10774724ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10782789ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10782789ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10790859ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10790859ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10798935ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10798935ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10807001ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10807001ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10815067ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10815067ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10823140ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10823140ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10831192ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10831192ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10839226ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10839229ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10847271ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10847271ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10855326ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10855326ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10863366ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10863366ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10871430ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10871430ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10879506ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10879506ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10887578ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10887578ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10895643ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10895643ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10903716ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10903716ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10911790ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10911790ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10919856ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10919856ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10927918ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10927923ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10935993ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10935993ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10944064ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10944064ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10952134ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10952134ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10960204ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10960204ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10968278ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10968278ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10976346ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10976350ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10984441ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10984445ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10992500ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[10992500ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11000572ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11000573ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11008634ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11008634ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11016700ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11016701ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11024762ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11024762ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11032829ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11032829ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11040894ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11040895ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11048973ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11048973ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11057047ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11057047ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11065079ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11065079ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11073150ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11073150ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11081220ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11081220ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11089289ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11089289ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11097332ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11097332ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11105392ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11105392ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11113461ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11113461ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11121489ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11121490ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11129563ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11129563ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11137614ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11137614ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11145649ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11145649ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11153730ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11153730ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11161806ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11161806ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11169896ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11169897ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11177984ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11177984ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11186016ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16
+[11186016ms] [LOG] [CinematicIdleBackplate] canplay /scene/focus/focus.mp4 @ http://localhost:5173/src/components/abel/CinematicIdleBackplate.tsx:16

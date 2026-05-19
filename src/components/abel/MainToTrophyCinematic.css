@@ -2,6 +2,7 @@
 .mtc-section {
   height: 260vh;
   position: relative;
+  flex: 0 0 260vh;
 }
 
 /* ── Sticky viewport ─────────────────────────────────────────── */

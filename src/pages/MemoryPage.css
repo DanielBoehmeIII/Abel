@@ -632,10 +632,115 @@
 .mem-cancel-btn:hover { color: rgba(200, 175, 255, 0.75); border-color: rgba(139, 92, 246, 0.35); }
 .mem-cancel-btn:active { transform: scale(0.97); }
 
+/* ── Back button (mobile-only) ───────────────────────────────────────────── */
+
+.mem-back-btn {
+  background: none;
+  border: none;
+  color: rgba(200,185,255,0.55);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.18s;
+}
+.mem-back-btn:hover { color: rgba(220,210,255,0.90); }
+
+/* ── FAB (mobile quick-capture) ──────────────────────────────────────────── */
+
+.mem-fab {
+  position: fixed;
+  bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + 16px);
+  right: 20px;
+  z-index: 80;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(139,92,246,0.82), rgba(100,60,220,0.72));
+  border: 1px solid rgba(139,92,246,0.52);
+  color: rgba(255,255,255,0.95);
+  font-size: 1.6rem;
+  line-height: 1;
+  box-shadow: 0 6px 24px rgba(139,92,246,0.38), 0 2px 8px rgba(0,0,0,0.35);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.mem-fab:hover { transform: scale(1.06); box-shadow: 0 8px 32px rgba(139,92,246,0.50); }
+.mem-fab:active { transform: scale(0.94); }
+
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  /* Single-view layout: show list OR detail, not both stacked */
   .memory-page { flex-direction: column; }
-  .mem-sidebar { width: 100%; max-width: 100%; min-width: unset; height: 45vh; border-right: none; border-bottom: 1px solid rgba(139, 92, 246, 0.14); }
-  .mem-detail, .mem-form { padding: 24px 20px 40px; }
+
+  .mem-sidebar {
+    width: 100%; max-width: 100%; min-width: unset;
+    height: 100%; flex: 1;
+    border-right: none; border-bottom: none;
+  }
+  .mem-sidebar--mob-hidden { display: none; }
+  .mem-main--mob-hidden    { display: none; }
+
+  /* Sidebar header — safe-area aware */
+  .mem-sidebar-header {
+    padding: 20px 16px 12px;
+    padding-top: max(20px, calc(var(--safe-top, 0px) + 14px));
+  }
+
+  /* Type tabs — horizontal scroll strip (Week 18) */
+  .mem-type-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 16px 0;
+    gap: 6px;
+  }
+  .mem-type-tabs::-webkit-scrollbar { display: none; }
+  .mem-type-tab { flex-shrink: 0; padding: 4px 10px; }
+
+  /* List — bottom padding for FAB + nav */
+  .mem-list {
+    padding-bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + 68px);
+  }
+
+  /* Main panel — full height when showing detail/form */
+  .mem-main { flex: 1; height: 100%; overflow-y: auto; }
+
+  /* Detail — keyboard-safe, full width (Week 19) */
+  .mem-detail {
+    padding: 16px 16px calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + 24px);
+    padding-top: max(16px, var(--safe-top, 0px));
+    max-width: 100%;
+  }
+
+  /* Detail header stacks on narrow screens */
+  .mem-detail-header { flex-direction: column; gap: 12px; }
+  .mem-detail-actions { padding-top: 0; flex-wrap: wrap; }
+
+  /* Form — keyboard-safe (Week 19) */
+  .mem-form {
+    padding: 16px 16px calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + 24px);
+    padding-top: max(16px, var(--safe-top, 0px));
+    max-width: 100%;
+  }
+
+  /* Shorter textarea on mobile */
+  .mem-textarea { min-height: 130px; }
+
+  /* Type pills — touch friendly */
+  .mem-type-pill { padding: 6px 14px; min-height: 36px; }
+
+  /* Form actions — full-width stack */
+  .mem-form-actions { flex-direction: column; gap: 10px; }
+  .mem-save-btn, .mem-cancel-btn { width: 100%; text-align: center; padding: 13px; justify-content: center; }
+}
+
+@media (min-width: 768px) {
+  .mem-back-btn { display: none; }
+  .mem-fab      { display: none; }
 }

@@ -123,6 +123,33 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Scroll containment ────────────────────────────────────────────────────── */
+/* Prevent pull-to-refresh / overscroll bleed on scrollable panels */
+[class*="-list"], [class*="-col"], [class*="-grid"],
+[class*="-vault"], [class*="-sidebar"], [class*="-panel"] {
+  overscroll-behavior: contain;
+}
+
+/* ─── Touch feedback ────────────────────────────────────────────────────────── */
+button, a, [role="button"], [tabindex] {
+  touch-action: manipulation;
+}
+@media (max-width: 767px) {
+  button:active, a:active, [role="button"]:active {
+    transform: scale(0.96);
+    transition: transform 0.08s ease;
+  }
+  /* Cards and large tap targets */
+  .quests-card:active,
+  .exhibition-mem-row:active,
+  .mem-type-tab:active,
+  .focus-mode-card:active {
+    transform: scale(0.98);
+    transition: transform 0.08s ease;
+  }
 }
 
 /* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
@@ -346,10 +373,17 @@ input, textarea, select { font-family: inherit; }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  /* Entrance animations: skip to final state instantly */
+  .animate-fade-in, .animate-fade-in-scale, .animate-fade-in-up {
+    animation-duration: 0.01ms !important;
+  }
+  /* Looping animations: stop */
   .animate-float, .animate-float-slow,
   .animate-pulse-glow, .animate-glow-breathe,
   .animate-spin-slow, .animate-spin-reverse,
   .animate-shimmer { animation: none; }
+  /* Transitions: instant */
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
 
 /* ─── Status & Rarity pills ──────────────────────────────────────────────────── */

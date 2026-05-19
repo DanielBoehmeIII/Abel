@@ -1,0 +1,66 @@
+- generic [ref=e2]:
+  - generic [ref=e271]:
+    - complementary [ref=e272]:
+      - button "Profile" [ref=e273] [cursor=pointer]
+      - button "AI Config" [ref=e274] [cursor=pointer]
+      - button "LLM Provider" [ref=e275] [cursor=pointer]
+      - button "Themes" [ref=e276] [cursor=pointer]
+      - button "Preferences" [ref=e277] [cursor=pointer]
+      - button "Memory" [ref=e278] [cursor=pointer]
+      - button "Sync Jobs" [ref=e279] [cursor=pointer]
+      - button "Data & Privacy" [ref=e280] [cursor=pointer]
+      - button "Admin" [ref=e281] [cursor=pointer]
+      - button "Accessibility" [ref=e282] [cursor=pointer]
+    - main [ref=e283]:
+      - generic [ref=e284]:
+        - paragraph [ref=e285]: IDENTITY
+        - heading "Profile" [level=2] [ref=e286]
+        - generic [ref=e287]:
+          - paragraph [ref=e288]: DISPLAY NAME
+          - textbox "Your name" [ref=e289]: Abel
+        - generic [ref=e290]:
+          - paragraph [ref=e291]: EMAIL
+          - textbox "your@email.com (optional)" [ref=e292]
+          - paragraph [ref=e293]: Used for future sync and account recovery.
+        - generic [ref=e294]:
+          - paragraph [ref=e295]: TITLE
+          - generic [ref=e296]:
+            - generic [ref=e297] [cursor=pointer]:
+              - radio "Seeker of Clarity" [checked] [ref=e298]
+              - generic [ref=e299]: Seeker of Clarity
+            - generic [ref=e300] [cursor=pointer]:
+              - radio "Systems Architect" [ref=e301]
+              - generic [ref=e302]: Systems Architect
+            - generic [ref=e303] [cursor=pointer]:
+              - radio "Creative Synthesist" [ref=e304]
+              - generic [ref=e305]: Creative Synthesist
+            - generic [ref=e306] [cursor=pointer]:
+              - radio "Deep Worker" [ref=e307]
+              - generic [ref=e308]: Deep Worker
+            - generic [ref=e309] [cursor=pointer]:
+              - radio "Knowledge Builder" [ref=e310]
+              - generic [ref=e311]: Knowledge Builder
+            - generic [ref=e312] [cursor=pointer]:
+              - radio "Pattern Finder" [ref=e313]
+              - generic [ref=e314]: Pattern Finder
+            - generic [ref=e315] [cursor=pointer]:
+              - radio "The Reflector" [ref=e316]
+              - generic [ref=e317]: The Reflector
+        - button "Save Profile" [ref=e319] [cursor=pointer]
+  - navigation "Mobile navigation" [ref=e94]:
+    - button "Home" [ref=e95] [cursor=pointer]:
+      - generic [ref=e96]: ◉
+      - generic [ref=e97]: Home
+    - button "Chat" [ref=e98] [cursor=pointer]:
+      - generic [ref=e99]: ◈
+      - generic [ref=e100]: Chat
+    - button "Quests" [ref=e101] [cursor=pointer]:
+      - generic [ref=e102]: ⊕
+      - generic [ref=e103]: Quests
+    - button "Memory" [ref=e104] [cursor=pointer]:
+      - generic [ref=e105]: ◐
+      - generic [ref=e106]: Memory
+    - button "More pages" [ref=e107] [cursor=pointer]:
+      - generic [ref=e108]: +
+      - generic [ref=e109]: More
+  - button "Feedback" [ref=e111] [cursor=pointer]

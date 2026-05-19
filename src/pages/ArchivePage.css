@@ -798,6 +798,7 @@
   /* Single-column: sidebar becomes a slide-in drawer */
   .archive-page {
     grid-template-columns: 1fr;
+    bottom: var(--keyboard-h, 0px);
   }
 
   /* Sidebar: hidden off-screen left, slides in when open */
@@ -870,8 +871,31 @@
   .archive-msg-actions button { min-height: 40px; padding: 9px 14px; }
 }
 
+/* ── Drawer close button (mobile-only) ────────────────────────────────────── */
+.archive-mob-close-btn {
+  background: none;
+  border: none;
+  color: rgba(200,185,255,0.45);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  position: absolute;
+  top: 16px; right: 14px;
+  width: var(--touch-min, 44px);
+  height: var(--touch-min, 44px);
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.15s, background 0.15s;
+}
+.archive-mob-close-btn:hover {
+  color: rgba(220,210,255,0.88);
+  background: rgba(139,92,246,0.12);
+}
+
 /* Desktop: hide mobile-only elements */
 @media (min-width: 768px) {
   .archive-mob-backdrop { display: none; }
   .archive-mob-threads-btn { display: none; }
+  .archive-mob-close-btn { display: none; }
 }

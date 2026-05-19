@@ -1,0 +1,151 @@
+- generic [ref=e2]:
+  - region "Cinematic transition to Trophy Vault" [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - generic [ref=e11]: ABEL
+          - navigation [ref=e12]:
+            - button "CHAT" [ref=e13] [cursor=pointer]
+            - button "MEMORY" [ref=e14] [cursor=pointer]
+            - button "GRAPH" [ref=e15] [cursor=pointer]
+            - button "SETTINGS" [ref=e16] [cursor=pointer]
+        - main [ref=e17]:
+          - paragraph [ref=e18]: ABEL OS
+          - heading "A living system that remembers, dreams, and becomes." [level=1] [ref=e19]:
+            - text: A living system
+            - text: that remembers,
+            - emphasis [ref=e20]: dreams,
+            - text: and becomes.
+          - button "START A CHAT" [ref=e21] [cursor=pointer]:
+            - generic [ref=e22]: START A CHAT
+            - img [ref=e23]
+          - generic [ref=e25]:
+            - button "Import memory" [ref=e26] [cursor=pointer]
+            - button "View atlas" [ref=e28] [cursor=pointer]
+            - button "Tune Abel" [ref=e30] [cursor=pointer]
+          - text: ↓ MORE
+        - complementary [ref=e31]:
+          - generic [ref=e32] [cursor=pointer]:
+            - paragraph [ref=e34]: SYSTEM STATUS
+            - paragraph [ref=e36]: HARMONIC
+            - paragraph [ref=e58]: The Architect
+            - text: VIEW →
+          - generic [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]:
+              - paragraph [ref=e61]: RECENT MEMORY
+              - generic [ref=e62]: ▣
+            - paragraph [ref=e63]: Gratitude Moment
+            - paragraph [ref=e64]: Paused mid-session to notice how much had changed in the last six we…
+            - text: VIEW →
+          - generic [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]:
+              - paragraph [ref=e67]: ACTIVE QUEST
+              - generic [ref=e68]: ⊕
+            - paragraph [ref=e69]: Synthesize Three Insights
+            - paragraph [ref=e70]: Take three separate learnings and write a short synthesis conn…
+            - text: VIEW →
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e74]: A
+            - generic [ref=e75]:
+              - paragraph [ref=e76]: Abel
+              - paragraph [ref=e77]: Seeker of Clarity
+          - generic [ref=e78]:
+            - button "35% MASTERY" [ref=e79] [cursor=pointer]:
+              - generic [ref=e80]: 35%
+              - generic [ref=e81]: MASTERY
+            - button "3 QUESTS" [ref=e82] [cursor=pointer]:
+              - generic [ref=e83]: "3"
+              - generic [ref=e84]: QUESTS
+            - button "10 GRAPH NODES" [ref=e85] [cursor=pointer]:
+              - generic [ref=e86]: "10"
+              - generic [ref=e87]: GRAPH NODES
+            - button "6 MEMORIES" [ref=e88] [cursor=pointer]:
+              - generic [ref=e89]: "6"
+              - generic [ref=e90]: MEMORIES
+          - button "LATEST Obsidian Compass earned" [ref=e91] [cursor=pointer]:
+            - paragraph [ref=e92]: LATEST
+            - paragraph [ref=e93]: Obsidian Compass earned
+      - img
+      - generic:
+        - generic: TROPHY VAULT
+        - heading [level=2]: Artifacts of Your Journey
+        - paragraph: What you earn becomes visible.
+        - paragraph: 4 collected
+        - button [ref=e94] [cursor=pointer]: Enter Vault →
+  - navigation "Mobile navigation" [ref=e95]:
+    - button "Home" [ref=e96] [cursor=pointer]:
+      - generic [ref=e97]: ◉
+      - generic [ref=e98]: Home
+    - button "Chat" [ref=e99] [cursor=pointer]:
+      - generic [ref=e100]: ◈
+      - generic [ref=e101]: Chat
+    - button "Quests" [ref=e102] [cursor=pointer]:
+      - generic [ref=e103]: ⊕
+      - generic [ref=e104]: Quests
+    - button "Memory" [ref=e105] [cursor=pointer]:
+      - generic [ref=e106]: ◐
+      - generic [ref=e107]: Memory
+    - button "Settings" [ref=e108] [cursor=pointer]:
+      - generic [ref=e109]: ⊞
+      - generic [ref=e110]: Settings
+  - dialog "Abel onboarding" [ref=e111]:
+    - generic [ref=e112]:
+      - complementary [ref=e113]:
+        - generic [ref=e114]: ABEL
+        - generic [ref=e115]:
+          - button "Intelligence" [ref=e116] [cursor=pointer]:
+            - generic [ref=e117]: ◉
+            - generic [ref=e118]: Intelligence
+          - button "Identity" [ref=e119] [cursor=pointer]:
+            - generic [ref=e120]: ◈
+            - generic [ref=e121]: Identity
+          - button "Voice" [ref=e122] [cursor=pointer]:
+            - generic [ref=e123]: ◇
+            - generic [ref=e124]: Voice
+          - button "Memory" [ref=e125] [cursor=pointer]:
+            - generic [ref=e126]: ◐
+            - generic [ref=e127]: Memory
+          - button "Atlas" [ref=e128] [cursor=pointer]:
+            - generic [ref=e129]: ⬡
+            - generic [ref=e130]: Atlas
+          - button "First Signal" [ref=e131] [cursor=pointer]:
+            - generic [ref=e132]: ◈
+            - generic [ref=e133]: First Signal
+      - main [ref=e134]:
+        - generic [ref=e135]:
+          - generic [ref=e136]: ◉
+          - generic [ref=e137]: Intelligence
+        - generic [ref=e138]:
+          - heading "Choose your intelligence." [level=2] [ref=e139]
+          - paragraph [ref=e140]: Select which AI powers Abel's planning, reflection, and memory synthesis. You can switch at any time in Settings.
+          - generic [ref=e141]:
+            - radio "◉ Claude RECOMMENDED Anthropic Claude via API. Best for synthesis and deep reflection." [ref=e142] [cursor=pointer]:
+              - generic [ref=e143]:
+                - generic [ref=e144]: ◉
+                - generic [ref=e145]:
+                  - paragraph [ref=e146]: Claude
+                  - generic [ref=e147]: RECOMMENDED
+              - paragraph [ref=e148]: Anthropic Claude via API. Best for synthesis and deep reflection.
+            - radio "⊕ ChatGPT OpenAI ChatGPT via API. Strong generalist reasoning and planning." [ref=e149] [cursor=pointer]:
+              - generic [ref=e150]:
+                - generic [ref=e151]: ⊕
+                - paragraph [ref=e153]: ChatGPT
+              - paragraph [ref=e154]: OpenAI ChatGPT via API. Strong generalist reasoning and planning.
+            - radio "⬡ Local Model Run a local LLM (Ollama etc.) for full privacy and offline use." [ref=e155] [cursor=pointer]:
+              - generic [ref=e156]:
+                - generic [ref=e157]: ⬡
+                - paragraph [ref=e159]: Local Model
+              - paragraph [ref=e160]: Run a local LLM (Ollama etc.) for full privacy and offline use.
+            - radio "◈ Mock Abel Built-in offline simulation. No API key needed. Deterministic responses." [checked] [ref=e161] [cursor=pointer]:
+              - generic [ref=e162]:
+                - generic [ref=e163]: ◈
+                - paragraph [ref=e165]: Mock Abel
+              - paragraph [ref=e166]: Built-in offline simulation. No API key needed. Deterministic responses.
+          - generic [ref=e167]:
+            - paragraph [ref=e168]: Mock Abel uses built-in deterministic responses. No API key or configuration needed.
+            - paragraph [ref=e169]: You can switch to a real provider in Settings at any time.
+        - generic [ref=e170]:
+          - button "Skip for now" [ref=e171] [cursor=pointer]
+          - button "Continue" [ref=e172] [cursor=pointer]
+  - button "Feedback" [ref=e174] [cursor=pointer]

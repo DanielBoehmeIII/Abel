@@ -1,0 +1,175 @@
+- generic [ref=e2]:
+  - generic [ref=e410]:
+    - complementary [ref=e411]:
+      - generic [ref=e412]:
+        - generic [ref=e413]: ◈
+        - generic [ref=e414]:
+          - paragraph [ref=e415]: KNOWLEDGE GRAPH
+          - paragraph [ref=e416]: Core Graph
+      - generic [ref=e417]:
+        - button "Goal" [ref=e418] [cursor=pointer]:
+          - generic [ref=e420]: Goal
+        - button "Concept" [ref=e421] [cursor=pointer]:
+          - generic [ref=e423]: Concept
+        - button "Conversation" [ref=e424] [cursor=pointer]:
+          - generic [ref=e426]: Conversation
+        - button "Journal" [ref=e427] [cursor=pointer]:
+          - generic [ref=e429]: Journal
+        - button "Quest" [ref=e430] [cursor=pointer]:
+          - generic [ref=e432]: Quest
+        - button "Skill" [ref=e433] [cursor=pointer]:
+          - generic [ref=e435]: Skill
+        - button "Memory" [ref=e436] [cursor=pointer]:
+          - generic [ref=e438]: Memory
+      - generic [ref=e439]:
+        - generic [ref=e442]: supports
+        - generic [ref=e445]: relates-to
+        - generic [ref=e448]: part-of
+        - generic [ref=e451]: unlocks
+    - generic [ref=e452]:
+      - generic [ref=e453]:
+        - generic [ref=e454]:
+          - generic [ref=e455]: Workspace
+          - generic [ref=e456]: /
+          - generic [ref=e457]: Core Graph
+        - generic [ref=e458]:
+          - button "Memory" [ref=e459] [cursor=pointer]
+          - button "Chat" [ref=e460] [cursor=pointer]
+          - button "Settings" [ref=e461] [cursor=pointer]
+          - textbox "Search nodes, links, tags…" [ref=e462]
+      - generic [ref=e463]:
+        - generic [ref=e464]:
+          - img
+          - generic [ref=e465] [cursor=pointer]:
+            - generic [ref=e466]:
+              - generic [ref=e468]: ✦
+              - generic [ref=e469]:
+                - generic [ref=e470]: Core Purpose
+                - generic [ref=e471]: Goal
+              - generic [ref=e472]: "5"
+            - paragraph [ref=e473]: Building tools that amplify human creativity and clarity.
+            - generic [ref=e474]:
+              - generic [ref=e475]: purpose
+              - generic [ref=e476]: vision
+              - generic [ref=e477]: guiding-star
+          - generic [ref=e478] [cursor=pointer]:
+            - generic [ref=e479]:
+              - generic [ref=e481]: ⬡
+              - generic [ref=e482]:
+                - generic [ref=e483]: Projects OS
+                - generic [ref=e484]: Concept
+              - generic [ref=e485]: "3"
+            - paragraph [ref=e486]: Designing Abel as a connected memory operating system.
+            - generic [ref=e487]:
+              - generic [ref=e488]: Docs
+              - generic [ref=e489]: v3
+          - generic [ref=e490] [cursor=pointer]:
+            - generic [ref=e491]:
+              - generic [ref=e493]: ◉
+              - generic [ref=e494]:
+                - generic [ref=e495]: ChatGPT Conversations
+                - generic [ref=e496]: Conversation
+              - generic [ref=e497]: "2"
+            - paragraph [ref=e498]: Key discussions about projects, ideas, and problem solving.
+            - generic [ref=e499]:
+              - generic [ref=e500]: ai
+              - generic [ref=e501]: design
+          - generic [ref=e502] [cursor=pointer]:
+            - generic [ref=e503]:
+              - generic [ref=e505]: ◉
+              - generic [ref=e506]:
+                - generic [ref=e507]: Claude Conversations
+                - generic [ref=e508]: Conversation
+              - generic [ref=e509]: "2"
+            - paragraph [ref=e510]: Deep dives and reflections on philosophy and systems.
+            - generic [ref=e511]:
+              - generic [ref=e512]: ai
+              - generic [ref=e513]: research
+          - generic [ref=e514] [cursor=pointer]:
+            - generic [ref=e515]:
+              - generic [ref=e517]: ▣
+              - generic [ref=e518]:
+                - generic [ref=e519]: "Journal: May 12"
+                - generic [ref=e520]: Journal
+              - generic [ref=e521]: "1"
+            - paragraph [ref=e522]: Reflection on focus, energy, and the week ahead.
+            - generic [ref=e523]:
+              - generic [ref=e524]: journal
+              - generic [ref=e525]: reflection
+          - generic [ref=e526] [cursor=pointer]:
+            - generic [ref=e527]:
+              - generic [ref=e529]: ◎
+              - generic [ref=e530]:
+                - generic [ref=e531]: Build Knowledge Graph
+                - generic [ref=e532]: Quest
+              - generic [ref=e533]: "3"
+            - paragraph [ref=e534]: Create a visualization of my knowledge base with real-time connections.
+            - generic [ref=e535]:
+              - generic [ref=e536]: Quest
+              - generic [ref=e537]: In Progress
+          - generic [ref=e538] [cursor=pointer]:
+            - generic [ref=e539]:
+              - generic [ref=e541]: ⟨⟩
+              - generic [ref=e542]:
+                - generic [ref=e543]: Systems Thinking
+                - generic [ref=e544]: Skill
+              - generic [ref=e545]: "3"
+            - paragraph [ref=e546]: Skill in understanding complex systems and feedback loops.
+            - generic [ref=e547]:
+              - generic [ref=e548]: skill
+              - generic [ref=e549]: mental-model
+          - generic [ref=e550] [cursor=pointer]:
+            - generic [ref=e551]:
+              - generic [ref=e553]: ⬡
+              - generic [ref=e554]:
+                - generic [ref=e555]: Design Principles
+                - generic [ref=e556]: Concept
+              - generic [ref=e557]: "3"
+            - paragraph [ref=e558]: Key principles for building intuitive and powerful tools.
+            - generic [ref=e559]:
+              - generic [ref=e560]: design
+              - generic [ref=e561]: principles
+          - generic [ref=e562] [cursor=pointer]:
+            - generic [ref=e563]:
+              - generic [ref=e565]: ⟨⟩
+              - generic [ref=e566]:
+                - generic [ref=e567]: Focus & Flow
+                - generic [ref=e568]: Skill
+              - generic [ref=e569]: "1"
+            - paragraph [ref=e570]: Notes on maintaining deep work and creative momentum.
+            - generic [ref=e571]:
+              - generic [ref=e572]: skill
+              - generic [ref=e573]: flow
+          - generic [ref=e574] [cursor=pointer]:
+            - generic [ref=e575]:
+              - generic [ref=e577]: ✦
+              - generic [ref=e578]:
+                - generic [ref=e579]: Long-term Goals
+                - generic [ref=e580]: Goal
+              - generic [ref=e581]: "1"
+            - paragraph [ref=e582]: Five-year vision for work, craft, and contribution.
+            - generic [ref=e583]:
+              - generic [ref=e584]: vision
+              - generic [ref=e585]: goal
+        - generic [ref=e586]:
+          - button "+" [ref=e587] [cursor=pointer]
+          - generic [ref=e588]: 80%
+          - button "−" [ref=e589] [cursor=pointer]
+          - button "⊞" [ref=e590] [cursor=pointer]
+  - navigation "Mobile navigation" [ref=e94]:
+    - button "Home" [ref=e95] [cursor=pointer]:
+      - generic [ref=e96]: ◉
+      - generic [ref=e97]: Home
+    - button "Chat" [ref=e98] [cursor=pointer]:
+      - generic [ref=e99]: ◈
+      - generic [ref=e100]: Chat
+    - button "Quests" [ref=e101] [cursor=pointer]:
+      - generic [ref=e102]: ⊕
+      - generic [ref=e103]: Quests
+    - button "Memory" [ref=e104] [cursor=pointer]:
+      - generic [ref=e105]: ◐
+      - generic [ref=e106]: Memory
+    - button "More pages" [ref=e107] [cursor=pointer]:
+      - generic [ref=e108]: +
+      - generic [ref=e109]: More
+  - button "Feedback" [ref=e111] [cursor=pointer]

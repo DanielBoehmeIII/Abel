@@ -1,0 +1,58 @@
+- generic [ref=e2]:
+  - generic [ref=e200]:
+    - generic [ref=e201]:
+      - paragraph [ref=e202]: TROPHY VAULT
+      - generic [ref=e203]:
+        - img [ref=e205]
+        - generic [ref=e209]:
+          - heading "Obsidian Compass" [level=2] [ref=e210]
+          - generic [ref=e211]: mythic
+          - paragraph [ref=e212]: Forged through relentless discipline. Points toward what matters.
+    - generic [ref=e213]:
+      - generic [ref=e214]:
+        - generic [ref=e215]:
+          - heading "Artifacts of Your Journey" [level=1] [ref=e216]:
+            - text: Artifacts
+            - text: of Your Journey
+          - paragraph [ref=e217]: 4 collected
+        - button "HATCH MORE →" [ref=e218] [cursor=pointer]
+      - generic [ref=e219]:
+        - button "all" [ref=e220] [cursor=pointer]
+        - button "legendary" [ref=e221] [cursor=pointer]
+        - button "mythic" [ref=e222] [cursor=pointer]
+        - button "rare" [ref=e223] [cursor=pointer]
+        - button "common" [ref=e224] [cursor=pointer]
+      - generic [ref=e225]:
+        - button "Obsidian Compass mythic" [ref=e226] [cursor=pointer]:
+          - img [ref=e227]
+          - paragraph [ref=e231]: Obsidian Compass
+          - generic [ref=e232]: mythic
+        - button "Lumen Seed rare" [ref=e233] [cursor=pointer]:
+          - img [ref=e234]
+          - paragraph [ref=e239]: Lumen Seed
+          - generic [ref=e240]: rare
+        - button "Glass Moth rare" [ref=e241] [cursor=pointer]:
+          - img [ref=e242]
+          - paragraph [ref=e246]: Glass Moth
+          - generic [ref=e247]: rare
+        - button "Quiet Star common" [ref=e248] [cursor=pointer]:
+          - img [ref=e249]
+          - paragraph [ref=e254]: Quiet Star
+          - generic [ref=e255]: common
+  - navigation "Mobile navigation" [ref=e182]:
+    - button "Home" [ref=e183] [cursor=pointer]:
+      - generic [ref=e184]: ◉
+      - generic [ref=e185]: Home
+    - button "Chat" [ref=e186] [cursor=pointer]:
+      - generic [ref=e187]: ◈
+      - generic [ref=e188]: Chat
+    - button "Quests" [ref=e189] [cursor=pointer]:
+      - generic [ref=e190]: ⊕
+      - generic [ref=e191]: Quests
+    - button "Memory" [ref=e192] [cursor=pointer]:
+      - generic [ref=e193]: ◐
+      - generic [ref=e194]: Memory
+    - button "More pages" [ref=e195] [cursor=pointer]:
+      - generic [ref=e196]: +
+      - generic [ref=e197]: More
+  - button "Feedback" [ref=e199] [cursor=pointer]

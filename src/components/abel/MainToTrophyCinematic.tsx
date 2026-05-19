@@ -198,7 +198,10 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
 
       // Phase 4: trophy arrival UI (p 0.78–0.92)
       if (trophyUiRef.current) {
-        trophyUiRef.current.style.opacity = String(clamp((p - 0.78) / 0.14, 0, 1));
+        const trophyUiOpacity = clamp((p - 0.78) / 0.14, 0, 1);
+        trophyUiRef.current.style.opacity = String(trophyUiOpacity);
+        trophyUiRef.current.style.pointerEvents = trophyUiOpacity > 0.85 ? 'auto' : 'none';
+        trophyUiRef.current.setAttribute('aria-hidden', trophyUiOpacity > 0.85 ? 'false' : 'true');
       }
 
       onProgressRef.current?.(p);
@@ -352,7 +355,6 @@ export default function MainToTrophyCinematic({ children, onProgress, onNavigate
           {onNavigate && (
             <button
               className="mtc-trophy-cta"
-              style={{ pointerEvents: 'auto' }}
               onClick={() => onNavigate('trophies')}
             >
               Enter Vault →

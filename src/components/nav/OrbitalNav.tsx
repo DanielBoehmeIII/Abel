@@ -248,32 +248,32 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
             );
           })}
 
-          {/* Info panel */}
-          <div className="orbital-info" key={selected}>
-            <div className="orbital-info-icon">
-              <svg width="56" height="56" viewBox="-28 -28 56 56">
-                <polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11"
-                  fill="rgba(139,92,246,0.14)"
-                  stroke="rgba(139,92,246,0.65)" strokeWidth="1.4"
-                />
-                <text x="0" y="1" textAnchor="middle" dominantBaseline="central"
-                  fill="rgba(200,175,255,0.92)" fontSize="18"
-                  fontFamily="var(--font-sans)">
-                  {selectedNode.glyph}
-                </text>
-              </svg>
-            </div>
-            <h2 className="orbital-info-title">{selectedNode.label.toUpperCase()}</h2>
-            <div className="orbital-info-accent" />
-            <p className="orbital-info-desc">{selectedNode.description}</p>
-            <button className="orbital-open-btn" onClick={() => onNavigate(selected)}>
-              <span>OPEN</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-          </div>
+        </div>
 
+        {/* Info panel — outside .orbital-container so it isn't affected by scale(0.62) on mobile */}
+        <div className="orbital-info" key={selected}>
+          <div className="orbital-info-icon">
+            <svg width="56" height="56" viewBox="-28 -28 56 56">
+              <polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11"
+                fill="rgba(139,92,246,0.14)"
+                stroke="rgba(139,92,246,0.65)" strokeWidth="1.4"
+              />
+              <text x="0" y="1" textAnchor="middle" dominantBaseline="central"
+                fill="rgba(200,175,255,0.92)" fontSize="18"
+                fontFamily="var(--font-sans)">
+                {selectedNode.glyph}
+              </text>
+            </svg>
+          </div>
+          <h2 className="orbital-info-title">{selectedNode.label.toUpperCase()}</h2>
+          <div className="orbital-info-accent" />
+          <p className="orbital-info-desc">{selectedNode.description}</p>
+          <button className="orbital-open-btn" onClick={() => onNavigate(selected)}>
+            <span>OPEN</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
 
         {/* Bottom hints bar */}

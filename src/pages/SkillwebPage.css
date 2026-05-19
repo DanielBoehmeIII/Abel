@@ -338,7 +338,12 @@
 
 /* ── Mobile responsive ──────────────────────────────────────── */
 @media (max-width: 767px) {
-  /* Collapse hero padding */
+  /* Clear bottom nav */
+  .sw-page {
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
+  }
+
+  /* Compact hero */
   .sw-hero {
     padding: 16px 16px 12px;
     gap: 16px;
@@ -346,17 +351,50 @@
   }
   .sw-hero--collapsed { padding: 10px 16px; }
 
-  /* Eyebrow text wraps instead of clipping */
-  .sw-eyebrow {
-    white-space: normal;
-    overflow: visible;
-  }
+  .sw-eyebrow { white-space: normal; overflow: visible; }
 
-  /* Side panel takes full width below canvas */
+  /* Panel: full-width, flex column, scrollable */
   .sw-panel {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    top: auto; right: auto;
+    margin: 0 10px 10px;
+    overflow-y: auto;
+  }
+  .sw-panel-inner { flex-direction: column; }
+
+  /* Focus column: bottom sheet */
+  .sw-panel-focus {
+    position: fixed;
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
+    left: 0; right: 0;
+    height: 68vh;
+    width: auto;
+    transform: translateY(105%);
+    transition: transform 0.32s cubic-bezier(0.16,1,0.3,1);
+    border-right: none;
+    border-top: 1px solid rgba(139,92,246,0.35);
+    border-radius: 18px 18px 0 0;
+    padding: 28px 18px 18px;
+    overflow-y: auto;
+    z-index: 200;
+    background: rgba(8,8,20,0.97);
+    backdrop-filter: blur(20px);
+  }
+  .sw-panel-focus::before {
+    content: '';
+    display: block;
+    width: 36px; height: 3px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    margin: 0 auto 20px;
+  }
+  .sw-panel-focus--open { transform: translateY(0); }
+
+  /* Canvas fills panel when focus is a sheet */
+  .sw-panel-canvas { flex: 1; min-height: 0; }
+
+  /* Stats bar: horizontal */
+  .sw-panel-stats {
+    flex-direction: row; flex-wrap: wrap; gap: 8px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-left: none; padding: 10px 14px;
   }
 }

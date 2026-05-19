@@ -304,13 +304,37 @@
   display: flex; flex-direction: column; gap: 8px;
 }
 
+/* ── Bottom sheet close btn / backdrop (global, hidden on desktop) ── */
+.quests-sheet-backdrop {
+  position: fixed; inset: 0; z-index: 199;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+}
+.quests-sheet-close-btn {
+  position: absolute; top: 14px; right: 14px;
+  width: var(--touch-min, 44px); height: var(--touch-min, 44px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--text-3);
+  border: 1px solid var(--border); border-radius: 50%;
+  z-index: 10; transition: var(--transition);
+}
+.quests-sheet-close-btn:hover { color: var(--text); border-color: var(--border-2); }
+
+@media (min-width: 768px) {
+  .quests-sheet-backdrop { display: none; }
+  .quests-sheet-close-btn { display: none; }
+}
+
 /* ── Mobile responsive ──────────────────────────────────────── */
 @media (max-width: 767px) {
-  /* Collapse 3-col to single scrollable column */
+  /* Collapse to 2-row: left strip + atlas fill */
   .quests-page {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
     overflow-y: auto;
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
+    position: fixed; inset: 0;
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
   }
 
   .quests-left {
@@ -321,24 +345,46 @@
     max-height: none;
   }
 
-  /* Atlas column: fixed height on mobile, scrollable */
+  /* Atlas column: fills remaining height */
   .quests-atlas-col {
-    min-height: 320px;
-    max-height: 50vh;
+    min-height: 0;
+    overflow: hidden;
   }
 
-  /* Detail panel: scroll below atlas */
+  /* Detail panel: bottom sheet */
   .quests-right {
+    position: fixed;
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
+    left: 0; right: 0;
+    height: 74vh;
+    transform: translateY(105%);
+    transition: transform 0.32s cubic-bezier(0.16,1,0.3,1);
     border-left: none;
-    border-top: 1px solid var(--border);
-    padding: 20px 16px;
-    overflow-y: visible;
+    border-top: 1px solid rgba(139,92,246,0.35);
+    border-radius: 18px 18px 0 0;
+    padding: 28px 20px 20px;
+    overflow-y: auto;
+    z-index: 200;
+    background: rgba(8,8,20,0.97);
+    backdrop-filter: blur(20px);
   }
+  .quests-right::before {
+    content: '';
+    display: block;
+    width: 36px; height: 3px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    margin: 0 auto 20px;
+  }
+  .quests-right--open { transform: translateY(0); }
 
-  /* Rewards grid: full width on mobile */
-  .quests-rewards { grid-template-columns: 1fr; }
+  /* Rewards: stack vertically */
+  .quests-rewards { gap: 12px; }
 
   /* Filter tabs: horizontal scroll */
   .quests-filters { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .quests-filters::-webkit-scrollbar { display: none; }
+
+  /* Quest list: bottom padding for nav */
+  .quests-list-col { padding-bottom: 8px; }
 }

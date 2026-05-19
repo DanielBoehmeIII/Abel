@@ -192,6 +192,27 @@
   );
 }
 
+/* ── Bottom sheet elements (global, hidden on desktop) ── */
+.exhibition-sheet-backdrop {
+  position: fixed; inset: 0; z-index: 199;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+}
+.exhibition-sheet-close-btn {
+  position: absolute; top: 14px; right: 14px;
+  width: var(--touch-min, 44px); height: var(--touch-min, 44px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--text-3);
+  border: 1px solid var(--border); border-radius: 50%;
+  z-index: 10; transition: var(--transition);
+}
+.exhibition-sheet-close-btn:hover { color: var(--text); border-color: var(--border-2); }
+
+@media (min-width: 768px) {
+  .exhibition-sheet-backdrop { display: none; }
+  .exhibition-sheet-close-btn { display: none; }
+}
+
 /* ── Mobile responsive ──────────────────────────────────────── */
 @media (max-width: 767px) {
   .exhibition-page {
@@ -208,9 +229,36 @@
     overflow-y: auto;
   }
   .exhibition-left-footer { display: none; }
-  /* Right featured panel flows naturally below */
+
+  /* Right panel: bottom sheet on mobile */
   .exhibition-right {
+    position: fixed;
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
+    left: 0; right: 0;
+    height: 70vh;
+    transform: translateY(105%);
+    transition: transform 0.32s cubic-bezier(0.16,1,0.3,1);
     border-left: none;
-    display: none; /* shown only when something is selected on desktop; mobile uses center */
+    border-top: 1px solid rgba(139,92,246,0.35);
+    border-radius: 18px 18px 0 0;
+    padding: 28px 20px 20px;
+    overflow-y: auto;
+    z-index: 200;
+    background: rgba(8,8,20,0.97);
+    backdrop-filter: blur(20px);
+  }
+  .exhibition-right::before {
+    content: '';
+    display: block;
+    width: 36px; height: 3px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    margin: 0 auto 20px;
+  }
+  .exhibition-right--open { transform: translateY(0); }
+
+  /* Center panel: clear bottom nav */
+  .exhibition-center {
+    padding-bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + 16px);
   }
 }

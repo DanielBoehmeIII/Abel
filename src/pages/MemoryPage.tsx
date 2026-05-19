@@ -156,7 +156,7 @@ export default function MemoryPage({ onNavigate }: Props) {
   return (
     <div className="memory-page">
       {/* ── Left sidebar: list ─────────────────────────────────── */}
-      <aside className="mem-sidebar">
+      <aside className={`mem-sidebar${isMobile && mobileView === 'detail' ? ' mem-sidebar--mob-hidden' : ''}`}>
         <div className="mem-sidebar-header">
           <div className="mem-sidebar-title-row">
             <span className="mem-sidebar-glyph">◐</span>
@@ -243,7 +243,7 @@ export default function MemoryPage({ onNavigate }: Props) {
       </aside>
 
       {/* ── Right panel: detail / edit ─────────────────────────── */}
-      <main className="mem-main">
+      <main className={`mem-main${isMobile && mobileView === 'list' ? ' mem-main--mob-hidden' : ''}`}>
         {/* Empty state */}
         {!editing && !selected && (
           <div className="mem-placeholder">
@@ -260,6 +260,9 @@ export default function MemoryPage({ onNavigate }: Props) {
         {/* Detail view */}
         {selected && !editing && (
           <div className="mem-detail">
+            {isMobile && (
+              <button className="mem-back-btn" onClick={() => setMobileView('list')}>← Memory</button>
+            )}
             <div className="mem-detail-header">
               <div className="mem-detail-header-left">
                 <span className="mem-detail-type" style={{ color: TYPE_COLOR[selected.type] }}>
@@ -298,6 +301,9 @@ export default function MemoryPage({ onNavigate }: Props) {
         {/* Create / Edit form */}
         {editing && (
           <div className="mem-form">
+            {isMobile && (
+              <button className="mem-back-btn" onClick={cancelEdit}>← Memory</button>
+            )}
             <h2 className="mem-form-title">{isNew ? 'NEW MEMORY' : 'EDIT MEMORY'}</h2>
             {error && <div className="mem-form-error">{error}</div>}
             {savedNotice && <div className="mem-form-success">{savedNotice}</div>}
@@ -378,6 +384,11 @@ export default function MemoryPage({ onNavigate }: Props) {
           </div>
         )}
       </main>
+
+      {/* FAB: quick capture on mobile list view (Week 20) */}
+      {isMobile && mobileView === 'list' && (
+        <button className="mem-fab" onClick={openNew} aria-label="Capture new memory">+</button>
+      )}
     </div>
   );
 }

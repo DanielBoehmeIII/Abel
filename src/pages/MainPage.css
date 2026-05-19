@@ -390,42 +390,50 @@
   }
   .main-nav-strip::-webkit-scrollbar { display: none; }
 
-  /* Hero: full-width column, vertically centered with room for header */
-  .main-hero {
-    position: relative;
-    top: auto; left: auto;
-    transform: none;
-    max-width: 100%;
-    padding: 80px var(--space-4) var(--space-8);
-    z-index: 20;
-  }
-
-  /* Stack the whole page content in a column */
+  /* Scroll-snap container */
   .main-page {
     display: flex;
     flex-direction: column;
+    scroll-snap-type: y mandatory;
   }
 
-  /* Right panel: move below hero, full width */
+  /* Portal hidden — bottom nav handles navigation; portal nodes also block scroll gestures */
+  .main-portal { display: none; }
+
+  /* ── Panel 1: cinematic hero ── */
+  .main-hero {
+    position: relative;
+    top: auto; left: auto; transform: none;
+    max-width: 100%;
+    /* Fill the viewport, text sits at the bottom */
+    min-height: 100dvh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: calc(var(--mob-header-h, 52px) + 16px) var(--space-4)
+             calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + 24px);
+    z-index: 20;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Subtle scroll hint */
+  .main-hero::after {
+    content: '↓  MORE';
+    display: block; text-align: center;
+    font-size: 0.5rem; font-weight: 700; letter-spacing: 0.28em;
+    color: rgba(200,175,255,0.22);
+    margin-top: 28px;
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+
+  /* ── Panel 2: system info ── */
   .main-info-right {
     position: relative;
-    top: auto; right: auto;
-    transform: none;
+    top: auto; right: auto; transform: none;
     width: 100%;
-    padding: 0 var(--space-4) var(--space-8);
+    display: flex; flex-direction: column; gap: 12px;
+    padding: var(--space-8) var(--space-4) 0;
     z-index: 20;
-  }
-
-  /* Portal: shrink and center */
-  .main-portal {
-    position: relative;
-    left: auto; top: auto;
-    transform: none;
-    width: 100%;
-    max-width: 320px;
-    height: 320px;
-    align-self: center;
-    margin: 0 auto var(--space-6);
+    scroll-snap-align: start;
   }
 
   /* 3D scene: full-width background, reduced height so hero is readable */
@@ -443,7 +451,7 @@
     bottom: auto; left: auto; right: auto;
     width: 100%;
     flex-wrap: wrap;
-    padding: var(--space-4) var(--space-4) calc(var(--space-4) + var(--safe-bottom));
+    padding: var(--space-4) var(--space-4) calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px) + var(--space-4));
   }
 
   /* Veil: stronger left edge so hero text is always readable */

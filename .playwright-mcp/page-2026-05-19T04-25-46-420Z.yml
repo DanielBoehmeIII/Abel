@@ -1,0 +1,92 @@
+- generic [ref=e2]:
+  - region "Cinematic transition to Trophy Vault" [ref=e592]:
+    - generic [ref=e593]:
+      - generic [ref=e594]:
+        - generic [ref=e595]:
+          - generic [ref=e598]: ABEL
+          - navigation [ref=e599]:
+            - button "CHAT" [ref=e600] [cursor=pointer]
+            - button "MEMORY" [ref=e601] [cursor=pointer]
+            - button "GRAPH" [ref=e602] [cursor=pointer]
+            - button "SETTINGS" [ref=e603] [cursor=pointer]
+        - main [ref=e604]:
+          - paragraph [ref=e605]: ABEL OS
+          - heading "A living system that remembers, dreams, and becomes." [level=1] [ref=e606]:
+            - text: A living system
+            - text: that remembers,
+            - emphasis [ref=e607]: dreams,
+            - text: and becomes.
+          - button "START A CHAT" [ref=e608] [cursor=pointer]:
+            - generic [ref=e609]: START A CHAT
+            - img [ref=e610]
+          - generic [ref=e612]:
+            - button "Import memory" [ref=e613] [cursor=pointer]
+            - button "View atlas" [ref=e615] [cursor=pointer]
+            - button "Tune Abel" [ref=e617] [cursor=pointer]
+          - text: ↓ MORE
+        - complementary [ref=e618]:
+          - generic [ref=e619] [cursor=pointer]:
+            - paragraph [ref=e621]: SYSTEM STATUS
+            - paragraph [ref=e623]: HARMONIC
+            - paragraph [ref=e645]: The Architect
+            - text: VIEW →
+          - generic [ref=e646] [cursor=pointer]:
+            - generic [ref=e647]:
+              - paragraph [ref=e648]: RECENT MEMORY
+              - generic [ref=e649]: ▣
+            - paragraph [ref=e650]: Gratitude Moment
+            - paragraph [ref=e651]: Paused mid-session to notice how much had changed in the last six we…
+            - text: VIEW →
+          - generic [ref=e652] [cursor=pointer]:
+            - generic [ref=e653]:
+              - paragraph [ref=e654]: ACTIVE QUEST
+              - generic [ref=e655]: ⊕
+            - paragraph [ref=e656]: Synthesize Three Insights
+            - paragraph [ref=e657]: Take three separate learnings and write a short synthesis conn…
+            - text: VIEW →
+        - generic [ref=e658]:
+          - generic [ref=e659]:
+            - generic [ref=e661]: A
+            - generic [ref=e662]:
+              - paragraph [ref=e663]: Abel
+              - paragraph [ref=e664]: Seeker of Clarity
+          - generic [ref=e665]:
+            - button "35% MASTERY" [ref=e666] [cursor=pointer]:
+              - generic [ref=e667]: 35%
+              - generic [ref=e668]: MASTERY
+            - button "3 QUESTS" [ref=e669] [cursor=pointer]:
+              - generic [ref=e670]: "3"
+              - generic [ref=e671]: QUESTS
+            - button "10 GRAPH NODES" [ref=e672] [cursor=pointer]:
+              - generic [ref=e673]: "10"
+              - generic [ref=e674]: GRAPH NODES
+            - button "6 MEMORIES" [ref=e675] [cursor=pointer]:
+              - generic [ref=e676]: "6"
+              - generic [ref=e677]: MEMORIES
+          - button "LATEST Obsidian Compass earned" [ref=e678] [cursor=pointer]:
+            - paragraph [ref=e679]: LATEST
+            - paragraph [ref=e680]: Obsidian Compass earned
+      - img
+      - generic:
+        - generic: TROPHY VAULT
+        - heading [level=2]: Artifacts of Your Journey
+        - paragraph: What you earn becomes visible.
+        - paragraph: 4 collected
+        - button: Enter Vault →
+  - navigation "Mobile navigation" [ref=e94]:
+    - button "Home" [active] [ref=e95] [cursor=pointer]:
+      - generic [ref=e96]: ◉
+      - generic [ref=e97]: Home
+    - button "Chat" [ref=e98] [cursor=pointer]:
+      - generic [ref=e99]: ◈
+      - generic [ref=e100]: Chat
+    - button "Quests" [ref=e101] [cursor=pointer]:
+      - generic [ref=e102]: ⊕
+      - generic [ref=e103]: Quests
+    - button "Memory" [ref=e104] [cursor=pointer]:
+      - generic [ref=e105]: ◐
+      - generic [ref=e106]: Memory
+    - button "More pages" [ref=e107] [cursor=pointer]:
+      - generic [ref=e108]: +
+      - generic [ref=e109]: More
+  - button "Feedback" [ref=e111] [cursor=pointer]

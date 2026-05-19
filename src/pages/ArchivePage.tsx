@@ -346,6 +346,11 @@ export default function ArchivePage({ onNavigate }: Props) {
       {/* ── Sidebar ─────────────────────────────────────────────────────────── */}
       <aside className={`archive-sidebar${mobileSidebarOpen ? ' archive-sidebar--mob-open' : ''}`}>
         <div className="archive-sidebar-top">
+          <button
+            className="archive-mob-close-btn"
+            onClick={() => setMobileSidebarOpen(false)}
+            aria-label="Close sidebar"
+          >×</button>
           <p className="archive-sidebar-eyebrow">THE ARCHIVE</p>
           <p className="archive-sidebar-subtitle" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.05rem', fontWeight: 300, fontStyle: 'italic', color: 'var(--text-2)', marginTop: '4px', marginBottom: '16px' }}>
             {activeJourney?.title}

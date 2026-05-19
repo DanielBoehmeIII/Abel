@@ -18,6 +18,11 @@
 .glow-btn--md { padding: 9px 20px; font-size: 0.72rem; letter-spacing: 0.1em; }
 .glow-btn--lg { padding: 13px 28px; font-size: 0.8rem; letter-spacing: 0.08em; }
 
+@media (max-width: 767px) {
+  .glow-btn--sm { min-height: var(--touch-min, 44px); }
+  .glow-btn--md { min-height: var(--touch-min, 44px); }
+}
+
 /* Purple */
 .glow-btn--purple {
   background: rgba(139,92,246,0.14);

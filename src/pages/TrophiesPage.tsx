@@ -147,7 +147,7 @@ export default function TrophiesPage({ onNavigate }: Props) {
                 <p className="body" style={{ fontStyle: 'italic', color: 'var(--text-2)' }}>{selected.originStory}</p>
               </div>
 
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '16px' }}>
+              <div className="trophies-source-row">
                 {sourceSkill && (
                   <button className="trophies-source-chip" onClick={() => onNavigate('skillweb')}>
                     <span className="caption">SKILL</span>
@@ -162,7 +162,7 @@ export default function TrophiesPage({ onNavigate }: Props) {
                 )}
               </div>
 
-              <p className="caption" style={{ marginTop: '12px', color: 'var(--text-4)' }}>
+              <p className="caption trophies-earned-date">
                 Earned {new Date(selected.earnedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </p>
             </div>

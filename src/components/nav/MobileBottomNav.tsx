@@ -6,15 +6,15 @@ const NAV_ITEMS: { id: PageId; label: string; glyph: string }[] = [
   { id: 'archive',  label: 'Chat',    glyph: '◈' },
   { id: 'quests',   label: 'Quests',  glyph: '⊕' },
   { id: 'memory',   label: 'Memory',  glyph: '◐' },
-  { id: 'settings', label: 'Settings', glyph: '⊞' },
 ];
 
 interface Props {
   currentPage: PageId;
   onNavigate: (page: PageId) => void;
+  onOpenNav: () => void;
 }
 
-export default function MobileBottomNav({ currentPage, onNavigate }: Props) {
+export default function MobileBottomNav({ currentPage, onNavigate, onOpenNav }: Props) {
   return (
     <nav className="mob-nav" aria-label="Mobile navigation">
       {NAV_ITEMS.map(item => {
@@ -32,6 +32,14 @@ export default function MobileBottomNav({ currentPage, onNavigate }: Props) {
           </button>
         );
       })}
+      <button
+        className="mob-nav-item mob-nav-item--more"
+        onClick={onOpenNav}
+        aria-label="More pages"
+      >
+        <span className="mob-nav-glyph" aria-hidden="true">+</span>
+        <span className="mob-nav-label">More</span>
+      </button>
     </nav>
   );
 }

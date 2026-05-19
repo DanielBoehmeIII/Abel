@@ -1,0 +1,94 @@
+- generic [ref=e2]:
+  - region "Cinematic transition to Trophy Vault" [ref=e592]:
+    - generic [ref=e593]:
+      - generic [ref=e594]:
+        - generic [ref=e595]:
+          - generic [ref=e598]: ABEL
+          - navigation [ref=e599]:
+            - button "CHAT" [ref=e600] [cursor=pointer]
+            - button "MEMORY" [ref=e601] [cursor=pointer]
+            - button "GRAPH" [ref=e602] [cursor=pointer]
+            - button "SETTINGS" [ref=e603] [cursor=pointer]
+        - main:
+          - paragraph: ABEL OS
+          - heading "A living system that remembers, dreams, and becomes." [level=1]:
+            - text: A living system
+            - text: that remembers,
+            - emphasis: dreams,
+            - text: and becomes.
+          - button "START A CHAT":
+            - generic: START A CHAT
+            - img
+          - generic:
+            - button "Import memory"
+            - button "View atlas"
+            - button "Tune Abel"
+          - text: ↓ MORE
+        - complementary:
+          - generic:
+            - generic:
+              - paragraph: SYSTEM STATUS
+            - paragraph: HARMONIC
+            - paragraph: The Architect
+            - text: VIEW →
+          - generic:
+            - generic:
+              - paragraph: RECENT MEMORY
+              - generic: ▣
+            - paragraph: Gratitude Moment
+            - paragraph: Paused mid-session to notice how much had changed in the last six we…
+            - text: VIEW →
+          - generic:
+            - generic:
+              - paragraph: ACTIVE QUEST
+              - generic: ⊕
+            - paragraph: Synthesize Three Insights
+            - paragraph: Take three separate learnings and write a short synthesis conn…
+            - text: VIEW →
+        - generic:
+          - generic:
+            - generic:
+              - generic: A
+            - generic:
+              - paragraph: Abel
+              - paragraph: Seeker of Clarity
+          - generic:
+            - button "35% MASTERY":
+              - generic: 35%
+              - generic: MASTERY
+            - button "3 QUESTS":
+              - generic: "3"
+              - generic: QUESTS
+            - button "10 GRAPH NODES":
+              - generic: "10"
+              - generic: GRAPH NODES
+            - button "6 MEMORIES":
+              - generic: "6"
+              - generic: MEMORIES
+          - button "LATEST Obsidian Compass earned":
+            - paragraph: LATEST
+            - paragraph: Obsidian Compass earned
+      - img
+      - generic [ref=e681]:
+        - generic [ref=e682]: TROPHY VAULT
+        - heading "Artifacts of Your Journey" [level=2] [ref=e683]
+        - paragraph [ref=e684]: What you earn becomes visible.
+        - paragraph [ref=e685]: 4 collected
+        - button "Enter Vault →" [ref=e686] [cursor=pointer]
+  - navigation "Mobile navigation" [ref=e94]:
+    - button "Home" [ref=e95] [cursor=pointer]:
+      - generic [ref=e96]: ◉
+      - generic [ref=e97]: Home
+    - button "Chat" [ref=e98] [cursor=pointer]:
+      - generic [ref=e99]: ◈
+      - generic [ref=e100]: Chat
+    - button "Quests" [ref=e101] [cursor=pointer]:
+      - generic [ref=e102]: ⊕
+      - generic [ref=e103]: Quests
+    - button "Memory" [ref=e104] [cursor=pointer]:
+      - generic [ref=e105]: ◐
+      - generic [ref=e106]: Memory
+    - button "More pages" [ref=e107] [cursor=pointer]:
+      - generic [ref=e108]: +
+      - generic [ref=e109]: More
+  - button "Feedback" [ref=e111] [cursor=pointer]

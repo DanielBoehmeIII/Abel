@@ -1,13 +1,13 @@
 ---
 name: project-mobile-sprint
-description: Abel mobile sprint — weeks 1-10 implementation log, approach taken, what's done, what remains
+description: Abel mobile sprint — weeks 1-20 implementation log, approach taken, what's done, what remains
 metadata:
   type: project
 ---
 
 Abel is undergoing a 40-week mobile UX sprint (started 2026-05-19).
 
-Weeks 1-10 are complete. Implementation delivered in one session.
+Weeks 1-10 and 11-20 are complete. Delivered across two sessions.
 
 ## What was done (Weeks 1-10)
 
@@ -56,7 +56,60 @@ Weeks 1-10 are complete. Implementation delivered in one session.
 ## Why:
 Desktop-only layout was the root cause. Every page used fixed-pixel column widths with no mobile breakpoints. The approach was CSS-only media queries (@max-width 767px) for all pages except Archive which needed component state for the drawer.
 
-## Known remaining issues (weeks 11+):
+## What was done (Weeks 11-20)
+
+**Week 11 — Mobile keyboard behavior** (`ArchivePage.tsx`):
+- `visualViewport` resize/scroll listener sets `--keyboard-h` CSS variable to push layout above virtual keyboard
+- `onFocus` on chat textarea triggers `bottomRef.scrollIntoView` so last message stays visible
+- `onInput` auto-grows textarea up to 180px
+
+**Week 12 — Onboarding save/resume** (`OnboardingFlow.tsx`):
+- `ONBOARDING_STEP_KEY = 'abel_onb_step_v1'` saves current step to localStorage on every advance/back
+- `useState` initializer reads saved step on mount (resume after reload)
+- `complete()` clears the saved step key
+
+**Week 13 — Archive drawer**: Already complete from weeks 1-10.
+
+**Week 14 — Chat composer polish** (`ArchivePage.css`, `ArchivePage.tsx`):
+- `.archive-input-wrap` mobile: `padding-bottom: calc(var(--mob-nav-h) + var(--safe-bottom) + 10px)` clears bottom nav
+- Side padding reduced to 12px on mobile
+- Provider badge and summarize button hidden on mobile (too wide)
+- Auto-grow textarea via `textareaRef` + `handleTextareaInput`
+
+**Week 15 — Mobile message actions** (`ArchivePage.tsx`, `ArchivePage.css`):
+- `⋯` button per message: opacity:0 on desktop (hover to show), always visible on mobile
+- Actions menu: Copy (clipboard) + → Memory (creates a `document` memory from the message)
+- Outside tap/click closes menu via `mousedown`/`touchstart` listener on document
+- `data-msg-actions` attribute used to detect inside vs. outside clicks
+
+**Week 16 — Chat scroll reliability** (`ArchivePage.tsx`):
+- Textarea `onFocus` triggers scroll to bottom (handles keyboard-open scroll jump)
+- Effect clears textarea height when input is emptied
+
+**Week 17 — Memory mobile card stack** (`MemoryPage.tsx`, `MemoryPage.css`):
+- `useIsMobile()` + `mobileView: 'list' | 'detail'` state
+- `mem-sidebar--mob-hidden` / `mem-main--mob-hidden` classes switch single-panel view
+- `openDetail`, `openNew`, `openEdit` → set `mobileView = 'detail'`
+- `cancelEdit`, `handleArchive`, `handleDelete` → set `mobileView = 'list'`
+
+**Week 18 — Memory filters mobile** (`MemoryPage.css`):
+- Type tabs become `flex-wrap: nowrap; overflow-x: auto` horizontal scroll strip
+- `scrollbar-width: none` + webkit hidden scrollbar
+- `.mem-list` gets bottom padding for FAB + nav clearance
+
+**Week 19 — Memory editor mobile** (`MemoryPage.css`):
+- Detail and form: `padding-bottom: calc(var(--mob-nav-h) + var(--safe-bottom) + 24px)` keyboard-safe
+- Form actions stack to full-width column
+- Detail header stacks vertically on narrow screens
+- Back button (`mem-back-btn`) at top of detail and form views
+
+**Week 20 — Memory quick actions** (`MemoryPage.tsx`, `MemoryPage.css`):
+- `mem-fab` FAB: `position: fixed; bottom: calc(var(--mob-nav-h) + var(--safe-bottom) + 16px); right: 20px`
+- Only shown when `isMobile && mobileView === 'list'`
+- Calls `openNew()` — same as sidebar "+ New" button
+- Hidden on desktop via `@media (min-width: 768px) { .mem-fab { display: none; } }`
+
+## Known remaining issues (weeks 21+):
 - FEEDBACK widget (`FeedbackWidget.tsx`) still overlaps content at bottom-right on mobile — needs repositioning above bottom nav
 - Settings content still slightly clipped by FEEDBACK button
 - Graph legend strip on mobile could be more compact

@@ -222,3 +222,10 @@
   display: flex; gap: 12px; justify-content: center;
   flex-wrap: wrap;
 }
+
+/* ── Mobile responsive ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  .egg-page {
+    bottom: calc(var(--mob-nav-h, 56px) + var(--safe-bottom, 0px));
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useAbel } from '../state/useAbel';
+import { useIsMobile } from '../hooks/useIsMobile';
 import type { PageId, MemoryItem, MemorySubtype } from '../types/abel';
 import { makeMemory } from '../state/abelStore';
 import GlassPanel from '../components/common/GlassPanel';
@@ -26,16 +27,23 @@ export default function ExhibitionPage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
   const { memories, trophies, archetype } = state;
 
+  const isMobile = useIsMobile();
   const [selected, setSelected] = useState<MemoryItem | null>(memories[memories.length - 1] ?? null);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newBody, setNewBody] = useState('');
+
+  function selectMemory(m: MemoryItem) {
+    setSelected(m);
+    if (isMobile) setSheetOpen(true);
+  }
 
   function addMemory() {
     if (!newTitle.trim() || !newBody.trim()) return;
     const memory = makeMemory(newTitle.trim(), newBody.trim(), 'journal');
     dispatch({ type: 'ADD_MEMORY', memory });
-    setSelected(memory);
+    selectMemory(memory);
     setShowAddModal(false);
     setNewTitle(''); setNewBody('');
   }
@@ -83,7 +91,7 @@ export default function ExhibitionPage({ onNavigate }: Props) {
                 key={m.id}
                 className={`exhibition-mem-row ${selected?.id === m.id ? 'exhibition-mem-row--active' : ''}`}
                 style={{ '--mc': color } as React.CSSProperties}
-                onClick={() => setSelected(m)}
+                onClick={() => selectMemory(m)}
               >
                 <span className="exhibition-mem-icon" style={{ color }}>{icon}</span>
                 <div className="exhibition-mem-text">
@@ -158,7 +166,7 @@ export default function ExhibitionPage({ onNavigate }: Props) {
             const isSel = selected?.id === memory.id;
             const r     = isSel ? 9 : 5.5;
             return (
-              <g key={memory.id} style={{ cursor: 'pointer' }} onClick={() => setSelected(memory)}>
+              <g key={memory.id} style={{ cursor: 'pointer' }} onClick={() => selectMemory(memory)}>
                 {isSel && (
                   <circle cx={x} cy={y} r={18}
                     fill={`${color}10`} stroke={color} strokeWidth="0.8" strokeDasharray="3 4" opacity="0.7"
@@ -222,9 +230,17 @@ export default function ExhibitionPage({ onNavigate }: Props) {
         </div>
       </div>
 
-      {/* ── Right: featured exhibit ─────────────────────── */}
+      {/* Backdrop for bottom sheet on mobile */}
+      {isMobile && sheetOpen && (
+        <div className="exhibition-sheet-backdrop" onClick={() => { setSelected(null); setSheetOpen(false); }} />
+      )}
+
+      {/* ── Right: featured exhibit / bottom sheet on mobile ── */}
       {selected && (
-        <div className="exhibition-right animate-fade-in-scale" key={selected.id}>
+        <div className={`exhibition-right animate-fade-in-scale${isMobile && sheetOpen ? ' exhibition-right--open' : ''}`} key={selected.id}>
+          {isMobile && (
+            <button className="exhibition-sheet-close-btn" onClick={() => { setSelected(null); setSheetOpen(false); }} aria-label="Close">×</button>
+          )}
           <div className="exhibition-featured-top">
             <span className="exhibition-featured-glyph">
               {selected.subtypes[0] ? SUBTYPE_ICONS[selected.subtypes[0]] : '▣'}

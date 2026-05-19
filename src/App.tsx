@@ -91,7 +91,7 @@ function AppInner() {
 
       {/* Mobile bottom navigation — shown only on phone/small tablet */}
       {isMobile && (
-        <MobileBottomNav currentPage={page} onNavigate={navigate} />
+        <MobileBottomNav currentPage={page} onNavigate={navigate} onOpenNav={openNav} />
       )}
 
       <OnboardingFlow onNavigate={navigate} />
