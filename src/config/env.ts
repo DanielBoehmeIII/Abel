@@ -28,6 +28,15 @@ export const appEnv = {
   feedbackEnabled: boolEnv('VITE_ABEL_FEEDBACK_ENABLED', true),
   release: (import.meta.env.VITE_ABEL_RELEASE as string | undefined) || 'local',
   healthVersion: (import.meta.env.VITE_ABEL_HEALTH_VERSION as string | undefined) || '1',
+  stripePublishableKey: (import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined) || '',
+  stripeWebhookSecret: (import.meta.env.VITE_STRIPE_WEBHOOK_SECRET as string | undefined) || '',
+  stripePriceLookupKey: (import.meta.env.VITE_STRIPE_PRICE_LOOKUP_KEY as string | undefined) || '',
+
+  acceptedPaymentMethods: listEnv('VITE_ACCEPTED_PAYMENT_METHODS'),
+  defaultCurrency: (import.meta.env.VITE_DEFAULT_CURRENCY as string | undefined) || 'usd',
+  trialEnabled: boolEnv('VITE_TRIAL_ENABLED', true),
+  referralEnabled: boolEnv('VITE_REFERRAL_ENABLED', true),
+  creditPacksEnabled: boolEnv('VITE_CREDIT_PACKS_ENABLED', true),
 } as const;
 
 export function validateEnv(): void {

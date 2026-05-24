@@ -160,7 +160,7 @@ async function fetchPypiPackage(name: string, includeDeps: boolean): Promise<Pac
     maintainers: info.author ? [info.author as string] : [],
     keywords: ((info.keywords as string | null) || "").split(/[,\s]+/).filter(Boolean),
     dependencies: includeDeps
-      ? Object.fromEntries(requires.map((r) => [r.split(/[><=!\[]/)[0].trim(), r]))
+      ? Object.fromEntries(requires.map((r) => [r.split(/[><=![]/)[0].trim(), r]))
       : null,
     devDependencies: null,
     dependencyCount: requires.length,

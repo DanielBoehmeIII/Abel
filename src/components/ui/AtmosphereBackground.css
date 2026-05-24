@@ -107,8 +107,8 @@
   inset: 0;
   background: radial-gradient(ellipse 100% 100% at 50% 50%,
     transparent 30%,
-    rgba(4,4,14,0.4) 70%,
-    rgba(4,4,14,0.85) 100%);
+    rgba(4,4,14,0.30) 70%,
+    rgba(4,4,14,0.68) 100%);
 }
 
 /* ── Stars ── */

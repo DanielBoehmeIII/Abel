@@ -163,7 +163,7 @@ export async function docsCrawler(
   const contentType = res.headers.get("content-type") || "";
   const rawBody = await res.text();
 
-  let title: string | null = null;
+  let title: string | null;
   let extracted: string;
 
   if (isRaw || contentType.includes("text/plain") || !contentType.includes("html")) {

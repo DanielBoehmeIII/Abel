@@ -1,0 +1,199 @@
+.signin-fatal {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(100,60,180,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(34,211,238,0.05) 0%, transparent 40%),
+    rgba(3,3,12,0.98);
+  overflow: hidden;
+}
+
+/* ── Celestial rings ── */
+.signin-bg-rings {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+
+.signin-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  opacity: 0;
+  animation: ring-appear 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.signin-ring--outer {
+  width: min(90vw, 700px); height: min(90vw, 700px);
+  border-color: rgba(139,92,246,0.08);
+  animation-delay: 0.2s;
+}
+
+.signin-ring--mid {
+  width: min(70vw, 540px); height: min(70vw, 540px);
+  border-color: rgba(139,92,246,0.06);
+  border-style: dashed;
+  animation-delay: 0.5s;
+}
+
+.signin-ring--inner {
+  width: min(50vw, 380px); height: min(50vw, 380px);
+  border-color: rgba(34,211,238,0.07);
+  animation-delay: 0.8s;
+}
+
+/* ── Panel ── */
+.signin-panel {
+  position: relative;
+  z-index: 1;
+  width: min(440px, 100%);
+  padding: 40px 36px 32px;
+  background: linear-gradient(148deg, rgba(18,14,36,0.96), rgba(8,8,20,0.99));
+  border: 1px solid rgba(139,92,246,0.20);
+  border-radius: 24px;
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  box-shadow:
+    0 28px 80px rgba(0,0,0,0.55),
+    0 1px 0 rgba(255,255,255,0.05) inset,
+    0 0 60px rgba(139,92,246,0.08);
+  animation: panel-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.15s;
+}
+
+/* ── Header ── */
+.signin-header { margin-bottom: 28px; }
+
+.signin-lockup {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 20px;
+}
+
+.signin-kicker {
+  font-size: 0.82rem; font-weight: 800; letter-spacing: 0.28em;
+  color: rgba(180,150,255,0.50);
+  text-transform: uppercase;
+}
+
+.signin-kicker-sub {
+  font-size: 0.55rem; font-weight: 600; letter-spacing: 0.18em;
+  color: rgba(140,130,170,0.38);
+  text-transform: uppercase;
+}
+
+.signin-title {
+  margin: 0 0 12px;
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.signin-desc {
+  margin: 0;
+  color: rgba(195,188,228,0.58);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+/* ── Form ── */
+.signin-form { margin-bottom: 20px; }
+
+.signin-input {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 12px 14px;
+  border: 1px solid rgba(139,92,246,0.20);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.signin-input::placeholder { color: rgba(140,130,170,0.35); }
+.signin-input:focus {
+  border-color: rgba(139,92,246,0.45);
+  box-shadow: 0 0 0 2px rgba(139,92,246,0.10);
+}
+
+.signin-error {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(255,190,190,0.82);
+  font-size: 0.78rem;
+}
+
+.signin-submit {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, rgba(139,92,246,0.88), rgba(120,70,230,0.92));
+  color: rgba(255,255,255,0.97);
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.signin-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(139,92,246,1), rgba(120,70,230,1));
+  box-shadow: 0 0 32px rgba(139,92,246,0.50), 0 6px 20px rgba(0,0,0,0.35);
+  transform: translateY(-1px);
+}
+
+.signin-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.signin-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.signin-submit svg { flex-shrink: 0; }
+
+/* ── Footer ── */
+.signin-footer {
+  margin: 0;
+  text-align: center;
+  color: rgba(140,130,170,0.35);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+/* ── Animations ── */
+@keyframes ring-appear {
+  0%   { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes panel-enter {
+  0%   { opacity: 0; transform: translateY(16px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Mobile ── */
+@media (max-width: 767px) {
+  .signin-panel {
+    padding: 28px 20px 24px;
+    border-radius: 18px;
+  }
+
+  .signin-title {
+    font-size: clamp(1.3rem, 6vw, 1.7rem);
+  }
+
+  .signin-input {
+    padding: 11px 12px;
+    font-size: 0.88rem;
+  }
+}

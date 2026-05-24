@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef, useLayoutEffect } from 'react';
 import type { PageId } from '../../types/abel';
+import { useAuth } from '../../state/AuthContext';
 import './OrbitalNav.css';
 
 function createRng(seed: number) {
@@ -39,6 +40,7 @@ interface Props {
 }
 
 export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) {
+  const { userEmail, signOut } = useAuth();
   const [selected, setSelected]   = useState<PageId>(currentPage);
   const [mounted,  setMounted]    = useState(false);
   const selectedNode = NAV_NODES.find(n => n.id === selected) ?? NAV_NODES[0];
@@ -296,10 +298,11 @@ export default function OrbitalNav({ onNavigate, onClose, currentPage }: Props) 
             <span className="orbital-hint">Back</span>
           </div>
           <div className="orbital-hints-right">
-            <span className="orbital-status-dot" />
-            <span className="orbital-hint">Synced</span>
+            <span className="orbital-hint orbital-hint--user">{userEmail ?? '—'}</span>
             <span className="orbital-hint-sep" />
-            <span className="orbital-hint orbital-hint--status">All systems operational</span>
+            <button className="orbital-signout-btn" onClick={signOut} title="Sign out">
+              SIGN OUT
+            </button>
           </div>
         </div>
 

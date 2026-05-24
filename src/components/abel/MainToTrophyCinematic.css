@@ -34,7 +34,7 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: rgba(6, 6, 16, 0.30);
+  background: rgba(6, 6, 16, 0.18);
 }
 .mtc-idle-overlay::before {
   content: '';
@@ -43,8 +43,8 @@
   background: radial-gradient(
     ellipse 100% 100% at 50% 50%,
     transparent 25%,
-    rgba(6, 6, 16, 0.55) 75%,
-    rgba(6, 6, 16, 0.82) 100%
+    rgba(6, 6, 16, 0.42) 75%,
+    rgba(6, 6, 16, 0.66) 100%
   );
 }
 .mtc-idle-overlay::after {

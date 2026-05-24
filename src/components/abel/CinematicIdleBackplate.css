@@ -26,7 +26,7 @@
 .cib-dark-veil {
   position: absolute;
   inset: 0;
-  background: rgba(6, 6, 16, 0.38);
+  background: rgba(6, 6, 16, 0.26);
 }
 
 .cib-vignette {
@@ -35,8 +35,8 @@
   background: radial-gradient(
     ellipse 100% 100% at 50% 50%,
     transparent 25%,
-    rgba(6, 6, 16, 0.55) 75%,
-    rgba(6, 6, 16, 0.82) 100%
+    rgba(6, 6, 16, 0.42) 75%,
+    rgba(6, 6, 16, 0.66) 100%
   );
 }
 

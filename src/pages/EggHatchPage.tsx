@@ -164,6 +164,7 @@ export default function EggHatchPage({ onNavigate }: Props) {
 
   const satelliteAngles = useMemo(() =>
     satEggs.map((_, i) => (i / Math.max(satEggs.length, 1)) * 360),
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   [satEggs.length]);
 
   function startHatch(eggId: string) {

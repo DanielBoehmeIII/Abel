@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAbel } from '../state/useAbel';
+import { useAuth } from '../state/AuthContext';
 import type { PageId, LLMProvider, ThemeName, QuestIntensity } from '../types/abel';
 import { LLM_PROVIDERS, getProviderStatus } from '../config/llmProviders';
 import { SEED_STATE } from '../data/seed';
@@ -13,6 +14,8 @@ import SyncJobsPanel from '../components/sync/SyncJobsPanel';
 import GlassPanel from '../components/common/GlassPanel';
 import GlowButton from '../components/common/GlowButton';
 import CinematicIdleBackplate from '../components/abel/CinematicIdleBackplate';
+import { BillingSection } from '../components/billing/BillingSection';
+import type { SetupMode } from '../billing/types';
 import './SettingsPage.css';
 
 const TITLE_OPTIONS = [
@@ -34,6 +37,7 @@ const THEMES: { id: ThemeName; label: string; preview: string }[] = [
 
 export default function SettingsPage({ onNavigate }: Props) {
   const { state, dispatch } = useAbel();
+  const { userEmail, signOut } = useAuth();
   const { settings, user, memories, quests, focusSessions } = state;
   const [confirmReset, setConfirmReset] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('profile');
@@ -64,6 +68,9 @@ export default function SettingsPage({ onNavigate }: Props) {
   const [provBaseUrl,  setProvBaseUrl]  = useState('');
   const [provSaved,    setProvSaved]    = useState(false);
   const [provCleared,  setProvCleared]  = useState(false);
+
+  // Setup mode state
+  const [setupMode, setSetupMode] = useState<SetupMode>(() => (settings?.setupMode as SetupMode) ?? 'subscription');
 
   useEffect(() => {
     aiConfigService.get(DEMO_USER_ID).then(cfg => {
@@ -181,15 +188,11 @@ export default function SettingsPage({ onNavigate }: Props) {
     setSyncRefresh(r => r + 1);
   }
 
-  async function enqueueTestJob(shouldFail = false) {
-    await syncJobService.createTestJob(DEMO_USER_ID, shouldFail);
-    setSyncRefresh(r => r + 1);
-  }
-
   const SECTIONS = [
     { id: 'profile',     label: 'Profile' },
     { id: 'ai-config',   label: 'AI Config' },
     { id: 'llm',         label: 'LLM Provider' },
+    { id: 'billing',     label: 'Billing' },
     { id: 'themes',      label: 'Themes' },
     { id: 'preferences', label: 'Preferences' },
     { id: 'memory',      label: 'Memory' },
@@ -286,6 +289,16 @@ export default function SettingsPage({ onNavigate }: Props) {
                   </span>
                 )}
               </div>
+
+              <GlassPanel style={{ padding: '20px', marginTop: '24px', borderColor: 'rgba(239,68,68,0.15)' }}>
+                <p className="heading" style={{ marginBottom: '8px', color: 'rgba(248,113,113,0.7)' }}>SESSION</p>
+                <p className="caption" style={{ marginBottom: '14px' }}>
+                  Signed in as <strong style={{ color: 'var(--text-2)' }}>{userEmail}</strong>. Signing out returns you to the welcome screen. All data stays on this device.
+                </p>
+                <GlowButton variant="danger" onClick={signOut}>
+                  Sign Out
+                </GlowButton>
+              </GlassPanel>
             </div>
           )}
 
@@ -501,6 +514,22 @@ export default function SettingsPage({ onNavigate }: Props) {
                   <p className="caption">Mock Abel uses built-in deterministic responses. No API key or configuration needed. Switch to a real provider to connect Claude, ChatGPT, or a local model.</p>
                 </GlassPanel>
               )}
+            </div>
+          )}
+
+          {/* Billing */}
+          {activeSection === 'billing' && (
+            <div className="settings-section animate-fade-in">
+              <p className="eyebrow settings-section-eyebrow">SUBSCRIPTION</p>
+              <h2 className="settings-section-title">Billing & AI Setup</h2>
+              <BillingSection
+                userId={DEMO_USER_ID}
+                setupMode={setupMode}
+                onSetupModeChange={(mode) => {
+                  setSetupMode(mode);
+                  dispatch({ type: 'UPDATE_SETTINGS', settings: { setupMode: mode } });
+                }}
+              />
             </div>
           )}
 
@@ -734,6 +763,9 @@ export default function SettingsPage({ onNavigate }: Props) {
                   </div>
                 )}
               </GlassPanel>
+              <p className="caption" style={{ marginTop: '6px', color: 'rgba(255,255,255,0.3)' }}>
+                Billing administration panels available in a future release.
+              </p>
             </div>
           )}
 
@@ -745,20 +777,6 @@ export default function SettingsPage({ onNavigate }: Props) {
               <GlassPanel style={{ padding: '20px', marginBottom: '16px' }}>
                 <p className="heading" style={{ marginBottom: '12px', color: 'var(--text-3)' }}>ENQUEUE JOB</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  <GlowButton
-                    variant="cyan"
-                    size="sm"
-                    onClick={() => enqueueTestJob(false)}
-                  >
-                    Test Success
-                  </GlowButton>
-                  <GlowButton
-                    variant="danger"
-                    size="sm"
-                    onClick={() => enqueueTestJob(true)}
-                  >
-                    Test Failure
-                  </GlowButton>
                   <GlowButton
                     variant="ghost"
                     size="sm"

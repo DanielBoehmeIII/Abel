@@ -34,6 +34,8 @@ export type ThemeName = 'dark' | 'light' | 'minimal' | 'cinematic' | 'purple' | 
 export type QuestIntensity = 'gentle' | 'balanced' | 'intense';
 export type FocusMode = 'deep-work' | 'study' | 'reading' | 'writing' | 'recovery' | 'creative';
 
+export type SetupMode = 'subscription' | 'local' | 'manual';
+
 export interface AbelSettings {
   llmProvider: LLMProvider;
   theme: ThemeName;
@@ -42,6 +44,7 @@ export interface AbelSettings {
   reduceMotion: boolean;
   fontSize: 'small' | 'medium' | 'large';
   notificationStyle: 'subtle' | 'prominent' | 'none';
+  setupMode?: SetupMode;
 }
 
 // ─── Journey ──────────────────────────────────────────────────────────────────

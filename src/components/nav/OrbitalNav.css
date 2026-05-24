@@ -305,6 +305,36 @@
   flex-shrink: 0;
 }
 
+.orbital-hint--user {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(130,120,165,0.55);
+}
+
+.orbital-signout-btn {
+  padding: 4px 10px;
+  border: 1px solid rgba(239,68,68,0.22);
+  border-radius: 6px;
+  background: rgba(239,68,68,0.06);
+  color: rgba(248,113,113,0.60);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.orbital-signout-btn:hover {
+  background: rgba(239,68,68,0.14);
+  border-color: rgba(239,68,68,0.40);
+  color: rgba(248,113,113,0.90);
+}
+
 .orbital-status-dot {
   width: 6px; height: 6px; border-radius: 50%;
   background: rgba(52,211,153,0.90);

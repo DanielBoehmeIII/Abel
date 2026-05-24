@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { PageId } from './types/abel';
 import { AbelProvider } from './state/AbelProvider';
+import { AuthProvider, useAuth } from './state/AuthContext';
+import SignInPage from './pages/SignInPage';
 import OrbitalNav from './components/nav/OrbitalNav';
 import MobileBottomNav from './components/nav/MobileBottomNav';
 import { useIsMobile } from './hooks/useIsMobile';
@@ -22,6 +24,7 @@ import FeedbackWidget from './components/system/FeedbackWidget';
 import { trackEvent } from './lib/analytics';
 
 function AppInner() {
+  const { isAuthenticated, userEmail } = useAuth();
   const [page, setPage]       = useState<PageId>('main');
   const [navOpen, setNavOpen] = useState(false);
   const isMobile              = useIsMobile();
@@ -45,6 +48,8 @@ function AppInner() {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [navOpen, openNav, closeNav]);
+
+  if (!isAuthenticated) return <SignInPage />;
 
   const shared = { onNavigate: navigate };
 
@@ -94,7 +99,7 @@ function AppInner() {
         <MobileBottomNav currentPage={page} onNavigate={navigate} onOpenNav={openNav} />
       )}
 
-      <OnboardingFlow onNavigate={navigate} />
+      <OnboardingFlow userEmail={userEmail} onNavigate={navigate} />
       <FeedbackWidget />
     </BetaAccessGate>
   );
@@ -102,8 +107,10 @@ function AppInner() {
 
 export default function App() {
   return (
-    <AbelProvider>
-      <AppInner />
-    </AbelProvider>
+    <AuthProvider>
+      <AbelProvider>
+        <AppInner />
+      </AbelProvider>
+    </AuthProvider>
   );
 }

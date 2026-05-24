@@ -1,18 +1,24 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { PageId, AITone, MemoryUsageLevel, ResponseFormat, LLMProvider } from '../../types/abel';
+import type { SetupMode } from '../../billing/types';
 import { useAbel } from '../../state/useAbel';
 import { aiConfigService, chatService, userService, providerConfigService, DEMO_USER_ID } from '../../db';
 import { syncJobService } from '../../db/services/syncJobService';
 import { LLM_PROVIDERS } from '../../config/llmProviders';
 import { testProviderConnection } from '../../lib/aiPipeline';
 import { retrieveContext } from '../../lib/contextEngine';
+import { TIERS, TIER_ORDER } from '../../billing';
 import GlowButton from '../common/GlowButton';
 import './OnboardingFlow.css';
 
-const ONBOARDING_KEY = 'abel_onboarding_complete_v1';
-const ONBOARDING_STEP_KEY = 'abel_onb_step_v1';
+function onboardingKey(email?: string): string {
+  return email ? `abel_onboarding_complete_v1_${email}` : 'abel_onboarding_complete_v1';
+}
+function onboardingStepKey(email?: string): string {
+  return email ? `abel_onb_step_v1_${email}` : 'abel_onb_step_v1';
+}
 
-type StepId = 'provider' | 'profile' | 'ai' | 'memory' | 'atlas' | 'chat';
+type StepId = 'power' | 'plan' | 'provider' | 'profile' | 'ai' | 'memory' | 'atlas' | 'chat';
 
 interface Step {
   id: StepId;
@@ -21,32 +27,62 @@ interface Step {
 }
 
 const STEPS: Step[] = [
-  { id: 'provider', label: 'Intelligence', glyph: '◉' },
-  { id: 'profile',  label: 'Identity',     glyph: '◈' },
-  { id: 'ai',       label: 'Voice',        glyph: '◇' },
-  { id: 'memory',   label: 'Memory',       glyph: '◐' },
-  { id: 'atlas',    label: 'Atlas',        glyph: '⬡' },
-  { id: 'chat',     label: 'First Signal', glyph: '◈' },
+  { id: 'power',    label: 'Power',         glyph: '◉' },
+  { id: 'plan',     label: 'Plan',          glyph: '◉' },
+  { id: 'provider', label: 'Intelligence',  glyph: '◈' },
+  { id: 'profile',  label: 'Identity',      glyph: '◈' },
+  { id: 'ai',       label: 'Voice',         glyph: '◇' },
+  { id: 'memory',   label: 'Memory',        glyph: '◐' },
+  { id: 'atlas',    label: 'Atlas',         glyph: '⬡' },
+  { id: 'chat',     label: 'First Signal',  glyph: '◈' },
 ];
 
 interface Props {
   onNavigate: (page: PageId) => void;
+  userEmail?: string | null;
 }
 
-function shouldShowOnboarding(): boolean {
+function shouldShowOnboarding(email?: string | null): boolean {
   try {
-    return localStorage.getItem(ONBOARDING_KEY) !== '1';
+    return localStorage.getItem(onboardingKey(email ?? undefined)) !== '1';
   } catch {
     return false;
   }
 }
 
-export default function OnboardingFlow({ onNavigate }: Props) {
+const BILLING_MODE_INFO: Record<SetupMode, { title: string; desc: string; icon: string; details: string; warning?: string }> = {
+  subscription: {
+    title: 'Abel-Managed Subscription',
+    desc: 'Monthly billing through Stripe. Includes managed AI usage across Claude, ChatGPT, and Gemini.',
+    icon: '◉',
+    details: 'Free tier available. Paid tiers from $12/mo. All features, usage tracking, overage protection.',
+  },
+  local: {
+    title: 'Local Provider Setup',
+    desc: 'Use your own local AI model running on your machine.',
+    icon: '⬡',
+    details: 'No Abel-managed billing. Performance depends on your hardware.',
+    warning: 'Not recommended for production use. No tiered features or usage management.',
+  },
+  manual: {
+    title: 'Manual API Keys',
+    desc: 'Bring your own Claude, OpenAI, or Gemini API key.',
+    icon: '◇',
+    details: 'You manage provider costs directly. Abel sends requests using your credentials.',
+    warning: 'You are responsible for all API provider costs. Keys stored in browser local database.',
+  },
+};
+
+const TIER_GLYPH: Record<string, string> = {
+  free: '◈', starter: '◇', pro: '⬡', power: '◉',
+};
+
+export default function OnboardingFlow({ onNavigate, userEmail }: Props) {
   const { state, dispatch } = useAbel();
-  const [open, setOpen] = useState(() => shouldShowOnboarding());
+  const [open, setOpen] = useState(() => shouldShowOnboarding(userEmail));
   const [stepIndex, setStepIndex] = useState(() => {
     try {
-      const saved = localStorage.getItem(ONBOARDING_STEP_KEY);
+      const saved = localStorage.getItem(onboardingStepKey(userEmail ?? undefined));
       if (saved !== null) {
         const n = parseInt(saved, 10);
         if (!isNaN(n) && n >= 0 && n < STEPS.length) return n;
@@ -74,6 +110,12 @@ export default function OnboardingFlow({ onNavigate }: Props) {
   const [connTestResult, setConnTestResult] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [connTestError, setConnTestError] = useState('');
 
+  const [setupMode, setSetupMode] = useState<SetupMode>('subscription');
+  const [selectedTier, setSelectedTier] = useState<string>('free');
+  const [billingName, setBillingName] = useState('');
+  const [billingEmail, setBillingEmail] = useState('');
+  const [billingErrors, setBillingErrors] = useState<{ name?: string; email?: string }>({});
+
   const step = STEPS[stepIndex];
   const progress = useMemo(() => Math.round(((stepIndex + 1) / STEPS.length) * 100), [stepIndex]);
 
@@ -91,14 +133,14 @@ export default function OnboardingFlow({ onNavigate }: Props) {
   }, [open]);
 
   function complete() {
-    localStorage.setItem(ONBOARDING_KEY, '1');
-    try { localStorage.removeItem(ONBOARDING_STEP_KEY); } catch { /* noop */ }
+    localStorage.setItem(onboardingKey(userEmail ?? undefined), '1');
+    try { localStorage.removeItem(onboardingStepKey(userEmail ?? undefined)); } catch { /* noop */ }
     setOpen(false);
   }
 
   async function saveProvider() {
     if (isMockProvider) {
-      dispatch({ type: 'UPDATE_SETTINGS', settings: { llmProvider: 'mock' } });
+      dispatch({ type: 'UPDATE_SETTINGS', settings: { llmProvider: 'mock', setupMode } });
       await providerConfigService.clear(DEMO_USER_ID);
       return;
     }
@@ -108,7 +150,11 @@ export default function OnboardingFlow({ onNavigate }: Props) {
       modelName: provModel,
       baseUrl: provBaseUrl,
     });
-    dispatch({ type: 'UPDATE_SETTINGS', settings: { llmProvider: selectedProvider } });
+    dispatch({ type: 'UPDATE_SETTINGS', settings: { llmProvider: selectedProvider, setupMode } });
+  }
+
+  async function saveSetupMode() {
+    dispatch({ type: 'UPDATE_SETTINGS', settings: { setupMode } });
   }
 
   async function testConnection() {
@@ -163,6 +209,9 @@ export default function OnboardingFlow({ onNavigate }: Props) {
     const archetype = state.archetype.primary || 'The Architect';
     const providerName = LLM_PROVIDERS.find(p => p.id === selectedProvider)?.name ?? 'Mock Abel';
     const projFocus = projectFocus.trim() || 'knowledge work';
+    const modeLabel = setupMode === 'subscription' ? `on ${TIERS[selectedTier as keyof typeof TIERS]?.name ?? 'Free'} plan`
+      : setupMode === 'local' ? 'with local provider'
+      : 'with manual API keys';
 
     const journeyId = state.journeys.find(j => j.active)?.id ?? state.journeys[0]?.id ?? '';
     const memories = await retrieveContext(DEMO_USER_ID, 'greeting', { memoryUsageLevel: 'standard' });
@@ -204,7 +253,7 @@ export default function OnboardingFlow({ onNavigate }: Props) {
     const greeting = [
       `Welcome, ${name} — ${title}.`,
       '',
-      `I'm Abel, running on **${providerName}**. Your presence here means you're ready to build something intentional.`,
+      `I'm Abel, running on **${providerName}** ${modeLabel}. Your presence here means you're ready to build something intentional.`,
       '',
       `Your profile suggests a **${archetype}** energy — someone who organises complexity into something navigable. That instinct will serve you well here.`,
       '',
@@ -231,9 +280,39 @@ export default function OnboardingFlow({ onNavigate }: Props) {
     setError(null);
     setNotice(null);
     try {
+      if (step.id === 'power') {
+        await saveSetupMode();
+        const modeLabel = BILLING_MODE_INFO[setupMode].title;
+        setNotice(modeLabel + ' selected. You can change this in Settings.');
+        // Subscription users go to plan step; others skip plan and go to provider
+        if (setupMode !== 'subscription') {
+          setStepIndex(i => {
+            const n = Math.min(STEPS.length - 1, i + 2);
+            try { localStorage.setItem(onboardingStepKey(userEmail ?? undefined), String(n)); } catch { /* noop */ }
+            return n;
+          });
+          setSaving(false);
+          return;
+        }
+      }
+      if (step.id === 'plan') {
+        if (selectedTier !== 'free') {
+          const errors: { name?: string; email?: string } = {};
+          if (!billingName.trim()) errors.name = 'Full name is required.';
+          if (!billingEmail.trim()) errors.email = 'Email address is required.';
+          else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(billingEmail.trim())) errors.email = 'Enter a valid email address.';
+          if (Object.keys(errors).length > 0) {
+            setBillingErrors(errors);
+            setSaving(false);
+            return;
+          }
+        }
+        setNotice(selectedTier === 'free' ? 'Free plan selected.' : `${TIERS[selectedTier as keyof typeof TIERS]?.name} plan selected.`);
+      }
       if (step.id === 'provider') {
         await saveProvider();
-        setNotice(isMockProvider ? 'Mock Abel selected. You can switch to a real provider in Settings.' : `${LLM_PROVIDERS.find(p => p.id === selectedProvider)?.name} configured.`);
+        setNotice(isMockProvider ? 'Mock Abel selected.' : `${LLM_PROVIDERS.find(p => p.id === selectedProvider)?.name} configured.`);
+        // Save provider and proceed
       }
       if (step.id === 'profile') {
         await saveProfile();
@@ -254,9 +333,11 @@ export default function OnboardingFlow({ onNavigate }: Props) {
         return;
       }
 
+      // Plan step: subscription users skip the provider step
+      const skip = step.id === 'plan' ? 2 : 1;
       setStepIndex(i => {
-        const n = Math.min(STEPS.length - 1, i + 1);
-        try { localStorage.setItem(ONBOARDING_STEP_KEY, String(n)); } catch { /* noop */ }
+        const n = Math.min(STEPS.length - 1, i + skip);
+        try { localStorage.setItem(onboardingStepKey(userEmail ?? undefined), String(n)); } catch { /* noop */ }
         return n;
       });
     } catch (err) {
@@ -281,17 +362,21 @@ export default function OnboardingFlow({ onNavigate }: Props) {
             <div className="onb-progress-fill" style={{ height: `${progress}%` }} />
           </div>
           <div className="onb-steps">
-            {STEPS.map((s, i) => (
-              <button
-                key={s.id}
-                className={`onb-step ${i === stepIndex ? 'onb-step--active' : ''} ${i < stepIndex ? 'onb-step--done' : ''}`}
-                onClick={() => setStepIndex(i)}
-                aria-label={s.label}
-              >
-                <span>{s.glyph}</span>
-                <span>{s.label}</span>
-              </button>
-            ))}
+            {STEPS.map((s, i) => {
+              const isSkipped = (s.id === 'plan' && setupMode !== 'subscription') || (s.id === 'provider' && setupMode === 'subscription');
+              return (
+                <button
+                  key={s.id}
+                  className={`onb-step ${i === stepIndex ? 'onb-step--active' : ''} ${i < stepIndex ? 'onb-step--done' : ''} ${isSkipped ? 'onb-step--skipped' : ''}`}
+                  onClick={() => { if (!isSkipped) setStepIndex(i); }}
+                  aria-label={s.label}
+                  disabled={isSkipped}
+                >
+                  <span>{s.glyph}</span>
+                  <span>{s.label}</span>
+                </button>
+              );
+            })}
           </div>
         </aside>
 
@@ -301,11 +386,130 @@ export default function OnboardingFlow({ onNavigate }: Props) {
             <span>{step.label}</span>
           </div>
 
-          {isMockProvider && stepIndex > 0 && (
+          {isMockProvider && stepIndex > 1 && (
             <div className="onb-mock-warning" role="alert">
               <span>◈</span>
-              <span>You are using offline mock mode. Responses are simulated. Switch to a real provider in Settings to connect Claude, ChatGPT, or a local model.</span>
+              <span>You are using offline mock mode. Responses are simulated.</span>
             </div>
+          )}
+
+          {/* Power / Billing Mode Step */}
+          {step.id === 'power' && (
+            <section className="onb-section">
+              <h2>How will Abel be powered?</h2>
+              <p>Choose how you want to manage AI usage and billing. You can switch at any time in Settings.</p>
+
+              <div className="onb-billing-mode-grid">
+                {(Object.entries(BILLING_MODE_INFO) as [SetupMode, typeof BILLING_MODE_INFO['subscription']][]).map(([mode, info]) => {
+                  const active = setupMode === mode;
+                  return (
+                    <div
+                      key={mode}
+                      className={`onb-provider-card ${active ? 'onb-provider-card--active' : ''}`}
+                      onClick={() => setSetupMode(mode)}
+                      role="radio"
+                      aria-checked={active}
+                      tabIndex={0}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSetupMode(mode); } }}
+                    >
+                      <div className="onb-provider-header">
+                        <span style={{ fontSize: 20 }}>{info.icon}</span>
+                        <div>
+                          <p className="onb-provider-name">{info.title}</p>
+                          {mode === 'subscription' && <span className="onb-provider-rec">RECOMMENDED</span>}
+                        </div>
+                      </div>
+                      <p className="onb-provider-desc">{info.desc}</p>
+                      <p className="onb-provider-desc" style={{ fontSize: 11, marginTop: 4, opacity: 0.7 }}>{info.details}</p>
+                      {info.warning && (
+                        <p className="onb-provider-desc" style={{ fontSize: 11, marginTop: 4, color: 'rgba(240,192,64,0.7)' }}>⚠ {info.warning}</p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* Plan / Tier Selection Step (subscription only) */}
+          {step.id === 'plan' && (
+            <section className="onb-section">
+              <h2>Choose your plan.</h2>
+              <p>Select the plan that fits your needs. You can upgrade or change at any time.</p>
+
+              <div className="onb-tier-grid">
+                {TIER_ORDER.map(tierId => {
+                  const tier = TIERS[tierId];
+                  const active = selectedTier === tierId;
+                  const isFree = tier.price.monthly === 0;
+                  return (
+                    <div
+                      key={tierId}
+                      className={`onb-provider-card ${active ? 'onb-provider-card--active' : ''}`}
+                      onClick={() => { setSelectedTier(tierId); setBillingErrors({}); }}
+                      role="radio"
+                      aria-checked={active}
+                      tabIndex={0}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedTier(tierId); } }}
+                      style={{ padding: '12px 14px' }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                        <span style={{ fontSize: 14, color: active ? '#22d3ee' : 'rgba(255,255,255,0.5)' }}>
+                          {TIER_GLYPH[tierId]}
+                        </span>
+                        <span style={{ fontWeight: 600, color: 'rgba(255,255,255,0.85)', fontSize: 13 }}>
+                          {tier.name}
+                        </span>
+                        {!isFree && (
+                          <span style={{ marginLeft: 'auto', fontWeight: 700, color: '#fff', fontSize: 13 }}>
+                            ${(tier.price.monthly / 100).toFixed(0)}
+                          </span>
+                        )}
+                      </div>
+                      <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', margin: 0, lineHeight: 1.4 }}>
+                        {formatTokensHuman(tier.includedUsage.inputTokens)} input / {formatTokensHuman(tier.includedUsage.outputTokens)} output per month
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {selectedTier !== 'free' && (
+                <div className="onb-billing-config">
+                  <h3 style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.8)', margin: '20px 0 12px' }}>
+                    Billing Information
+                  </h3>
+                  <label style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginBottom: 4, display: 'block' }}>
+                    Full Name <span style={{ color: '#ef4444' }}>*</span>
+                  </label>
+                  <input
+                    className="onb-provider-input"
+                    placeholder="Jane Doe"
+                    value={billingName}
+                    onChange={e => { setBillingName(e.target.value); if (billingErrors.name) setBillingErrors(e => ({ ...e, name: undefined })); }}
+                    style={{ borderColor: billingErrors.name ? 'rgba(239,68,68,0.5)' : undefined }}
+                  />
+                  {billingErrors.name && (
+                    <p style={{ fontSize: 10, color: '#ef4444', margin: '4px 0 0' }}>{billingErrors.name}</p>
+                  )}
+
+                  <label style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', margin: '12px 0 4px', display: 'block' }}>
+                    Email Address <span style={{ color: '#ef4444' }}>*</span>
+                  </label>
+                  <input
+                    className="onb-provider-input"
+                    type="email"
+                    placeholder="jane@example.com"
+                    value={billingEmail}
+                    onChange={e => { setBillingEmail(e.target.value); if (billingErrors.email) setBillingErrors(e => ({ ...e, email: undefined })); }}
+                    style={{ borderColor: billingErrors.email ? 'rgba(239,68,68,0.5)' : undefined }}
+                  />
+                  {billingErrors.email && (
+                    <p style={{ fontSize: 10, color: '#ef4444', margin: '4px 0 0' }}>{billingErrors.email}</p>
+                  )}
+                </div>
+              )}
+            </section>
           )}
 
           {step.id === 'provider' && (
@@ -479,8 +683,13 @@ export default function OnboardingFlow({ onNavigate }: Props) {
           <div className="onb-actions">
             <button className="onb-skip" onClick={skip}>Skip for now</button>
             {stepIndex > 0 && <button className="onb-back" onClick={() => setStepIndex(i => {
-              const n = i - 1;
-              try { localStorage.setItem(ONBOARDING_STEP_KEY, String(n)); } catch { /* noop */ }
+              let n = i - 1;
+              // Skip over plan step when not subscription
+              if (n >= 0 && STEPS[n].id === 'plan' && setupMode !== 'subscription') n -= 1;
+              // Skip over provider step when on subscription
+              if (n >= 0 && STEPS[n].id === 'provider' && setupMode === 'subscription') n -= 1;
+              n = Math.max(0, n);
+              try { localStorage.setItem(onboardingStepKey(userEmail ?? undefined), String(n)); } catch { /* noop */ }
               return n;
             })}>Back</button>}
             <GlowButton variant="purple" onClick={next} disabled={saving}>
@@ -491,4 +700,10 @@ export default function OnboardingFlow({ onNavigate }: Props) {
       </div>
     </div>
   );
+}
+
+function formatTokensHuman(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(0)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(0)}K`;
+  return String(n);
 }
